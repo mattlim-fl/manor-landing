@@ -18,14 +18,14 @@ const Index = () => {
             muted
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
-            poster="/lovable-uploads/a036ecdf-3d6d-4f28-bec9-7f527ba33037.png"
+            poster="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
           >
             <source src="/hero-video.mp4" type="video/mp4" />
             {/* Fallback for browsers that don't support video */}
             <div 
               className="absolute inset-0 bg-cover bg-center bg-no-repeat"
               style={{
-                backgroundImage: `url('/lovable-uploads/a036ecdf-3d6d-4f28-bec9-7f527ba33037.png')`
+                backgroundImage: `url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80')`
               }}
             />
           </video>
