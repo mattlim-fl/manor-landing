@@ -1,0 +1,96 @@
+
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 bg-manor-black/90 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center py-4">
+          {/* Logo */}
+          <Link to="/" className="z-50 relative">
+            <h1 className="manor-heading text-manor-white text-2xl md:text-3xl">
+              MANOR
+            </h1>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-8">
+            <Link 
+              to="/" 
+              className={`text-manor-white font-medium uppercase tracking-wide transition-colors duration-300 hover:text-manor-gold ${
+                location.pathname === '/' ? 'text-manor-gold' : ''
+              }`}
+            >
+              Home
+            </Link>
+            <Link 
+              to="/services" 
+              className={`text-manor-white font-medium uppercase tracking-wide transition-colors duration-300 hover:text-manor-gold ${
+                location.pathname === '/services' ? 'text-manor-gold' : ''
+              }`}
+            >
+              Our Offers
+            </Link>
+            <a 
+              href="#contact" 
+              className="text-manor-white font-medium uppercase tracking-wide transition-colors duration-300 hover:text-manor-gold"
+            >
+              Contact
+            </a>
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden z-50 relative text-manor-white p-2"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className={`md:hidden fixed inset-0 bg-manor-black transition-transform duration-300 ${
+        isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+      }`}>
+        <div className="flex flex-col justify-center items-center h-full space-y-8">
+          <Link 
+            to="/" 
+            onClick={toggleMenu}
+            className={`text-manor-white text-2xl font-medium uppercase tracking-wide transition-colors duration-300 hover:text-manor-gold ${
+              location.pathname === '/' ? 'text-manor-gold' : ''
+            }`}
+          >
+            Home
+          </Link>
+          <Link 
+            to="/services" 
+            onClick={toggleMenu}
+            className={`text-manor-white text-2xl font-medium uppercase tracking-wide transition-colors duration-300 hover:text-manor-gold ${
+              location.pathname === '/services' ? 'text-manor-gold' : ''
+            }`}
+          >
+            Our Offers
+          </Link>
+          <a 
+            href="#contact" 
+            onClick={toggleMenu}
+            className="text-manor-white text-2xl font-medium uppercase tracking-wide transition-colors duration-300 hover:text-manor-gold"
+          >
+            Contact
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;

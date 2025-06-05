@@ -1,3 +1,5 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -32,22 +34,15 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.5rem;
+    --radius: 0rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -96,6 +91,18 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body;
+  }
+
+  .manor-btn-primary {
+    @apply bg-manor-gold text-manor-black font-bold px-8 py-4 uppercase tracking-wider transition-all duration-300 hover:bg-yellow-400 hover:scale-105 active:scale-95;
+  }
+
+  .manor-btn-secondary {
+    @apply bg-transparent border-2 border-manor-white text-manor-white font-bold px-8 py-4 uppercase tracking-wider transition-all duration-300 hover:bg-manor-white hover:text-manor-black;
+  }
+
+  .manor-heading {
+    @apply font-display font-black uppercase tracking-wider;
   }
 }
