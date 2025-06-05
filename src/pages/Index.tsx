@@ -7,9 +7,9 @@ const Index = () => {
     <div className="min-h-screen bg-manor-black text-manor-white">
       <Header />
       
-      {/* Hero Section */}
-      <div className="relative h-screen flex flex-col lg:flex-row">
-        {/* Left Side - Main Hero */}
+      {/* Hero Section - Full Width */}
+      <div className="relative h-screen flex flex-col">
+        {/* Main Hero */}
         <div className="flex-1 relative bg-cover bg-center bg-no-repeat" 
              style={{
                backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80')`
@@ -34,63 +34,6 @@ const Index = () => {
               <Link to="/services" className="manor-btn-secondary">
                 Our Offers
               </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side - Services Preview */}
-        <div className="flex-1 bg-manor-white text-manor-black p-8 lg:p-12 flex flex-col justify-center">
-          <h2 className="manor-heading text-4xl md:text-5xl mb-12 text-center lg:text-left">
-            Experience
-          </h2>
-          
-          <div className="space-y-8">
-            {/* VIP Tables */}
-            <div className="border-b border-manor-gray pb-8">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="manor-heading text-2xl md:text-3xl">VIP Tables</h3>
-                <span className="text-manor-gold font-bold uppercase text-sm tracking-wide">
-                  Available Now
-                </span>
-              </div>
-              <p className="text-manor-gray mb-4 text-lg">
-                Tables for 2-12 people. Reserve your spot for Thursday, Friday or Saturday nights.
-              </p>
-              <button className="bg-manor-black text-manor-white px-6 py-3 font-bold uppercase tracking-wide transition-all duration-300 hover:bg-manor-gray">
-                Book VIP Table
-              </button>
-            </div>
-
-            {/* Special Events */}
-            <div className="border-b border-manor-gray pb-8">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="manor-heading text-2xl md:text-3xl">Special Events</h3>
-                <span className="text-manor-gold font-bold uppercase text-sm tracking-wide">
-                  Available Now
-                </span>
-              </div>
-              <p className="text-manor-gray mb-4 text-lg">
-                Corporate events, private parties, and celebrations. Contact for custom packages.
-              </p>
-              <button className="bg-manor-black text-manor-white px-6 py-3 font-bold uppercase tracking-wide transition-all duration-300 hover:bg-manor-gray">
-                Book Event
-              </button>
-            </div>
-
-            {/* Karaoke Booths */}
-            <div className="pb-8">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="manor-heading text-2xl md:text-3xl">Karaoke Booths</h3>
-                <span className="text-manor-gray font-bold uppercase text-sm tracking-wide">
-                  Coming Soon
-                </span>
-              </div>
-              <p className="text-manor-gray mb-4 text-lg">
-                Private karaoke booths for small groups. Perfect for intimate celebrations.
-              </p>
-              <button className="bg-manor-gray text-manor-white px-6 py-3 font-bold uppercase tracking-wide cursor-not-allowed opacity-50">
-                Learn More
-              </button>
             </div>
           </div>
         </div>
