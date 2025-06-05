@@ -51,7 +51,7 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="md:hidden z-50 relative text-manor-white p-2"
+            className="md:hidden z-[70] relative text-manor-white p-2"
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -60,7 +60,7 @@ const Header = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden fixed inset-0 bg-black z-40 transition-transform duration-300 ${
+      <div className={`md:hidden fixed inset-0 bg-black z-[60] transition-transform duration-300 ${
         isMenuOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
         <div className="flex flex-col justify-center items-center h-full space-y-8">
