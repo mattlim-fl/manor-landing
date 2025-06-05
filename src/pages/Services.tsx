@@ -76,7 +76,7 @@ const Services = () => {
       <Header />
       
       {/* Page Header */}
-      <div className="pt-24 pb-12 px-4 bg-manor-black text-manor-white">
+      <div className="pt-24 pb-12 px-6 md:px-8 lg:px-12 bg-manor-black text-manor-white">
         <div className="max-w-7xl mx-auto">
           <h1 className="manor-heading text-5xl md:text-7xl mb-6">
             Our Offers
@@ -89,7 +89,7 @@ const Services = () => {
       </div>
 
       {/* Services Grid */}
-      <div className="py-16 px-4">
+      <div className="py-16 px-6 md:px-8 lg:px-12">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service) => (
@@ -150,7 +150,7 @@ const Services = () => {
       </div>
 
       {/* Contact CTA */}
-      <div className="bg-manor-black text-manor-white py-16 px-4">
+      <div className="bg-manor-black text-manor-white py-16 px-6 md:px-8 lg:px-12">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="manor-heading text-4xl md:text-5xl mb-6">
             Ready to Book?
