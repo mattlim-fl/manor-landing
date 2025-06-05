@@ -1,73 +1,91 @@
-# Welcome to your Lovable project
 
-## Project info
+# Manor - Nightclub Website
 
-**URL**: https://lovable.dev/projects/859b3e70-891c-432f-88df-e9edddcaac1f
+A modern, responsive website for Manor nightclub built with React, TypeScript, and Tailwind CSS.
 
-## How can I edit this code?
+## Project Features
 
-There are several ways of editing your application.
+- Modern React application with TypeScript
+- Responsive design with Tailwind CSS
+- Video background hero section
+- Multiple pages (Home, Services, Contact)
+- Component-based architecture using shadcn/ui
 
-**Use Lovable**
+## Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/859b3e70-891c-432f-88df-e9edddcaac1f) and start prompting.
+- **Frontend**: React 18 with TypeScript
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **Build Tool**: Vite
+- **State Management**: TanStack Query
+- **Routing**: React Router DOM
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
+### Prerequisites
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Node.js (recommended: install with [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
+- npm or yarn
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Installation
 
-Follow these steps:
-
+1. Clone the repository:
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
 git clone <YOUR_GIT_URL>
+```
 
-# Step 2: Navigate to the project directory.
+2. Navigate to the project directory:
+```sh
 cd <YOUR_PROJECT_NAME>
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
+3. Install dependencies:
+```sh
+npm install
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+4. Start the development server:
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Available Scripts
 
-**Use GitHub Codespaces**
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+```
+src/
+├── components/          # Reusable UI components
+├── pages/              # Page components
+├── hooks/              # Custom React hooks
+├── lib/                # Utility functions
+└── main.tsx           # Application entry point
+```
 
-This project is built with:
+## Deployment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+This project can be deployed to any static hosting service like:
+- Vercel
+- Netlify
+- GitHub Pages
+- AWS S3 + CloudFront
 
-## How can I deploy this project?
+Build the project with `npm run build` and deploy the `dist` folder.
 
-Simply open [Lovable](https://lovable.dev/projects/859b3e70-891c-432f-88df-e9edddcaac1f) and click on Share -> Publish.
+## Contributing
 
-## Can I connect a custom domain to my Lovable project?
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-Yes, you can!
+## License
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This project is licensed under the MIT License.
