@@ -38,12 +38,14 @@ const Header = () => {
             >
               Our Offers
             </Link>
-            <a 
-              href="#contact" 
-              className="text-manor-white font-medium uppercase tracking-wide transition-colors duration-300 hover:text-manor-gold"
+            <Link 
+              to="/contact" 
+              className={`text-manor-white font-medium uppercase tracking-wide transition-colors duration-300 hover:text-manor-gold ${
+                location.pathname === '/contact' ? 'text-manor-gold' : ''
+              }`}
             >
               Contact
-            </a>
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -80,13 +82,15 @@ const Header = () => {
           >
             Our Offers
           </Link>
-          <a 
-            href="#contact" 
+          <Link 
+            to="/contact" 
             onClick={toggleMenu}
-            className="text-manor-white text-2xl font-medium uppercase tracking-wide transition-colors duration-300 hover:text-manor-gold"
+            className={`text-manor-white text-2xl font-medium uppercase tracking-wide transition-colors duration-300 hover:text-manor-gold ${
+              location.pathname === '/contact' ? 'text-manor-gold' : ''
+            }`}
           >
             Contact
-          </a>
+          </Link>
         </div>
       </div>
     </header>

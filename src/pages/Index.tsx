@@ -38,25 +38,6 @@ const Index = () => {
           </div>
         </div>
       </div>
-
-      {/* Contact Section */}
-      <div id="contact" className="bg-manor-black py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="manor-heading text-4xl md:text-5xl mb-8">
-            Contact
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8 text-lg">
-            <div>
-              <h3 className="font-bold mb-2 text-manor-gold">Address</h3>
-              <p>123 Nightlife Street<br />Perth WA 6000</p>
-            </div>
-            <div>
-              <h3 className="font-bold mb-2 text-manor-gold">Phone</h3>
-              <p>+61 8 1234 5678</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
