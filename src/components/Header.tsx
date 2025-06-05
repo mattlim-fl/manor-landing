@@ -60,7 +60,7 @@ const Header = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden fixed inset-0 bg-manor-black bg-opacity-100 transition-transform duration-300 ${
+      <div className={`md:hidden fixed inset-0 bg-black z-40 transition-transform duration-300 ${
         isMenuOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
         <div className="flex flex-col justify-center items-center h-full space-y-8">
