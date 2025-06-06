@@ -66,7 +66,7 @@ export default {
 				manor: {
 					black: '#000000',
 					white: '#FFFFFF',
-					gray: '#333333',
+					gray: '#CCCCCC',
 					gold: '#FFD700'
 				}
 			},
