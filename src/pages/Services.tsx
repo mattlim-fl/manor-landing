@@ -31,12 +31,17 @@ const Services = () => {
                 <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg">
                   Our intimate lower level featuring the main bar and dancefloor area.
                 </p>
-                <Link 
-                  to="/downstairs"
-                  className="manor-btn-primary"
-                >
-                  Learn More
-                </Link>
+                <div className="flex flex-col gap-3 w-full max-w-xs">
+                  <button className="manor-btn-primary w-full">
+                    BOOK NOW
+                  </button>
+                  <Link 
+                    to="/downstairs"
+                    className="manor-btn-secondary w-full"
+                  >
+                    LEARN MORE
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -56,12 +61,17 @@ const Services = () => {
                 <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg">
                   Premium upper level with VIP seating areas and elevated views.
                 </p>
-                <Link 
-                  to="/upstairs"
-                  className="manor-btn-primary"
-                >
-                  Learn More
-                </Link>
+                <div className="flex flex-col gap-3 w-full max-w-xs">
+                  <button className="manor-btn-primary w-full">
+                    BOOK NOW
+                  </button>
+                  <Link 
+                    to="/upstairs"
+                    className="manor-btn-secondary w-full"
+                  >
+                    LEARN MORE
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -81,12 +91,17 @@ const Services = () => {
                 <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg">
                   Exclusive hire of the entire Manor for your private event.
                 </p>
-                <Link 
-                  to="/full-venue"
-                  className="manor-btn-primary"
-                >
-                  Learn More
-                </Link>
+                <div className="flex flex-col gap-3 w-full max-w-xs">
+                  <button className="manor-btn-primary w-full">
+                    BOOK NOW
+                  </button>
+                  <Link 
+                    to="/full-venue"
+                    className="manor-btn-secondary w-full"
+                  >
+                    LEARN MORE
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
