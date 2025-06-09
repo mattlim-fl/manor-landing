@@ -58,24 +58,24 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
           style={{ backgroundImage: `url('${heroImage}')` }}
         />
         <div className="absolute inset-0 bg-black bg-opacity-50" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="manor-heading text-6xl md:text-8xl text-manor-white text-center">
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <h1 className="manor-heading text-6xl md:text-8xl text-manor-white text-center mb-8">
             {heroTitle}
           </h1>
+          <button 
+            onClick={openBooking}
+            className="manor-btn-primary"
+          >
+            HIRE BROCHURE
+          </button>
         </div>
       </div>
 
       {/* Description Section */}
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <p className="text-xl text-manor-black mb-8 leading-relaxed">
+        <p className="text-xl text-manor-black leading-relaxed">
           {description}
         </p>
-        <button 
-          onClick={openBooking}
-          className="manor-btn-primary"
-        >
-          Hire Brochure
-        </button>
       </div>
 
       {/* Overview Section */}
