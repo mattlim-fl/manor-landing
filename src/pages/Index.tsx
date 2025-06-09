@@ -1,8 +1,12 @@
 
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
 
 const Index = () => {
+  const [showBookingModal, setShowBookingModal] = useState(false);
+
   return (
     <div className="min-h-screen bg-manor-black text-manor-white">
       <Header />
@@ -46,7 +50,10 @@ const Index = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
-              <button className="manor-btn-primary">
+              <button 
+                onClick={() => setShowBookingModal(true)}
+                className="manor-btn-primary"
+              >
                 Book Now
               </button>
               <Link to="/services" className="manor-btn-secondary">
@@ -56,6 +63,27 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      <Dialog open={showBookingModal} onOpenChange={setShowBookingModal}>
+        <DialogContent className="max-w-4xl w-full max-h-[90vh] bg-manor-white">
+          <DialogHeader>
+            <DialogTitle className="text-manor-black text-2xl manor-heading">
+              Book Your Manor Experience
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 overflow-hidden">
+            <iframe
+              src="https://hippieclub.simplybook.net/v2/#book"
+              width="100%"
+              height="600"
+              frameBorder="0"
+              className="w-full rounded-lg"
+              title="Manor Booking Form"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
