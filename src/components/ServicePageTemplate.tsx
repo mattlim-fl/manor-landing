@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Plus, Minus } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
@@ -137,24 +136,6 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
           </div>
         </div>
       )}
-
-      {/* Enquire Now Section */}
-      <div className="bg-manor-black py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="manor-heading text-4xl text-manor-white mb-4">
-            ENQUIRE NOW
-          </h2>
-          <p className="text-xl text-manor-white mb-8">
-            Book your Manor experience to suit you with our dedicated team of creatives
-          </p>
-          <button 
-            onClick={openBooking}
-            className="manor-btn-primary"
-          >
-            Enquire Now
-          </button>
-        </div>
-      </div>
 
       {/* Great For Section */}
       <div className="max-w-7xl mx-auto px-4 py-16">
