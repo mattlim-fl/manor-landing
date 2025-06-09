@@ -32,9 +32,12 @@ const Services = () => {
                   Our intimate lower level featuring the main bar and dancefloor area.
                 </p>
                 <div className="flex flex-col gap-3 w-full max-w-xs">
-                  <button className="manor-btn-primary w-full">
+                  <Link 
+                    to="/downstairs#booking-container"
+                    className="manor-btn-primary w-full"
+                  >
                     BOOK NOW
-                  </button>
+                  </Link>
                   <Link 
                     to="/downstairs"
                     className="manor-btn-secondary w-full"
@@ -62,9 +65,12 @@ const Services = () => {
                   Premium upper level with VIP seating areas and elevated views.
                 </p>
                 <div className="flex flex-col gap-3 w-full max-w-xs">
-                  <button className="manor-btn-primary w-full">
+                  <Link 
+                    to="/upstairs#booking-container"
+                    className="manor-btn-primary w-full"
+                  >
                     BOOK NOW
-                  </button>
+                  </Link>
                   <Link 
                     to="/upstairs"
                     className="manor-btn-secondary w-full"
@@ -92,9 +98,12 @@ const Services = () => {
                   Exclusive hire of the entire Manor for your private event.
                 </p>
                 <div className="flex flex-col gap-3 w-full max-w-xs">
-                  <button className="manor-btn-primary w-full">
+                  <Link 
+                    to="/full-venue#booking-container"
+                    className="manor-btn-primary w-full"
+                  >
                     BOOK NOW
-                  </button>
+                  </Link>
                   <Link 
                     to="/full-venue"
                     className="manor-btn-secondary w-full"
