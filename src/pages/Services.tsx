@@ -9,14 +9,14 @@ const Services = () => {
       
       {/* Services Hero Section */}
       <div className="relative h-screen flex flex-col justify-center">
-        <div className="max-w-6xl mx-auto px-4 text-center">
+        <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="manor-heading text-6xl md:text-8xl text-manor-white mb-12 animate-fade-in">
             Venue Hire
           </h1>
           
-          <div className="grid md:grid-cols-3 gap-8 animate-fade-in">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 animate-fade-in">
             {/* Downstairs */}
-            <div className="relative group overflow-hidden rounded-lg">
+            <div className="relative group overflow-hidden rounded-lg min-h-[500px]">
               <div 
                 className="h-96 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
                 style={{
@@ -25,10 +25,10 @@ const Services = () => {
               />
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
               <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8">
-                <h2 className="manor-heading text-4xl mb-4 text-manor-white">
+                <h2 className="manor-heading text-4xl mb-6 text-manor-white">
                   DOWNSTAIRS
                 </h2>
-                <p className="text-lg mb-6 text-manor-white">
+                <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-sm">
                   Our intimate lower level featuring the main bar and dancefloor area.
                 </p>
                 <Link 
@@ -41,7 +41,7 @@ const Services = () => {
             </div>
 
             {/* Upstairs */}
-            <div className="relative group overflow-hidden rounded-lg">
+            <div className="relative group overflow-hidden rounded-lg min-h-[500px]">
               <div 
                 className="h-96 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
                 style={{
@@ -50,10 +50,10 @@ const Services = () => {
               />
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
               <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8">
-                <h2 className="manor-heading text-4xl mb-4 text-manor-white">
+                <h2 className="manor-heading text-4xl mb-6 text-manor-white">
                   UPSTAIRS
                 </h2>
-                <p className="text-lg mb-6 text-manor-white">
+                <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-sm">
                   Premium upper level with VIP seating areas and elevated views.
                 </p>
                 <Link 
@@ -66,7 +66,7 @@ const Services = () => {
             </div>
 
             {/* Full Venue */}
-            <div className="relative group overflow-hidden rounded-lg">
+            <div className="relative group overflow-hidden rounded-lg min-h-[500px] lg:col-span-1 md:col-span-2">
               <div 
                 className="h-96 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
                 style={{
@@ -75,10 +75,10 @@ const Services = () => {
               />
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
               <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8">
-                <h2 className="manor-heading text-4xl mb-4 text-manor-white">
+                <h2 className="manor-heading text-4xl mb-6 text-manor-white">
                   FULL VENUE
                 </h2>
-                <p className="text-lg mb-6 text-manor-white">
+                <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-sm">
                   Exclusive hire of the entire Manor for your private event.
                 </p>
                 <Link 
