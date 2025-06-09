@@ -24,11 +24,11 @@ const Services = () => {
                 }}
               />
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
-              <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8">
+              <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-12 py-8">
                 <h2 className="manor-heading text-4xl mb-6 text-manor-white">
                   DOWNSTAIRS
                 </h2>
-                <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-sm">
+                <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg">
                   Our intimate lower level featuring the main bar and dancefloor area.
                 </p>
                 <Link 
@@ -49,11 +49,11 @@ const Services = () => {
                 }}
               />
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
-              <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8">
+              <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-12 py-8">
                 <h2 className="manor-heading text-4xl mb-6 text-manor-white">
                   UPSTAIRS
                 </h2>
-                <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-sm">
+                <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg">
                   Premium upper level with VIP seating areas and elevated views.
                 </p>
                 <Link 
@@ -74,11 +74,11 @@ const Services = () => {
                 }}
               />
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
-              <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8">
+              <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-12 py-8">
                 <h2 className="manor-heading text-4xl mb-6 text-manor-white">
                   FULL VENUE
                 </h2>
-                <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-sm">
+                <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg">
                   Exclusive hire of the entire Manor for your private event.
                 </p>
                 <Link 
