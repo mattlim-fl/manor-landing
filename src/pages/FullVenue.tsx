@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -47,7 +46,7 @@ const FullVenue = () => {
       description="Complete exclusive hire of the entire Manor including both upstairs and downstairs areas. Perfect for product launches, wedding receptions, and major corporate events up to 150 people."
       accordionItems={accordionItems}
       greatForCards={greatForCards}
-      bookingUrl="https://manor.simplybook.me/full-venue"
+      bookingUrl="https://hippieclub.simplybook.net/v2/#book/service/2"
     />
   );
 };

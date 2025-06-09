@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -47,7 +46,7 @@ const Upstairs = () => {
       description="Exclusive hire of our premium upstairs area with VIP seating, elevated views, and sophisticated atmosphere. Perfect for intimate celebrations and executive events up to 60 people."
       accordionItems={accordionItems}
       greatForCards={greatForCards}
-      bookingUrl="https://manor.simplybook.me/upstairs"
+      bookingUrl="https://hippieclub.simplybook.net/v2/#book/service/4"
     />
   );
 };
