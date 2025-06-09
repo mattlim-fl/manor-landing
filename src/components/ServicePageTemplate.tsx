@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown, Plus, Minus } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import Header from './Header';
 
 interface AccordionItem {
@@ -33,6 +34,20 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
 }) => {
   const [expandedAccordion, setExpandedAccordion] = useState<number | null>(null);
   const [showBooking, setShowBooking] = useState(false);
+  const location = useLocation();
+
+  // Check for booking hash on component mount and location changes
+  useEffect(() => {
+    if (location.hash === '#booking-container') {
+      setShowBooking(true);
+      // Small delay to ensure the booking container is rendered before scrolling
+      setTimeout(() => {
+        document.getElementById('booking-container')?.scrollIntoView({ 
+          behavior: 'smooth' 
+        });
+      }, 100);
+    }
+  }, [location.hash]);
 
   const toggleAccordion = (index: number) => {
     setExpandedAccordion(expandedAccordion === index ? null : index);
