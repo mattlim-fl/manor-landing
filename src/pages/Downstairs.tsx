@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -47,7 +46,7 @@ const Downstairs = () => {
       description="Hire our intimate downstairs area featuring the main bar, dancefloor, and terrace access. Perfect for cocktail parties, celebrations, and corporate events up to 80 people."
       accordionItems={accordionItems}
       greatForCards={greatForCards}
-      bookingUrl="https://manor.simplybook.me/downstairs"
+      bookingUrl="https://hippieclub.simplybook.net/v2/#book/service/3"
     />
   );
 };
