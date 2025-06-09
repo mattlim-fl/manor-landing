@@ -16,7 +16,7 @@ const Services = () => {
           
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 animate-fade-in">
             {/* Downstairs */}
-            <div className="relative group overflow-hidden rounded-lg min-h-[500px]">
+            <div className="relative group overflow-hidden rounded-lg min-h-[500px] min-w-[350px]">
               <div 
                 className="h-96 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
                 style={{
@@ -41,7 +41,7 @@ const Services = () => {
             </div>
 
             {/* Upstairs */}
-            <div className="relative group overflow-hidden rounded-lg min-h-[500px]">
+            <div className="relative group overflow-hidden rounded-lg min-h-[500px] min-w-[350px]">
               <div 
                 className="h-96 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
                 style={{
@@ -66,7 +66,7 @@ const Services = () => {
             </div>
 
             {/* Full Venue */}
-            <div className="relative group overflow-hidden rounded-lg min-h-[500px] lg:col-span-1 md:col-span-2">
+            <div className="relative group overflow-hidden rounded-lg min-h-[500px] min-w-[350px] lg:col-span-1 md:col-span-2">
               <div 
                 className="h-96 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
                 style={{
