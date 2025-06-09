@@ -66,7 +66,7 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
             onClick={openBooking}
             className="manor-btn-primary"
           >
-            HIRE BROCHURE
+            BOOK NOW
           </button>
         </div>
       </div>
