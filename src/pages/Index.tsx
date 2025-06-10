@@ -8,7 +8,7 @@ const Index = () => {
       <Header />
       
       {/* Hero Section - Full Width */}
-      <div className="relative h-screen flex flex-col">
+      <div className="relative min-h-screen flex flex-col pt-20">
         {/* Main Hero */}
         <div className="flex-1 relative overflow-hidden">
           {/* Static Background Image */}
@@ -23,7 +23,7 @@ const Index = () => {
           <div className="absolute inset-0 bg-black bg-opacity-40" />
           
           {/* Content */}
-          <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 z-10">
+          <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 z-10 py-20">
             <h1 className="manor-heading text-6xl md:text-8xl lg:text-9xl text-manor-white mb-6 animate-fade-in">
               MANOR
             </h1>
@@ -32,11 +32,11 @@ const Index = () => {
             </div>
             
             {/* Service Cards - 2x2 Grid */}
-            <div className="grid grid-cols-2 gap-12 animate-fade-in max-w-6xl mx-auto">
+            <div className="grid grid-cols-2 gap-8 md:gap-12 animate-fade-in max-w-5xl mx-auto w-full px-4">
               {/* Karaoke */}
               <Link 
                 to="/karaoke"
-                className="relative group overflow-hidden rounded-lg h-80 w-full block transition-transform duration-300 hover:scale-105"
+                className="relative group overflow-hidden rounded-lg h-64 md:h-80 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
@@ -46,7 +46,7 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-4xl text-manor-white text-center">
+                  <h2 className="manor-heading text-2xl md:text-4xl text-manor-white text-center px-4">
                     KARAOKE
                   </h2>
                 </div>
@@ -55,7 +55,7 @@ const Index = () => {
               {/* 25+ Priority Entry */}
               <Link 
                 to="/priority-entry"
-                className="relative group overflow-hidden rounded-lg h-80 w-full block transition-transform duration-300 hover:scale-105"
+                className="relative group overflow-hidden rounded-lg h-64 md:h-80 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
@@ -65,7 +65,7 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-4xl text-manor-white text-center">
+                  <h2 className="manor-heading text-2xl md:text-4xl text-manor-white text-center px-4">
                     25+ PRIORITY ENTRY
                   </h2>
                 </div>
@@ -74,7 +74,7 @@ const Index = () => {
               {/* Birthdays & Occasions */}
               <Link 
                 to="/birthdays-occasions"
-                className="relative group overflow-hidden rounded-lg h-80 w-full block transition-transform duration-300 hover:scale-105"
+                className="relative group overflow-hidden rounded-lg h-64 md:h-80 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
@@ -84,7 +84,7 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-4xl text-manor-white text-center">
+                  <h2 className="manor-heading text-2xl md:text-4xl text-manor-white text-center px-4">
                     BIRTHDAYS & OCCASIONS
                   </h2>
                 </div>
@@ -93,7 +93,7 @@ const Index = () => {
               {/* Venue Hire */}
               <Link 
                 to="/services"
-                className="relative group overflow-hidden rounded-lg h-80 w-full block transition-transform duration-300 hover:scale-105"
+                className="relative group overflow-hidden rounded-lg h-64 md:h-80 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
@@ -103,7 +103,7 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-4xl text-manor-white text-center">
+                  <h2 className="manor-heading text-2xl md:text-4xl text-manor-white text-center px-4">
                     VENUE HIRE
                   </h2>
                 </div>
