@@ -11,16 +11,8 @@ const Index = () => {
       <div className="relative min-h-screen flex flex-col">
         {/* Main Hero */}
         <div className="flex-1 relative overflow-hidden">
-          {/* Static Background Image */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80')`
-            }}
-          />
-          
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black bg-opacity-40" />
+          {/* Black Background */}
+          <div className="absolute inset-0 bg-manor-black" />
           
           {/* Content */}
           <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 z-10">
