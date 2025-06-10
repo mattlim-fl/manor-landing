@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
@@ -15,24 +14,13 @@ const Index = () => {
       <div className="relative h-screen flex flex-col">
         {/* Main Hero */}
         <div className="flex-1 relative overflow-hidden">
-          {/* Video Background */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-            poster="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
-          >
-            <source src="/hero-video.mp4" type="video/mp4" />
-            {/* Fallback for browsers that don't support video */}
-            <div 
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{
-                backgroundImage: `url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80')`
-              }}
-            />
-          </video>
+          {/* Static Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80')`
+            }}
+          />
           
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black bg-opacity-40" />
