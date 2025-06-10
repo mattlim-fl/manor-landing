@@ -40,6 +40,8 @@ const BirthdaysOccasions = () => {
   ];
 
   const bookingUrl = 'https://hippieclub.simplybook.net/v2/#book';
+  const whatsappNumber = '61412345678'; // Replace with Manor's actual WhatsApp business number
+  const whatsappMessage = 'Hi! I\'d like to discuss planning a birthday celebration or special occasion at Manor. Could you please help me with the details and availability?';
 
   return (
     <ServicePageTemplate
@@ -49,6 +51,8 @@ const BirthdaysOccasions = () => {
       accordionItems={accordionItems}
       greatForCards={greatForCards}
       bookingUrl={bookingUrl}
+      whatsappNumber={whatsappNumber}
+      whatsappMessage={whatsappMessage}
     />
   );
 };
