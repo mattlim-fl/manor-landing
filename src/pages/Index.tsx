@@ -43,10 +43,7 @@ const Index = () => {
               MANOR
             </h1>
             <div className="space-y-4 mb-8 animate-fade-in">
-              <p className="text-xl md:text-2xl font-light tracking-wide">
-                Open Thu-Sat 9PM-3AM
-              </p>
-              <p className="text-lg md:text-xl font-light tracking-wider text-manor-gold">Leederville, WA</p>
+              <p className="text-lg md:text-xl font-light tracking-wider text-manor-gold">Leederville</p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
