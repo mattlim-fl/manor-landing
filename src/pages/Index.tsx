@@ -1,11 +1,8 @@
-import { useState } from "react";
+
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
 
 const Index = () => {
-  const [showBookingModal, setShowBookingModal] = useState(false);
-
   return (
     <div className="min-h-screen bg-manor-black text-manor-white">
       <Header />
@@ -30,45 +27,114 @@ const Index = () => {
             <h1 className="manor-heading text-6xl md:text-8xl lg:text-9xl text-manor-white mb-6 animate-fade-in">
               MANOR
             </h1>
-            <div className="space-y-4 mb-8 animate-fade-in">
+            <div className="space-y-4 mb-12 animate-fade-in">
               <p className="text-lg md:text-xl font-light tracking-wider text-manor-gold">Leederville</p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
-              <button 
-                onClick={() => setShowBookingModal(true)}
-                className="manor-btn-primary"
-              >
-                Book Now
-              </button>
-              <Link to="/services" className="manor-btn-secondary">
-                Our Offers
-              </Link>
+            {/* Service Cards */}
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 animate-fade-in max-w-7xl mx-auto">
+              {/* Karaoke */}
+              <div className="relative group overflow-hidden rounded-lg min-h-[400px] min-w-[300px]">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
+                  style={{
+                    backgroundImage: `url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
+                  }}
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-8 py-6">
+                  <h2 className="manor-heading text-3xl mb-4 text-manor-white">
+                    KARAOKE
+                  </h2>
+                  <p className="text-sm mb-6 text-manor-white leading-relaxed">
+                    Private karaoke sessions with premium sound system and song selection.
+                  </p>
+                  <div className="flex flex-col gap-3 w-full max-w-xs">
+                    <Link 
+                      to="/karaoke#booking-container"
+                      className="bg-manor-gold text-manor-black px-6 py-3 font-medium hover:bg-yellow-400 transition-colors text-center rounded"
+                    >
+                      BOOK NOW
+                    </Link>
+                    <Link 
+                      to="/karaoke"
+                      className="border-2 border-manor-white text-manor-white px-6 py-3 font-medium hover:bg-manor-white hover:text-manor-black transition-colors text-center rounded"
+                    >
+                      LEARN MORE
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* 25+ Priority Entry */}
+              <div className="relative group overflow-hidden rounded-lg min-h-[400px] min-w-[300px]">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
+                  style={{
+                    backgroundImage: `url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
+                  }}
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-8 py-6">
+                  <h2 className="manor-heading text-3xl mb-4 text-manor-white">
+                    25+ PRIORITY ENTRY
+                  </h2>
+                  <p className="text-sm mb-6 text-manor-white leading-relaxed">
+                    Skip the queue with guaranteed priority entry for ages 25 and over.
+                  </p>
+                  <div className="flex flex-col gap-3 w-full max-w-xs">
+                    <Link 
+                      to="/priority-entry#booking-container"
+                      className="bg-manor-gold text-manor-black px-6 py-3 font-medium hover:bg-yellow-400 transition-colors text-center rounded"
+                    >
+                      BOOK NOW
+                    </Link>
+                    <Link 
+                      to="/priority-entry"
+                      className="border-2 border-manor-white text-manor-white px-6 py-3 font-medium hover:bg-manor-white hover:text-manor-black transition-colors text-center rounded"
+                    >
+                      LEARN MORE
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Birthdays & Occasions */}
+              <div className="relative group overflow-hidden rounded-lg min-h-[400px] min-w-[300px] lg:col-span-1 md:col-span-2">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
+                  style={{
+                    backgroundImage: `url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
+                  }}
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-8 py-6">
+                  <h2 className="manor-heading text-3xl mb-4 text-manor-white">
+                    BIRTHDAYS & OCCASIONS
+                  </h2>
+                  <p className="text-sm mb-6 text-manor-white leading-relaxed">
+                    Celebrate your special moments with customized party packages.
+                  </p>
+                  <div className="flex flex-col gap-3 w-full max-w-xs">
+                    <Link 
+                      to="/birthdays-occasions#booking-container"
+                      className="bg-manor-gold text-manor-black px-6 py-3 font-medium hover:bg-yellow-400 transition-colors text-center rounded"
+                    >
+                      BOOK NOW
+                    </Link>
+                    <Link 
+                      to="/birthdays-occasions"
+                      className="border-2 border-manor-white text-manor-white px-6 py-3 font-medium hover:bg-manor-white hover:text-manor-black transition-colors text-center rounded"
+                    >
+                      LEARN MORE
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Booking Modal */}
-      <Dialog open={showBookingModal} onOpenChange={setShowBookingModal}>
-        <DialogContent className="max-w-4xl w-full max-h-[90vh] bg-manor-white">
-          <DialogHeader>
-            <DialogTitle className="text-manor-black text-2xl manor-heading">
-              Book Your Manor Experience
-            </DialogTitle>
-          </DialogHeader>
-          <div className="flex-1 overflow-hidden">
-            <iframe
-              src="https://hippieclub.simplybook.net/v2/#book"
-              width="100%"
-              height="600"
-              frameBorder="0"
-              className="w-full rounded-lg"
-              title="Manor Booking Form"
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
