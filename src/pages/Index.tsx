@@ -32,11 +32,11 @@ const Index = () => {
             </div>
             
             {/* Service Cards - 2x2 Grid */}
-            <div className="grid grid-cols-2 gap-8 animate-fade-in max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 gap-12 animate-fade-in max-w-6xl mx-auto">
               {/* Karaoke */}
               <Link 
                 to="/karaoke"
-                className="relative group overflow-hidden rounded-lg h-80 w-full block"
+                className="relative group overflow-hidden rounded-lg h-80 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
@@ -55,7 +55,7 @@ const Index = () => {
               {/* 25+ Priority Entry */}
               <Link 
                 to="/priority-entry"
-                className="relative group overflow-hidden rounded-lg h-80 w-full block"
+                className="relative group overflow-hidden rounded-lg h-80 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
@@ -74,7 +74,7 @@ const Index = () => {
               {/* Birthdays & Occasions */}
               <Link 
                 to="/birthdays-occasions"
-                className="relative group overflow-hidden rounded-lg h-80 w-full block"
+                className="relative group overflow-hidden rounded-lg h-80 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
@@ -93,7 +93,7 @@ const Index = () => {
               {/* Venue Hire */}
               <Link 
                 to="/services"
-                className="relative group overflow-hidden rounded-lg h-80 w-full block"
+                className="relative group overflow-hidden rounded-lg h-80 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
