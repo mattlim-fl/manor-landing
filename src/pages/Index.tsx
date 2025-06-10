@@ -8,7 +8,7 @@ const Index = () => {
       <Header />
       
       {/* Hero Section - Full Width */}
-      <div className="relative min-h-screen flex flex-col pt-20">
+      <div className="relative min-h-screen flex flex-col">
         {/* Main Hero */}
         <div className="flex-1 relative overflow-hidden">
           {/* Static Background Image */}
@@ -23,20 +23,22 @@ const Index = () => {
           <div className="absolute inset-0 bg-black bg-opacity-40" />
           
           {/* Content */}
-          <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 z-10 py-20">
-            <h1 className="manor-heading text-6xl md:text-8xl lg:text-9xl text-manor-white mb-6 animate-fade-in">
-              MANOR
-            </h1>
-            <div className="space-y-4 mb-16 animate-fade-in">
-              <p className="text-lg md:text-xl font-light tracking-wider text-manor-gold">Leederville</p>
+          <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 z-10">
+            <div className="pt-20 pb-8">
+              <h1 className="manor-heading text-6xl md:text-8xl lg:text-9xl text-manor-white mb-6 animate-fade-in">
+                MANOR
+              </h1>
+              <div className="space-y-4 mb-12 animate-fade-in">
+                <p className="text-lg md:text-xl font-light tracking-wider text-manor-gold">Leederville</p>
+              </div>
             </div>
             
-            {/* Service Cards - 2x2 Grid */}
-            <div className="grid grid-cols-2 gap-8 md:gap-12 animate-fade-in max-w-5xl mx-auto w-full px-4">
+            {/* Service Cards - 2x2 Grid - Made 25% smaller */}
+            <div className="grid grid-cols-2 gap-6 md:gap-8 animate-fade-in max-w-4xl mx-auto w-full px-4">
               {/* Karaoke */}
               <Link 
                 to="/karaoke"
-                className="relative group overflow-hidden rounded-lg h-64 md:h-80 w-full block transition-transform duration-300 hover:scale-105"
+                className="relative group overflow-hidden rounded-lg h-48 md:h-60 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
@@ -46,7 +48,7 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-2xl md:text-4xl text-manor-white text-center px-4">
+                  <h2 className="manor-heading text-xl md:text-3xl text-manor-white text-center px-4">
                     KARAOKE
                   </h2>
                 </div>
@@ -55,7 +57,7 @@ const Index = () => {
               {/* 25+ Priority Entry */}
               <Link 
                 to="/priority-entry"
-                className="relative group overflow-hidden rounded-lg h-64 md:h-80 w-full block transition-transform duration-300 hover:scale-105"
+                className="relative group overflow-hidden rounded-lg h-48 md:h-60 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
@@ -65,7 +67,7 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-2xl md:text-4xl text-manor-white text-center px-4">
+                  <h2 className="manor-heading text-xl md:text-3xl text-manor-white text-center px-4">
                     25+ PRIORITY ENTRY
                   </h2>
                 </div>
@@ -74,7 +76,7 @@ const Index = () => {
               {/* Birthdays & Occasions */}
               <Link 
                 to="/birthdays-occasions"
-                className="relative group overflow-hidden rounded-lg h-64 md:h-80 w-full block transition-transform duration-300 hover:scale-105"
+                className="relative group overflow-hidden rounded-lg h-48 md:h-60 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
@@ -84,7 +86,7 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-2xl md:text-4xl text-manor-white text-center px-4">
+                  <h2 className="manor-heading text-xl md:text-3xl text-manor-white text-center px-4">
                     BIRTHDAYS & OCCASIONS
                   </h2>
                 </div>
@@ -93,7 +95,7 @@ const Index = () => {
               {/* Venue Hire */}
               <Link 
                 to="/services"
-                className="relative group overflow-hidden rounded-lg h-64 md:h-80 w-full block transition-transform duration-300 hover:scale-105"
+                className="relative group overflow-hidden rounded-lg h-48 md:h-60 w-full block transition-transform duration-300 hover:scale-105"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
@@ -103,7 +105,7 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-2xl md:text-4xl text-manor-white text-center px-4">
+                  <h2 className="manor-heading text-xl md:text-3xl text-manor-white text-center px-4">
                     VENUE HIRE
                   </h2>
                 </div>
