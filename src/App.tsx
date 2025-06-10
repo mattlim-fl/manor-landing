@@ -10,6 +10,9 @@ import Contact from "./pages/Contact";
 import Downstairs from "./pages/Downstairs";
 import Upstairs from "./pages/Upstairs";
 import FullVenue from "./pages/FullVenue";
+import Karaoke from "./pages/Karaoke";
+import PriorityEntry from "./pages/PriorityEntry";
+import BirthdaysOccasions from "./pages/BirthdaysOccasions";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +30,9 @@ const App = () => (
           <Route path="/downstairs" element={<Downstairs />} />
           <Route path="/upstairs" element={<Upstairs />} />
           <Route path="/full-venue" element={<FullVenue />} />
+          <Route path="/karaoke" element={<Karaoke />} />
+          <Route path="/priority-entry" element={<PriorityEntry />} />
+          <Route path="/birthdays-occasions" element={<BirthdaysOccasions />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
