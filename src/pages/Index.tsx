@@ -43,12 +43,9 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-8 py-6">
-                  <h2 className="manor-heading text-3xl mb-4 text-manor-white">
+                  <h2 className="manor-heading text-3xl mb-8 text-manor-white">
                     KARAOKE
                   </h2>
-                  <p className="text-sm mb-6 text-manor-white leading-relaxed">
-                    Private karaoke sessions with premium sound system and song selection.
-                  </p>
                   <div className="flex flex-col gap-3 w-full max-w-xs">
                     <Link 
                       to="/karaoke#booking-container"
@@ -76,12 +73,9 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-8 py-6">
-                  <h2 className="manor-heading text-3xl mb-4 text-manor-white">
+                  <h2 className="manor-heading text-3xl mb-8 text-manor-white">
                     25+ PRIORITY ENTRY
                   </h2>
-                  <p className="text-sm mb-6 text-manor-white leading-relaxed">
-                    Skip the queue with guaranteed priority entry for ages 25 and over.
-                  </p>
                   <div className="flex flex-col gap-3 w-full max-w-xs">
                     <Link 
                       to="/priority-entry#booking-container"
@@ -109,12 +103,9 @@ const Index = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-8 py-6">
-                  <h2 className="manor-heading text-3xl mb-4 text-manor-white">
+                  <h2 className="manor-heading text-3xl mb-8 text-manor-white">
                     BIRTHDAYS & OCCASIONS
                   </h2>
-                  <p className="text-sm mb-6 text-manor-white leading-relaxed">
-                    Celebrate your special moments with customized party packages.
-                  </p>
                   <div className="flex flex-col gap-3 w-full max-w-xs">
                     <Link 
                       to="/birthdays-occasions#booking-container"
