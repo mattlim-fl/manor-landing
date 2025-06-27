@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -34,7 +35,8 @@ const Index = () => {
                   e.currentTarget.style.color = '#060201';
                 }}
               >
-                Sister Venue
+                <div>SISTER</div>
+                <div>VENUE</div>
               </Link>
             </div>
           </div>
