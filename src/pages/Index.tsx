@@ -1,4 +1,5 @@
 
+
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -27,32 +28,88 @@ const Index = () => {
           <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-20">
             <Link 
               to="/karaoke"
-              className="font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 hover:opacity-80 text-xs text-center whitespace-nowrap"
-              style={{ backgroundColor: '#060201', color: '#F2993B' }}
+              className="font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
+              style={{ 
+                backgroundColor: '#060201', 
+                color: '#F2993B',
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderColor: '#F2993B'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#F2993B';
+                e.currentTarget.style.color = '#060201';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#060201';
+                e.currentTarget.style.color = '#F2993B';
+              }}
             >
               Karaoke Booth
             </Link>
             
             <Link 
               to="/services"
-              className="font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 hover:opacity-80 text-xs text-center whitespace-nowrap"
-              style={{ backgroundColor: '#060201', color: '#F2993B' }}
+              className="font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
+              style={{ 
+                backgroundColor: '#060201', 
+                color: '#F2993B',
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderColor: '#F2993B'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#F2993B';
+                e.currentTarget.style.color = '#060201';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#060201';
+                e.currentTarget.style.color = '#F2993B';
+              }}
             >
               Venue Hire
             </Link>
             
             <Link 
               to="/priority-entry"
-              className="font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 hover:opacity-80 text-xs text-center whitespace-nowrap"
-              style={{ backgroundColor: '#060201', color: '#F2993B' }}
+              className="font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
+              style={{ 
+                backgroundColor: '#060201', 
+                color: '#F2993B',
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderColor: '#F2993B'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#F2993B';
+                e.currentTarget.style.color = '#060201';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#060201';
+                e.currentTarget.style.color = '#F2993B';
+              }}
             >
               25+ Priority
             </Link>
             
             <Link 
               to="/birthdays-occasions"
-              className="font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 hover:opacity-80 text-xs text-center whitespace-nowrap"
-              style={{ backgroundColor: '#060201', color: '#F2993B' }}
+              className="font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
+              style={{ 
+                backgroundColor: '#060201', 
+                color: '#F2993B',
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderColor: '#F2993B'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#F2993B';
+                e.currentTarget.style.color = '#060201';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#060201';
+                e.currentTarget.style.color = '#F2993B';
+              }}
             >
               Guest List
             </Link>
@@ -64,3 +121,4 @@ const Index = () => {
 };
 
 export default Index;
+
