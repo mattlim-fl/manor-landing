@@ -30,30 +30,30 @@ const Index = () => {
           <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-20">
             <Link 
               to="/karaoke"
-              className="bg-manor-gold text-manor-black font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-sm whitespace-nowrap"
+              className="bg-manor-gold text-manor-black font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-xs text-center whitespace-nowrap"
             >
-              Karaoke
+              Karaoke Booth
             </Link>
             
             <Link 
               to="/services"
-              className="bg-manor-gold text-manor-black font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-sm whitespace-nowrap"
+              className="bg-manor-gold text-manor-black font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-xs text-center whitespace-nowrap"
             >
               Venue Hire
             </Link>
             
             <Link 
               to="/priority-entry"
-              className="bg-manor-gold text-manor-black font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-sm whitespace-nowrap"
+              className="bg-manor-gold text-manor-black font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-xs text-center whitespace-nowrap"
             >
-              25+ Priority Entry
+              25+ Priority
             </Link>
             
             <Link 
               to="/birthdays-occasions"
-              className="bg-manor-gold text-manor-black font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-sm whitespace-nowrap"
+              className="bg-manor-gold text-manor-black font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-xs text-center whitespace-nowrap"
             >
-              Guest List & Birthdays
+              Guest List
             </Link>
           </div>
         </div>
