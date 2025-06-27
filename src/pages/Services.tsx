@@ -4,14 +4,17 @@ import Header from "../components/Header";
 
 const Services = () => {
   return (
-    <div className="min-h-screen bg-manor-black text-manor-white">
+    <div className="min-h-screen text-manor-white" style={{ backgroundColor: '#2A1205' }}>
       <Header />
       
       {/* Services Hero Section */}
-      <div className="relative h-screen flex flex-col justify-center">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="manor-heading text-6xl md:text-8xl text-manor-white mb-12 animate-fade-in">
-            Venue Hire
+      <div className="relative min-h-screen flex flex-col justify-center">
+        {/* Background */}
+        <div className="absolute inset-0" style={{ backgroundColor: '#2A1205' }} />
+        
+        <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
+          <h1 className="manor-heading text-6xl md:text-8xl mb-12 animate-fade-in" style={{ color: '#E14116' }}>
+            VENUE HIRE
           </h1>
           
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 animate-fade-in">
@@ -26,7 +29,7 @@ const Services = () => {
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
               <div className="absolute inset-0 flex flex-col justify-between text-center px-12 py-8">
                 <div className="flex-1 flex flex-col justify-center">
-                  <h2 className="manor-heading text-4xl mb-6 text-manor-white">
+                  <h2 className="manor-heading text-4xl mb-6" style={{ color: '#E14116' }}>
                     DOWNSTAIRS
                   </h2>
                   <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">
@@ -36,13 +39,43 @@ const Services = () => {
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
                   <Link 
                     to="/downstairs#booking-container"
-                    className="manor-btn-primary w-full"
+                    className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
+                    style={{ 
+                      backgroundColor: '#F2993B', 
+                      color: '#060201',
+                      borderWidth: '2px',
+                      borderStyle: 'solid',
+                      borderColor: '#F2993B'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#060201';
+                      e.currentTarget.style.color = '#F2993B';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#F2993B';
+                      e.currentTarget.style.color = '#060201';
+                    }}
                   >
                     BOOK NOW
                   </Link>
                   <Link 
                     to="/downstairs"
-                    className="manor-btn-secondary w-full"
+                    className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
+                    style={{ 
+                      backgroundColor: 'transparent',
+                      color: '#F2993B',
+                      borderWidth: '2px',
+                      borderStyle: 'solid',
+                      borderColor: '#F2993B'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#F2993B';
+                      e.currentTarget.style.color = '#060201';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = '#F2993B';
+                    }}
                   >
                     LEARN MORE
                   </Link>
@@ -61,7 +94,7 @@ const Services = () => {
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
               <div className="absolute inset-0 flex flex-col justify-between text-center px-12 py-8">
                 <div className="flex-1 flex flex-col justify-center">
-                  <h2 className="manor-heading text-4xl mb-6 text-manor-white">
+                  <h2 className="manor-heading text-4xl mb-6" style={{ color: '#E14116' }}>
                     UPSTAIRS
                   </h2>
                   <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">
@@ -71,13 +104,43 @@ const Services = () => {
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
                   <Link 
                     to="/upstairs#booking-container"
-                    className="manor-btn-primary w-full"
+                    className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
+                    style={{ 
+                      backgroundColor: '#F2993B', 
+                      color: '#060201',
+                      borderWidth: '2px',
+                      borderStyle: 'solid',
+                      borderColor: '#F2993B'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#060201';
+                      e.currentTarget.style.color = '#F2993B';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#F2993B';
+                      e.currentTarget.style.color = '#060201';
+                    }}
                   >
                     BOOK NOW
                   </Link>
                   <Link 
                     to="/upstairs"
-                    className="manor-btn-secondary w-full"
+                    className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
+                    style={{ 
+                      backgroundColor: 'transparent',
+                      color: '#F2993B',
+                      borderWidth: '2px',
+                      borderStyle: 'solid',
+                      borderColor: '#F2993B'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#F2993B';
+                      e.currentTarget.style.color = '#060201';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = '#F2993B';
+                    }}
                   >
                     LEARN MORE
                   </Link>
@@ -96,7 +159,7 @@ const Services = () => {
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
               <div className="absolute inset-0 flex flex-col justify-between text-center px-12 py-8">
                 <div className="flex-1 flex flex-col justify-center">
-                  <h2 className="manor-heading text-4xl mb-6 text-manor-white">
+                  <h2 className="manor-heading text-4xl mb-6" style={{ color: '#E14116' }}>
                     FULL VENUE
                   </h2>
                   <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">
@@ -106,13 +169,43 @@ const Services = () => {
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
                   <Link 
                     to="/full-venue#booking-container"
-                    className="manor-btn-primary w-full"
+                    className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
+                    style={{ 
+                      backgroundColor: '#F2993B', 
+                      color: '#060201',
+                      borderWidth: '2px',
+                      borderStyle: 'solid',
+                      borderColor: '#F2993B'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#060201';
+                      e.currentTarget.style.color = '#F2993B';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#F2993B';
+                      e.currentTarget.style.color = '#060201';
+                    }}
                   >
                     BOOK NOW
                   </Link>
                   <Link 
                     to="/full-venue"
-                    className="manor-btn-secondary w-full"
+                    className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
+                    style={{ 
+                      backgroundColor: 'transparent',
+                      color: '#F2993B',
+                      borderWidth: '2px',
+                      borderStyle: 'solid',
+                      borderColor: '#F2993B'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#F2993B';
+                      e.currentTarget.style.color = '#060201';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = '#F2993B';
+                    }}
                   >
                     LEARN MORE
                   </Link>
@@ -122,7 +215,25 @@ const Services = () => {
           </div>
           
           <div className="mt-12 animate-fade-in">
-            <Link to="/contact" className="manor-btn-secondary">
+            <Link 
+              to="/contact" 
+              className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm"
+              style={{ 
+                backgroundColor: 'transparent',
+                color: '#F2993B',
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderColor: '#F2993B'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#F2993B';
+                e.currentTarget.style.color = '#060201';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#F2993B';
+              }}
+            >
               Contact Us
             </Link>
           </div>
