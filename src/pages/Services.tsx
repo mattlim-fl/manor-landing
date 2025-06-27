@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 
@@ -55,7 +56,7 @@ const Services = () => {
                       e.currentTarget.style.color = '#060201';
                     }}
                   >
-                    BOOK NOW
+                    ENQUIRE
                   </Link>
                   <Link 
                     to="/downstairs"
@@ -76,7 +77,7 @@ const Services = () => {
                       e.currentTarget.style.color = '#F2993B';
                     }}
                   >
-                    LEARN MORE
+                    INFO
                   </Link>
                 </div>
               </div>
@@ -120,7 +121,7 @@ const Services = () => {
                       e.currentTarget.style.color = '#060201';
                     }}
                   >
-                    BOOK NOW
+                    ENQUIRE
                   </Link>
                   <Link 
                     to="/upstairs"
@@ -141,7 +142,7 @@ const Services = () => {
                       e.currentTarget.style.color = '#F2993B';
                     }}
                   >
-                    LEARN MORE
+                    INFO
                   </Link>
                 </div>
               </div>
@@ -185,7 +186,7 @@ const Services = () => {
                       e.currentTarget.style.color = '#060201';
                     }}
                   >
-                    BOOK NOW
+                    ENQUIRE
                   </Link>
                   <Link 
                     to="/full-venue"
@@ -206,7 +207,7 @@ const Services = () => {
                       e.currentTarget.style.color = '#F2993B';
                     }}
                   >
-                    LEARN MORE
+                    INFO
                   </Link>
                 </div>
               </div>
