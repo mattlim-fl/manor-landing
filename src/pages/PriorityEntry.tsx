@@ -1,55 +1,64 @@
 
-import ServicePageTemplate from '../components/ServicePageTemplate';
+import { Link } from "react-router-dom";
+import Header from "../components/Header";
 
 const PriorityEntry = () => {
-  const heroImage = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-  const heroTitle = '25+ PRIORITY ENTRY';
-  const description = 'Skip the queue and enjoy guaranteed entry with our 25+ Priority Entry service. Perfect for mature guests who want to avoid the wait and dive straight into the Manor experience.';
-
-  const accordionItems = [
-    {
-      title: 'Age Requirements',
-      content: 'This service is exclusively for guests aged 25 and over. Valid ID required at entry.'
-    },
-    {
-      title: 'What\'s Included',
-      content: 'Priority queue access, guaranteed entry, and dedicated reception service.'
-    },
-    {
-      title: 'Booking Process',
-      content: 'Pre-booking required. Limited spots available each night to maintain exclusivity.'
-    }
-  ];
-
-  const greatForCards = [
-    {
-      title: 'Professional Networking',
-      description: 'Connect with like-minded professionals in a sophisticated environment.',
-      image: 'https://images.unsplash.com/photo-1556761175-4413da4baf72?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      title: 'Date Nights',
-      description: 'Avoid the hassle of queuing and focus on enjoying your evening together.',
-      image: 'https://images.unsplash.com/photo-1516997121675-4c2d1684aa7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      title: 'Mature Social Scene',
-      description: 'Experience Manor with guests who share your refined tastes and interests.',
-      image: 'https://images.unsplash.com/photo-1549451371-64aa98a6f660?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    }
-  ];
-
-  const bookingUrl = 'https://hippieclub.simplybook.net/v2/#book';
-
   return (
-    <ServicePageTemplate
-      heroImage={heroImage}
-      heroTitle={heroTitle}
-      description={description}
-      accordionItems={accordionItems}
-      greatForCards={greatForCards}
-      bookingUrl={bookingUrl}
-    />
+    <div className="min-h-screen text-manor-white" style={{ backgroundColor: '#2A1205' }}>
+      <Header />
+      
+      {/* Priority Entry Hero Section */}
+      <div className="relative min-h-screen flex flex-col justify-center">
+        {/* Background */}
+        <div className="absolute inset-0" style={{ backgroundColor: '#2A1205' }} />
+        
+        <div className="max-w-7xl mx-auto px-4 text-center relative z-10 pt-20 md:pt-0">
+          <h1 className="manor-heading text-5xl md:text-7xl lg:text-8xl mb-8 animate-fade-in" style={{ color: '#E14116' }}>
+            <div>25+</div>
+            <div>PRIORITY</div>
+            <div>ENTRY</div>
+          </h1>
+          
+          <div className="mb-12 animate-fade-in">
+            <Link 
+              to="https://hippieclub.simplybook.net/v2/#book"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold px-8 py-4 rounded-full uppercase tracking-wider transition-all duration-300 text-sm inline-block"
+              style={{ 
+                backgroundColor: '#F2993B', 
+                color: '#060201',
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderColor: '#F2993B'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#060201';
+                e.currentTarget.style.color = '#F2993B';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#F2993B';
+                e.currentTarget.style.color = '#060201';
+              }}
+            >
+              BOOK NOW
+            </Link>
+          </div>
+          
+          <div className="max-w-2xl mx-auto text-center animate-fade-in">
+            <div className="text-lg leading-relaxed space-y-4 text-manor-white">
+              <p>The Manor - Leederville's late night lounge returns.</p>
+              <p>Disco from 11 'til late.</p>
+              <p>Enter via Hippie Club and take the tunnel.</p>
+              <br />
+              <p>Skip the queue with Priority Entry and head straight to the front.</p>
+              <br />
+              <p>Curated for a 25+ crowd.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
