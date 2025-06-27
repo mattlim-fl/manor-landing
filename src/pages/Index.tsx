@@ -5,7 +5,7 @@ import Header from "../components/Header";
 const Index = () => {
   return (
     <div className="min-h-screen bg-manor-black text-manor-white">
-      <Header />
+      <Header showLogo={false} />
       
       {/* Hero Section - Full Width */}
       <div className="relative min-h-screen flex flex-col">

@@ -3,7 +3,11 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+interface HeaderProps {
+  showLogo?: boolean;
+}
+
+const Header = ({ showLogo = true }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -12,12 +16,14 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-manor-black/90 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          {/* Logo */}
-          <Link to="/" className="z-50 relative">
-            <h1 className="manor-heading text-manor-white text-2xl md:text-3xl">
-              MANOR
-            </h1>
-          </Link>
+          {/* Logo - conditionally rendered */}
+          {showLogo && (
+            <Link to="/" className="z-50 relative">
+              <h1 className="manor-heading text-manor-white text-2xl md:text-3xl">
+                MANOR
+              </h1>
+            </Link>
+          )}
 
           {/* Mobile Menu Button - Hidden since no navigation items */}
           <button
