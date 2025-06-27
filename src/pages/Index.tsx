@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -13,31 +12,31 @@ const Index = () => {
           
           {/* Hippie Club - Top Right */}
           <div className="absolute top-6 right-6 text-right z-10">
-            <div className="manor-heading text-2xl md:text-3xl lg:text-4xl mb-3" style={{ color: '#E14116' }}>
+            <div className="manor-heading text-2xl md:text-3xl lg:text-4xl" style={{ color: '#E14116' }}>
               <div>HIPPIE</div>
-              <div>CLUB</div>
+              <div className="mb-3">CLUB</div>
+              <Link 
+                to="#"
+                className="font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap inline-block"
+                style={{ 
+                  backgroundColor: '#F2993B', 
+                  color: '#060201',
+                  borderWidth: '2px',
+                  borderStyle: 'solid',
+                  borderColor: '#F2993B'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#060201';
+                  e.currentTarget.style.color = '#F2993B';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#F2993B';
+                  e.currentTarget.style.color = '#060201';
+                }}
+              >
+                Sister Venue
+              </Link>
             </div>
-            <Link 
-              to="#"
-              className="font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap inline-block"
-              style={{ 
-                backgroundColor: '#F2993B', 
-                color: '#060201',
-                borderWidth: '2px',
-                borderStyle: 'solid',
-                borderColor: '#F2993B'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#060201';
-                e.currentTarget.style.color = '#F2993B';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#F2993B';
-                e.currentTarget.style.color = '#060201';
-              }}
-            >
-              Sister Venue
-            </Link>
           </div>
           
           {/* Content */}
