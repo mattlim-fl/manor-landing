@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -19,21 +18,10 @@ const Index = () => {
               </h1>
               <div className="space-y-4 mb-12 animate-fade-in">
                 <div 
-                  className="inline-block font-bold px-4 py-2 rounded-full uppercase tracking-wider text-sm transition-all duration-300"
+                  className="inline-block font-bold px-4 py-2 rounded-full uppercase tracking-wider text-sm"
                   style={{ 
                     backgroundColor: '#F2993B', 
-                    color: '#060201',
-                    borderWidth: '2px',
-                    borderStyle: 'solid',
-                    borderColor: '#F2993B'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#060201';
-                    e.currentTarget.style.color = '#F2993B';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#F2993B';
-                    e.currentTarget.style.color = '#060201';
+                    color: '#060201'
                   }}
                 >
                   Leederville
