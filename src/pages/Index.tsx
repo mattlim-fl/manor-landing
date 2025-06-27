@@ -24,85 +24,37 @@ const Index = () => {
                 <p className="text-lg md:text-xl font-light tracking-wider text-manor-gold">Leederville</p>
               </div>
             </div>
+          </div>
+
+          {/* Floating Action Buttons - Bottom Right */}
+          <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-20">
+            <Link 
+              to="/karaoke"
+              className="bg-manor-gold text-manor-black font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-sm whitespace-nowrap"
+            >
+              Karaoke
+            </Link>
             
-            {/* Service Cards - 2x2 Grid - Made 25% smaller */}
-            <div className="grid grid-cols-2 gap-6 md:gap-8 animate-fade-in max-w-4xl mx-auto w-full px-4">
-              {/* Karaoke */}
-              <Link 
-                to="/karaoke"
-                className="relative group overflow-hidden rounded-lg h-48 md:h-60 w-full block transition-transform duration-300 hover:scale-105"
-              >
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                  style={{
-                    backgroundImage: `url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
-                  }}
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-xl md:text-3xl text-manor-white text-center px-4">
-                    KARAOKE
-                  </h2>
-                </div>
-              </Link>
-
-              {/* 25+ Priority Entry */}
-              <Link 
-                to="/priority-entry"
-                className="relative group overflow-hidden rounded-lg h-48 md:h-60 w-full block transition-transform duration-300 hover:scale-105"
-              >
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                  style={{
-                    backgroundImage: `url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
-                  }}
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-xl md:text-3xl text-manor-white text-center px-4">
-                    25+ PRIORITY ENTRY
-                  </h2>
-                </div>
-              </Link>
-
-              {/* Birthdays & Occasions */}
-              <Link 
-                to="/birthdays-occasions"
-                className="relative group overflow-hidden rounded-lg h-48 md:h-60 w-full block transition-transform duration-300 hover:scale-105"
-              >
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                  style={{
-                    backgroundImage: `url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
-                  }}
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-xl md:text-3xl text-manor-white text-center px-4">
-                    BIRTHDAYS & OCCASIONS
-                  </h2>
-                </div>
-              </Link>
-
-              {/* Venue Hire */}
-              <Link 
-                to="/services"
-                className="relative group overflow-hidden rounded-lg h-48 md:h-60 w-full block transition-transform duration-300 hover:scale-105"
-              >
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                  style={{
-                    backgroundImage: `url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
-                  }}
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-30 transition-all duration-300" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <h2 className="manor-heading text-xl md:text-3xl text-manor-white text-center px-4">
-                    VENUE HIRE
-                  </h2>
-                </div>
-              </Link>
-            </div>
+            <Link 
+              to="/services"
+              className="bg-manor-gold text-manor-black font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-sm whitespace-nowrap"
+            >
+              Venue Hire
+            </Link>
+            
+            <Link 
+              to="/priority-entry"
+              className="bg-manor-gold text-manor-black font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-sm whitespace-nowrap"
+            >
+              25+ Priority Entry
+            </Link>
+            
+            <Link 
+              to="/birthdays-occasions"
+              className="bg-manor-gold text-manor-black font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 hover:bg-manor-black hover:text-manor-gold hover:border hover:border-manor-gold text-sm whitespace-nowrap"
+            >
+              Guest List & Birthdays
+            </Link>
           </div>
         </div>
       </div>
