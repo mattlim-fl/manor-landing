@@ -19,7 +19,18 @@ const Index = () => {
                 MANOR
               </h1>
               <div className="space-y-4 mb-12 animate-fade-in">
-                <p className="text-lg md:text-xl font-light tracking-wider text-manor-gold">Leederville</p>
+                <div 
+                  className="inline-block font-bold px-4 py-2 rounded-full uppercase tracking-wider text-sm"
+                  style={{ 
+                    backgroundColor: '#060201', 
+                    color: '#F2993B',
+                    borderWidth: '2px',
+                    borderStyle: 'solid',
+                    borderColor: '#F2993B'
+                  }}
+                >
+                  Leederville
+                </div>
               </div>
             </div>
           </div>
