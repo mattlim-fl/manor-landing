@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 
@@ -12,7 +11,7 @@ const Services = () => {
         {/* Background */}
         <div className="absolute inset-0" style={{ backgroundColor: '#2A1205' }} />
         
-        <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
+        <div className="max-w-7xl mx-auto px-4 text-center relative z-10 pt-20 md:pt-0">
           <h1 className="manor-heading text-6xl md:text-8xl mb-12 animate-fade-in" style={{ color: '#E14116' }}>
             VENUE HIRE
           </h1>
