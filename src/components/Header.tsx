@@ -13,13 +13,13 @@ const Header = ({ showLogo = true }: HeaderProps) => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-manor-black/90 backdrop-blur-sm">
+    <header className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: 'rgba(42, 18, 5, 0.9)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo - conditionally rendered */}
           {showLogo && (
             <Link to="/" className="z-50 relative">
-              <h1 className="manor-heading text-manor-white text-2xl md:text-3xl">
+              <h1 className="manor-heading text-2xl md:text-3xl" style={{ color: '#E14116' }}>
                 MANOR
               </h1>
             </Link>
@@ -28,7 +28,8 @@ const Header = ({ showLogo = true }: HeaderProps) => {
           {/* Mobile Menu Button - Hidden since no navigation items */}
           <button
             onClick={toggleMenu}
-            className="md:hidden z-[70] relative text-manor-white p-2 hidden"
+            className="md:hidden z-[70] relative p-2 hidden"
+            style={{ color: '#FFFFFF' }}
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -37,9 +38,9 @@ const Header = ({ showLogo = true }: HeaderProps) => {
       </div>
 
       {/* Mobile Menu - Hidden since no navigation items */}
-      <div className={`md:hidden fixed inset-0 bg-black z-[60] transition-transform duration-300 hidden ${
+      <div className={`md:hidden fixed inset-0 z-[60] transition-transform duration-300 hidden ${
         isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-      }`}>
+      }`} style={{ backgroundColor: '#000000' }}>
         <div className="flex flex-col justify-center items-center h-full space-y-8">
           {/* No navigation items */}
         </div>
