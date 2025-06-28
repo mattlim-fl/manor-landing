@@ -20,6 +20,16 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
     setExpandedAccordion(expandedAccordion === index ? null : index);
   };
 
+  const renderContent = (content: string) => {
+    // Split content by newlines and render each line
+    const lines = content.split('\n');
+    return lines.map((line, index) => (
+      <div key={index} className="mb-1">
+        {line}
+      </div>
+    ));
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
       <h2 className="manor-heading text-3xl mb-8" style={{ color: '#F2993B' }}>OVERVIEW</h2>
@@ -42,7 +52,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
             </button>
             {expandedAccordion === index && (
               <div className="pb-6 leading-relaxed" style={{ color: '#F2993B' }}>
-                {item.content}
+                {renderContent(item.content)}
               </div>
             )}
           </div>
