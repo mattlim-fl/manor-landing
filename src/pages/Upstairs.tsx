@@ -14,7 +14,7 @@ const Upstairs = () => {
     },
     {
       title: "Availability & Pricing", 
-      content: "Upstairs hire from $1200 for 4 hours. Premium pricing reflects exclusive access and elevated experience. Package includes VIP table service and dedicated staff. Bar service and premium catering options available."
+      content: "Sunday to Friday\n• 6pm to 5am\n• $1,500 + GST\n\nSaturday\n• 6pm to 11pm*\n• $2,000 + GST\n\n*At 11pm the venue opens to the public. Your guests are welcome to stay as long as they like."
     },
     {
       title: "Access",
