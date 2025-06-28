@@ -22,9 +22,6 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
           <Badge className="px-4 py-2 text-sm font-semibold" style={{ backgroundColor: '#F2993B', color: '#060201', border: '1px solid #060201' }}>
             Courtyard
           </Badge>
-          <Badge className="px-4 py-2 text-sm font-semibold" style={{ backgroundColor: '#F2993B', color: '#060201', border: '1px solid #060201' }}>
-            Up to 150 People
-          </Badge>
         </div>
       </div>
       
