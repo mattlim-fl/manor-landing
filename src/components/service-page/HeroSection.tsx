@@ -27,7 +27,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         <Badge 
           onClick={onBookingClick}
           className="px-6 py-3 text-lg font-semibold cursor-pointer hover:opacity-80 transition-opacity" 
-          style={{ backgroundColor: '#060201', color: '#F2993B', border: '1px solid #F2993B' }}
+          style={{ backgroundColor: '#F2993B', color: '#060201', border: '1px solid #060201' }}
         >
           ENQUIRE
         </Badge>
