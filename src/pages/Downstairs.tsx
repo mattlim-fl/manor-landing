@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -44,7 +43,7 @@ const Downstairs = () => {
     <ServicePageTemplate
       heroImage="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
       heroTitle="DOWNSTAIRS"
-      description="Featuring the main bar, dance floor and courtyard. Great for cocktail parties, celebrations, events and corporate functions up to 150 people."
+      description="Featuring the main bar, dance floor and courtyard.\n\nGreat for cocktail parties, celebrations, events and corporate functions up to 150 people."
       accordionItems={accordionItems}
       greatForCards={greatForCards}
       bookingUrl="https://hippieclub.simplybook.net/v2/#book/service/3"
