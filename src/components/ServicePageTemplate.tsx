@@ -72,30 +72,32 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
     <div className="min-h-screen" style={{ backgroundColor: '#2A1205' }}>
       <Header />
       
-      <HeroSection 
-        heroImage={heroImage}
-        heroTitle={heroTitle}
-        onBookingClick={openBooking}
-      />
+      <div className="pt-20">
+        <HeroSection 
+          heroImage={heroImage}
+          heroTitle={heroTitle}
+          onBookingClick={openBooking}
+        />
 
-      <DescriptionSection description={description} />
+        <DescriptionSection description={description} />
 
-      <OverviewSection accordionItems={accordionItems} />
+        <OverviewSection accordionItems={accordionItems} />
 
-      {showSectionsAfterOverview && (
-        <>
-          <BookingContainer 
-            bookingUrl={bookingUrl}
-            showBooking={showBooking}
-            whatsappNumber={whatsappNumber}
-            whatsappMessage={whatsappMessage}
-          />
+        {showSectionsAfterOverview && (
+          <>
+            <BookingContainer 
+              bookingUrl={bookingUrl}
+              showBooking={showBooking}
+              whatsappNumber={whatsappNumber}
+              whatsappMessage={whatsappMessage}
+            />
 
-          <GreatForSection greatForCards={greatForCards} />
+            <GreatForSection greatForCards={greatForCards} />
 
-          <NewsletterSection />
-        </>
-      )}
+            <NewsletterSection />
+          </>
+        )}
+      </div>
     </div>
   );
 };
