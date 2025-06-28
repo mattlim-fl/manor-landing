@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -6,7 +5,7 @@ const Downstairs = () => {
   const accordionItems = [
     {
       title: "Features",
-      content: "Main bar area with full cocktail service. Primary dancefloor with professional sound system and lighting. Direct access to outdoor terrace area. Climate controlled environment with industrial design aesthetic."
+      content: "- Main Bar area with cocktail service.\n- Dance floor with professional sound system and lighting\n- Direct access to courtyard\n- Ample male & female bathrooms"
     },
     {
       title: "Capacity",
