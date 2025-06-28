@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -9,7 +10,7 @@ const Downstairs = () => {
     },
     {
       title: "Capacity",
-      content: "Standing capacity for up to 80 people. Cocktail style events for 60-70 guests. Seated dining arrangements for up to 40 people. Flexible layout options to suit your event requirements."
+      content: "- Suitable for 50 to 150 guests\n- Flexible layout options to suit your event"
     },
     {
       title: "Pricing", 
