@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -14,7 +13,7 @@ const Downstairs = () => {
     },
     {
       title: "Pricing", 
-      content: "Downstairs hire from $800 for 4 hours. Pricing varies by day of week, time of year, and event duration. Package includes basic lighting and sound system. Bar service and catering available as add-ons."
+      content: "Availability & Pricing\n\nSunday to Friday\n- 6pm to 5am\n- $2,500 + GST\n\nSaturday\n- 6pm to 11pm\n- $3,500 + GST"
     },
     {
       title: "Access",
