@@ -33,15 +33,24 @@ const Karaoke = () => {
             </div>
           </div>
 
-          {/* Bottom Third - Updated Text */}
+          {/* Bottom Third - Updated Text in Pill Box */}
           <div className="absolute bottom-0 left-0 right-0 h-1/3 flex items-center justify-center px-4 z-10">
             <div className="text-center max-w-2xl">
-              <p className="text-lg md:text-xl mb-4" style={{ color: '#FFFFFF' }}>
-                Private karaoke booths available for hire from August.
-              </p>
-              <p className="text-sm md:text-base opacity-80" style={{ color: '#FFFFFF' }}>
-                Great for birthdays, special occasions or just a fun night out with friends!
-              </p>
+              <div 
+                className="rounded-full px-8 py-6 border-2"
+                style={{ 
+                  backgroundColor: '#060201', 
+                  color: '#F2993B',
+                  borderColor: '#F2993B'
+                }}
+              >
+                <p className="text-lg md:text-xl mb-2">
+                  Private karaoke booths available for hire from August.
+                </p>
+                <p className="text-sm md:text-base">
+                  Great for birthdays, special occasions or just a fun night out with friends!
+                </p>
+              </div>
             </div>
           </div>
         </div>
