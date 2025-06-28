@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
 
@@ -31,7 +32,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-4">
       <h2 className="manor-heading text-3xl mb-8" style={{ color: '#F2993B' }}>DETAILS</h2>
       <div className="space-y-4">
         {accordionItems.map((item, index) => (
