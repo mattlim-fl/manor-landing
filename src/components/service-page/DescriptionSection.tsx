@@ -10,9 +10,14 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
 }) => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-      <p className="text-xl text-manor-black leading-relaxed">
-        {description}
-      </p>
+      <div className="text-xl text-manor-black leading-relaxed">
+        {description.split('\n').map((line, index) => (
+          <React.Fragment key={index}>
+            {line}
+            {index < description.split('\n').length - 1 && <br />}
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 };
