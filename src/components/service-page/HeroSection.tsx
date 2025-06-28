@@ -38,8 +38,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         </h1>
         <Badge 
           onClick={onBookingClick}
-          className="px-6 py-3 text-lg font-semibold cursor-pointer hover:opacity-80 transition-opacity" 
-          style={{ backgroundColor: '#F2993B', color: '#060201', border: '1px solid #F2993B' }}
+          className="px-6 py-3 text-lg font-semibold cursor-pointer transition-all duration-300 hover:text-[#F2993B]" 
+          style={{ 
+            backgroundColor: '#F2993B', 
+            color: '#060201', 
+            border: '1px solid #F2993B'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#060201';
+            e.currentTarget.style.color = '#F2993B';
+            e.currentTarget.style.borderColor = '#F2993B';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = '#F2993B';
+            e.currentTarget.style.color = '#060201';
+            e.currentTarget.style.borderColor = '#F2993B';
+          }}
         >
           ENQUIRE
         </Badge>
