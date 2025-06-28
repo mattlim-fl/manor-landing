@@ -69,7 +69,7 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-manor-black">
+    <div className="min-h-screen" style={{ backgroundColor: '#2A1205' }}>
       <Header />
       
       <HeroSection 
