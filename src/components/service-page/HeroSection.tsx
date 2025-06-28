@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Badge } from '../ui/badge';
 
 interface HeroSectionProps {
   heroImage: string;
@@ -23,12 +24,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         <h1 className="manor-heading text-6xl md:text-8xl text-manor-white text-center mb-8">
           {heroTitle}
         </h1>
-        <button 
+        <Badge 
           onClick={onBookingClick}
-          className="manor-btn-primary"
+          className="px-6 py-3 text-lg font-semibold cursor-pointer hover:opacity-80 transition-opacity" 
+          style={{ backgroundColor: '#060201', color: '#F2993B', border: '1px solid #F2993B' }}
         >
-          BOOK NOW
-        </button>
+          ENQUIRE
+        </Badge>
       </div>
     </div>
   );
