@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -12,7 +13,7 @@ const Upstairs = () => {
       content: "• Suitable for 20 to 60 guests\n• Flexible layout options to suit your event"
     },
     {
-      title: "Pricing", 
+      title: "Availability & Pricing", 
       content: "Upstairs hire from $1200 for 4 hours. Premium pricing reflects exclusive access and elevated experience. Package includes VIP table service and dedicated staff. Bar service and premium catering options available."
     },
     {
