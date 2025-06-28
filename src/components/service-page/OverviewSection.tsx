@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
 
@@ -32,14 +31,14 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-4">
-      <h2 className="manor-heading text-3xl mb-8" style={{ color: '#F2993B' }}>DETAILS</h2>
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <h2 className="manor-heading text-3xl mb-6" style={{ color: '#F2993B' }}>DETAILS</h2>
       <div className="space-y-4">
         {accordionItems.map((item, index) => (
           <div key={index} className="border-b" style={{ borderColor: '#060201' }}>
             <button
               onClick={() => toggleAccordion(index)}
-              className="w-full flex justify-between items-center py-6 text-left transition-colors"
+              className="w-full flex justify-between items-center py-4 text-left transition-colors"
               style={{ color: '#F2993B' }}
             >
               <span className="text-xl font-medium">
@@ -52,7 +51,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
               )}
             </button>
             {expandedAccordion === index && (
-              <div className="pb-6 leading-relaxed" style={{ color: '#F2993B' }}>
+              <div className="pb-4 leading-relaxed" style={{ color: '#F2993B' }}>
                 {renderContent(item.content)}
               </div>
             )}

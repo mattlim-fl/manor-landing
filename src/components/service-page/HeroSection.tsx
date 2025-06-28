@@ -25,8 +25,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       </div>
       
       {/* Title and button below image */}
-      <div className="flex flex-col items-center justify-center py-16" style={{ backgroundColor: '#2A1205' }}>
-        <h1 className="manor-heading text-4xl md:text-6xl lg:text-8xl text-center mb-8" style={{ color: '#E14116' }}>
+      <div className="flex flex-col items-center justify-center py-8" style={{ backgroundColor: '#2A1205' }}>
+        <h1 className="manor-heading text-4xl md:text-6xl lg:text-8xl text-center mb-6" style={{ color: '#E14116' }}>
           {heroTitle}
         </h1>
         <Badge 
