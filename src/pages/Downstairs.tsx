@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -12,8 +13,8 @@ const Downstairs = () => {
       content: "- Suitable for 50 to 150 guests\n- Flexible layout options to suit your event"
     },
     {
-      title: "Pricing", 
-      content: "Availability & Pricing\n\nSunday to Friday\n- 6pm to 5am\n- $2,500 + GST\n\nSaturday\n- 6pm to 11pm\n- $3,500 + GST"
+      title: "Availability & Pricing", 
+      content: "Sunday to Friday\n- 6pm to 5am\n- $2,500 + GST\n\nSaturday\n- 6pm to 11pm\n- $3,500 + GST"
     },
     {
       title: "Access",
