@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 
@@ -33,7 +32,10 @@ const Services = () => {
                     DOWNSTAIRS
                   </h2>
                   <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">
-                    Hire our intimate downstairs area with main bar, dancefloor, and terrace access for up to 80 people.
+                    Featuring the main bar, dance floor and courtyard.
+                  </p>
+                  <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">
+                    Suitable for 50 to 150 guests.
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
@@ -98,7 +100,10 @@ const Services = () => {
                     UPSTAIRS
                   </h2>
                   <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">
-                    Premium upstairs area with VIP seating, elevated views, and sophisticated atmosphere for up to 60 people.
+                    Featuring the karaoke booth, lounge bar and dance floor views.
+                  </p>
+                  <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">
+                    Suitable for 20 - 60 guests.
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
@@ -163,7 +168,10 @@ const Services = () => {
                     FULL VENUE
                   </h2>
                   <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">
-                    Complete exclusive hire of the entire Manor for major events, celebrations, and corporate functions up to 150 people.
+                    Exclusive hire of the Manor for events, celebrations and corporate functions.
+                  </p>
+                  <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">
+                    Suitable for up to 150 - 250 guests.
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
