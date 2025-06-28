@@ -33,14 +33,14 @@ const Karaoke = () => {
             </div>
           </div>
 
-          {/* Bottom Third - Placeholder Text */}
+          {/* Bottom Third - Updated Text */}
           <div className="absolute bottom-0 left-0 right-0 h-1/3 flex items-center justify-center px-4 z-10">
             <div className="text-center max-w-2xl">
               <p className="text-lg md:text-xl mb-4" style={{ color: '#FFFFFF' }}>
-                Private karaoke booths available for hire from August
+                Private karaoke booths available for hire from August.
               </p>
               <p className="text-sm md:text-base opacity-80" style={{ color: '#FFFFFF' }}>
-                Book your exclusive karaoke experience with friends and family in our premium private booths
+                Great for birthdays, special occasions or just a fun night out with friends!
               </p>
             </div>
           </div>
