@@ -29,6 +29,7 @@ interface ServicePageProps {
   bookingUrl: string;
   whatsappNumber?: string;
   whatsappMessage?: string;
+  showSectionsAfterOverview?: boolean;
 }
 
 const ServicePageTemplate: React.FC<ServicePageProps> = ({
@@ -39,7 +40,8 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   greatForCards,
   bookingUrl,
   whatsappNumber,
-  whatsappMessage
+  whatsappMessage,
+  showSectionsAfterOverview = true
 }) => {
   const [showBooking, setShowBooking] = useState(false);
   const location = useLocation();
@@ -80,16 +82,20 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
 
       <OverviewSection accordionItems={accordionItems} />
 
-      <BookingContainer 
-        bookingUrl={bookingUrl}
-        showBooking={showBooking}
-        whatsappNumber={whatsappNumber}
-        whatsappMessage={whatsappMessage}
-      />
+      {showSectionsAfterOverview && (
+        <>
+          <BookingContainer 
+            bookingUrl={bookingUrl}
+            showBooking={showBooking}
+            whatsappNumber={whatsappNumber}
+            whatsappMessage={whatsappMessage}
+          />
 
-      <GreatForSection greatForCards={greatForCards} />
+          <GreatForSection greatForCards={greatForCards} />
 
-      <NewsletterSection />
+          <NewsletterSection />
+        </>
+      )}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -47,6 +48,7 @@ const Downstairs = () => {
       accordionItems={accordionItems}
       greatForCards={greatForCards}
       bookingUrl="https://hippieclub.simplybook.net/v2/#book/service/3"
+      showSectionsAfterOverview={false}
     />
   );
 };
