@@ -221,30 +221,6 @@ const Services = () => {
               </div>
             </div>
           </div>
-          
-          <div className="mt-12 animate-fade-in">
-            <Link 
-              to="/contact" 
-              className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm"
-              style={{ 
-                backgroundColor: 'transparent',
-                color: '#F2993B',
-                borderWidth: '2px',
-                borderStyle: 'solid',
-                borderColor: '#F2993B'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#F2993B';
-                e.currentTarget.style.color = '#060201';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#F2993B';
-              }}
-            >
-              Contact Us
-            </Link>
-          </div>
         </div>
       </div>
     </div>
