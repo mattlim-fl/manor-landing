@@ -14,13 +14,18 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   onBookingClick
 }) => {
   return (
-    <div className="relative h-screen">
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url('${heroImage}')` }}
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-50" />
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
+    <div>
+      {/* Image container */}
+      <div className="relative h-screen">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url('${heroImage}')` }}
+        />
+        <div className="absolute inset-0 bg-black bg-opacity-50" />
+      </div>
+      
+      {/* Title and button below image */}
+      <div className="flex flex-col items-center justify-center py-16" style={{ backgroundColor: '#2A1205' }}>
         <h1 className="manor-heading text-6xl md:text-8xl text-manor-white text-center mb-8">
           {heroTitle}
         </h1>
