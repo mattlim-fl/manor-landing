@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -21,32 +22,15 @@ const FullVenue = () => {
     }
   ];
 
-  const greatForCards = [
-    {
-      title: "PRODUCT LAUNCHES",
-      description: "Take over the entire Manor for your brand launch with complete control over atmosphere, branding, and guest experience across multiple levels.",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      title: "WEDDING RECEPTIONS",
-      description: "Celebrate your special day with exclusive access to the entire venue, creating unforgettable memories across our sophisticated spaces.",
-      image: "https://images.unsplash.com/photo-1519167758481-83f29c96ba47?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      title: "CORPORATE GALAS",
-      description: "Host prestigious corporate events with full venue exclusivity, premium service, and complete control over every aspect of your celebration.",
-      image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    }
-  ];
-
   return (
     <ServicePageTemplate
       heroImage="https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
       heroTitle="FULL VENUE"
       description="Complete exclusive hire of the entire Manor including both upstairs and downstairs areas. Perfect for product launches, wedding receptions, and major corporate events up to 150 people."
       accordionItems={accordionItems}
-      greatForCards={greatForCards}
+      greatForCards={[]}
       bookingUrl="https://hippieclub.simplybook.net/v2/#book/service/2"
+      showSectionsAfterOverview={false}
     />
   );
 };
