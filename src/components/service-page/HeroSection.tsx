@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Badge } from '../ui/badge';
+import ImageGallery from './ImageGallery';
 
 interface HeroSectionProps {
   heroImage: string;
@@ -13,20 +14,26 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   heroTitle,
   onBookingClick
 }) => {
+  // Create gallery images using the existing image as placeholders
+  const galleryImages = [
+    heroImage,
+    heroImage,
+    heroImage,
+    heroImage,
+    heroImage
+  ];
+
   return (
     <div>
-      {/* Image container */}
-      <div className="relative h-64 sm:h-80 md:h-96 lg:h-screen">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('${heroImage}')` }}
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-50" />
-      </div>
+      {/* Image gallery container */}
+      <ImageGallery 
+        images={galleryImages}
+        className="relative h-64 sm:h-80 md:h-96 lg:h-screen"
+      />
       
       {/* Title and button below image */}
-      <div className="flex flex-col items-center justify-center py-8" style={{ backgroundColor: '#2A1205' }}>
-        <h1 className="manor-heading text-4xl md:text-6xl lg:text-8xl text-center mb-6" style={{ color: '#E14116' }}>
+      <div className="flex flex-col items-center justify-center py-4" style={{ backgroundColor: '#2A1205' }}>
+        <h1 className="manor-heading text-2xl md:text-4xl lg:text-6xl text-center mb-4" style={{ color: '#E14116' }}>
           {heroTitle}
         </h1>
         <Badge 
