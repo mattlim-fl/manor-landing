@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -21,32 +22,15 @@ const Upstairs = () => {
     }
   ];
 
-  const greatForCards = [
-    {
-      title: "VIP CELEBRATIONS",
-      description: "Elevate your special occasion with premium upstairs access, offering the best views and most exclusive atmosphere in the venue.",
-      image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      title: "EXECUTIVE EVENTS",
-      description: "Impress clients and stakeholders with premium positioning and elevated service in our sophisticated upstairs area.",
-      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      title: "INTIMATE DINNERS",
-      description: "Perfect for smaller groups seeking privacy and premium service with panoramic views of the venue below.",
-      image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    }
-  ];
-
   return (
     <ServicePageTemplate
       heroImage="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
       heroTitle="UPSTAIRS"
       description="Exclusive hire of our premium upstairs area with VIP seating, elevated views, and sophisticated atmosphere. Perfect for intimate celebrations and executive events up to 60 people."
       accordionItems={accordionItems}
-      greatForCards={greatForCards}
+      greatForCards={[]}
       bookingUrl="https://hippieclub.simplybook.net/v2/#book/service/4"
+      showSectionsAfterOverview={false}
     />
   );
 };
