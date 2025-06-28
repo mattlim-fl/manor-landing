@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
@@ -19,7 +17,7 @@ const Downstairs = () => {
     },
     {
       title: "Access",
-      content: "Private entrance available for exclusive events. Direct access to main bar and dancefloor. Outdoor terrace access included. Professional sound and lighting equipment included. Dedicated staff support available."
+      content: "Private entrance available down the Manor laneway."
     }
   ];
 
