@@ -16,7 +16,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <div>
       {/* Image container */}
-      <div className="relative h-screen">
+      <div className="relative h-64 sm:h-80 md:h-96 lg:h-screen">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('${heroImage}')` }}
