@@ -11,8 +11,8 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
 }) => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 text-center" style={{ backgroundColor: '#2A1205' }}>
-      <div className="mb-6">
-        <div className="flex flex-wrap justify-center gap-3 mb-6">
+      <div className="space-y-6">
+        <div className="flex flex-wrap justify-center gap-3">
           <Badge className="px-4 py-2 text-sm font-semibold" style={{ backgroundColor: '#F2993B', color: '#060201', border: '1px solid #060201' }}>
             Main Bar
           </Badge>
@@ -23,12 +23,12 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
             Courtyard
           </Badge>
         </div>
-      </div>
-      
-      <div className="flex flex-wrap justify-center gap-3">
-        <Badge className="px-4 py-2 text-lg" style={{ backgroundColor: '#F2993B', color: '#060201', border: '1px solid #060201' }}>
-          Great for cocktail parties, celebrations, events and corporate functions up to 150 people.
-        </Badge>
+        
+        <div className="flex flex-wrap justify-center gap-3">
+          <Badge className="px-4 py-2 text-lg" style={{ backgroundColor: '#F2993B', color: '#060201', border: '1px solid #060201' }}>
+            Great for cocktail parties, celebrations, events and corporate functions up to 150 people.
+          </Badge>
+        </div>
       </div>
     </div>
   );
