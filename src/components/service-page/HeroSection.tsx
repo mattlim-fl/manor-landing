@@ -33,13 +33,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       
       {/* Title and button below image */}
       <div className="flex flex-col items-center justify-center py-1" style={{ backgroundColor: '#2A1205' }}>
-        <h1 className="manor-heading text-8xl md:text-[10rem] lg:text-[24rem] text-center mb-4" style={{ color: '#E14116' }}>
+        <h1 className="manor-heading text-6xl md:text-8xl lg:text-[12rem] text-center mb-4" style={{ color: '#E14116' }}>
           {heroTitle}
         </h1>
         <Badge 
           onClick={onBookingClick}
           className="px-6 py-3 text-lg font-semibold cursor-pointer hover:opacity-80 transition-opacity" 
-          style={{ backgroundColor: '#060201', color: '#F2993B', border: '1px solid #F2993B' }}
+          style={{ backgroundColor: '#F2993B', color: '#060201', border: '1px solid #F2993B' }}
         >
           ENQUIRE
         </Badge>
