@@ -45,7 +45,7 @@ const Index = () => {
           <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 z-10">
             <div className="pb-8" style={{ paddingTop: 'calc(5rem - 24px)' }}>
               <img 
-                src={manorLogo}
+                src="/lovable-uploads/b93c74ae-d273-4840-bbfb-081124365b94.png"
                 alt="Manor nightclub logo"
                 className="hero-logo animate-fade-in"
                 loading="lazy"
