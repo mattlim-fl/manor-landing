@@ -32,6 +32,93 @@ const Index = () => {
             alignItems: 'center'
           }}
         >
+          <Link 
+            to="/karaoke"
+            className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
+            style={{ 
+              backgroundColor: '#F2993B', 
+              color: '#060201',
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: '#F2993B'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#060201';
+              e.currentTarget.style.color = '#F2993B';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#F2993B';
+              e.currentTarget.style.color = '#060201';
+            }}
+          >
+            Karaoke
+          </Link>
+          
+          <Link 
+            to="/services"
+            className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
+            style={{ 
+              backgroundColor: '#F2993B', 
+              color: '#060201',
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: '#F2993B'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#060201';
+              e.currentTarget.style.color = '#F2993B';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#F2993B';
+              e.currentTarget.style.color = '#060201';
+            }}
+          >
+            Venue Hire
+          </Link>
+          
+          <Link 
+            to="/priority-entry"
+            className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
+            style={{ 
+              backgroundColor: '#F2993B', 
+              color: '#060201',
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: '#F2993B'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#060201';
+              e.currentTarget.style.color = '#F2993B';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#F2993B';
+              e.currentTarget.style.color = '#060201';
+            }}
+          >
+            25+ Priority
+          </Link>
+          
+          <Link 
+            to="/birthdays-occasions"
+            className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
+            style={{ 
+              backgroundColor: '#F2993B', 
+              color: '#060201',
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: '#F2993B'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#060201';
+              e.currentTarget.style.color = '#F2993B';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#F2993B';
+              e.currentTarget.style.color = '#060201';
+            }}
+          >
+            Guest List
+          </Link>
         </div>
       </div>
       {/* Hero Section - Full Width */}
