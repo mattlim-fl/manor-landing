@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import manorLogo from "../assets/img/manor-logo.png";
@@ -205,15 +204,10 @@ const Index = () => {
                 </h1>
                 <button 
                   id="cta-step-inside" 
-                  className="btn-primary mx-auto block"
+                  className="btn-primary mx-auto block font-bold px-4 py-2 rounded-full uppercase tracking-wider text-sm transition-transform duration-150 ease-out"
                   style={{ 
-                    width: '90vw',
-                    maxWidth: '320px',
-                    backgroundColor: '#E59D50',
-                    color: '#271308',
-                    borderRadius: '999px',
-                    padding: '16px 0',
-                    transition: 'transform .15s ease'
+                    backgroundColor: '#F2993B',
+                    color: '#060201'
                   }}
                   onClick={handleStepInsideClick}
                   onMouseDown={(e) => {
