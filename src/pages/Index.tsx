@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import manorLogo from "../assets/img/manor-logo.png";
-import manorLogo2x from "../assets/img/manor-logo@2x.png";
 
 const Index = () => {
   return (
@@ -47,8 +46,7 @@ const Index = () => {
             <div className="pb-8" style={{ paddingTop: 'calc(5rem - 24px)' }}>
               <img 
                 src={manorLogo}
-                srcSet={`${manorLogo} 800w, ${manorLogo2x} 1600w`}
-                alt="Manor nightclub logo" 
+                alt="Manor nightclub logo"
                 className="hero-logo animate-fade-in"
                 loading="lazy"
                 style={{
