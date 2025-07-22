@@ -73,7 +73,12 @@ const Index = () => {
                   className="btn-primary mx-auto block"
                   style={{ 
                     width: '90vw',
-                    maxWidth: '320px'
+                    maxWidth: '320px',
+                    backgroundColor: '#E59D50',
+                    color: '#271308',
+                    borderRadius: '999px',
+                    padding: '16px 0',
+                    transition: 'transform .15s ease'
                   }}
                 >
                   Step Inside
