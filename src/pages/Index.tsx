@@ -13,9 +13,27 @@ const Index = () => {
           background: 'rgba(0,0,0,.6)',
           backdropFilter: 'blur(6px)',
           display: 'none',
-          zIndex: '999'
+          zIndex: '999',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
-      ></div>
+      >
+        <div 
+          className="menu-card"
+          style={{
+            backgroundColor: '#271308',
+            borderRadius: '8px',
+            width: '90vw',
+            maxWidth: '340px',
+            padding: '24px 0',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+            alignItems: 'center'
+          }}
+        >
+        </div>
+      </div>
       {/* Hero Section - Full Width */}
       <div className="relative min-h-screen flex flex-col">
         {/* Main Hero */}
