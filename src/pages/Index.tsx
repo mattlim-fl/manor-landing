@@ -1,7 +1,24 @@
+
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import manorLogo from "../assets/img/manor-logo.png";
 
 const Index = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleStepInsideClick = () => {
+    if ('vibrate' in navigator) {
+      navigator.vibrate(15);
+    }
+    setIsMenuOpen(true);
+  };
+
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setIsMenuOpen(false);
+    }
+  };
+
   return (
     <div className="min-h-screen text-manor-white" style={{ backgroundColor: '#2A1205' }}>
       {/* Hidden Menu Overlay */}
@@ -12,11 +29,12 @@ const Index = () => {
           inset: '0',
           background: 'rgba(0,0,0,.6)',
           backdropFilter: 'blur(6px)',
-          display: 'none',
+          display: isMenuOpen ? 'flex' : 'none',
           zIndex: '999',
           justifyContent: 'center',
           alignItems: 'center'
         }}
+        onClick={handleOverlayClick}
       >
         <div 
           className="menu-card"
@@ -197,11 +215,7 @@ const Index = () => {
                     padding: '16px 0',
                     transition: 'transform .15s ease'
                   }}
-                  onClick={() => {
-                    if ('vibrate' in navigator) {
-                      navigator.vibrate(15);
-                    }
-                  }}
+                  onClick={handleStepInsideClick}
                   onMouseDown={(e) => {
                     e.currentTarget.style.transform = 'scale(.96)';
                   }}
