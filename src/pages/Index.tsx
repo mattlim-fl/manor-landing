@@ -80,6 +80,15 @@ const Index = () => {
                     padding: '16px 0',
                     transition: 'transform .15s ease'
                   }}
+                  onMouseDown={(e) => {
+                    e.currentTarget.style.transform = 'scale(.96)';
+                  }}
+                  onMouseUp={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
                 >
                   Step Inside
                 </button>
