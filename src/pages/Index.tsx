@@ -4,6 +4,18 @@ import manorLogo from "../assets/img/manor-logo.png";
 const Index = () => {
   return (
     <div className="min-h-screen text-manor-white" style={{ backgroundColor: '#2A1205' }}>
+      {/* Hidden Menu Overlay */}
+      <div 
+        id="menu-overlay"
+        style={{
+          position: 'fixed',
+          inset: '0',
+          background: 'rgba(0,0,0,.6)',
+          backdropFilter: 'blur(6px)',
+          display: 'none',
+          zIndex: '999'
+        }}
+      ></div>
       {/* Hero Section - Full Width */}
       <div className="relative min-h-screen flex flex-col">
         {/* Main Hero */}
