@@ -80,6 +80,11 @@ const Index = () => {
                     padding: '16px 0',
                     transition: 'transform .15s ease'
                   }}
+                  onClick={() => {
+                    if ('vibrate' in navigator) {
+                      navigator.vibrate(15);
+                    }
+                  }}
                   onMouseDown={(e) => {
                     e.currentTarget.style.transform = 'scale(.96)';
                   }}
