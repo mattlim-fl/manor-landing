@@ -68,6 +68,16 @@ const Index = () => {
                 >
                   Leederville
                 </h1>
+                <button 
+                  id="cta-step-inside" 
+                  className="btn-primary mx-auto block"
+                  style={{ 
+                    width: '90vw',
+                    maxWidth: '320px'
+                  }}
+                >
+                  Step Inside
+                </button>
               </div>
             </div>
           </div>
