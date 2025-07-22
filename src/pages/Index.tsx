@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import manorLogo from "../assets/img/manor-logo.png";
+import manorLogo2x from "../assets/img/manor-logo@2x.png";
 
 const Index = () => {
   return (
@@ -42,12 +44,24 @@ const Index = () => {
           
           {/* Content */}
           <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 z-10">
-            <div className="pt-20 pb-8">
-              <h1 className="manor-heading text-6xl md:text-8xl lg:text-9xl mb-6 animate-fade-in" style={{ color: '#E14116' }}>
-                MANOR
-              </h1>
+            <div className="pb-8" style={{ paddingTop: 'calc(5rem - 24px)' }}>
+              <img 
+                src={manorLogo}
+                srcSet={`${manorLogo} 800w, ${manorLogo2x} 1600w`}
+                alt="Manor nightclub logo" 
+                className="hero-logo animate-fade-in"
+                loading="lazy"
+                style={{
+                  display: 'block',
+                  width: '70vw',
+                  maxWidth: '260px',
+                  height: 'auto',
+                  margin: '0 auto 16px',
+                  filter: 'drop-shadow(0 2px 4px rgba(0,0,0,.4))'
+                }}
+              />
               <div className="space-y-4 mb-12 animate-fade-in">
-                <div 
+                <h1 
                   className="inline-block font-bold px-4 py-2 rounded-full uppercase tracking-wider text-sm"
                   style={{ 
                     backgroundColor: '#F2993B', 
@@ -55,7 +69,7 @@ const Index = () => {
                   }}
                 >
                   Leederville
-                </div>
+                </h1>
               </div>
             </div>
           </div>
