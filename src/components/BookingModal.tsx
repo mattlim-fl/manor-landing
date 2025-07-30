@@ -39,12 +39,22 @@ const BookingModal: React.FC<BookingModalProps> = ({
     if (isOpen) {
       document.addEventListener('gm-booking-success', handleBookingSuccess as EventListener);
       
-      // Reinitialize GM widgets when modal opens
-      setTimeout(() => {
-        if (window.GMBookingWidget && window.GMBookingWidget.init) {
-          window.GMBookingWidget.init();
+      // Reinitialize GM widgets when modal opens - with proper error handling
+      const initializeWidget = () => {
+        const widgetContainer = document.querySelector('[data-gm-widget="booking"]');
+        if (widgetContainer && window.GMBookingWidget && window.GMBookingWidget.init) {
+          try {
+            window.GMBookingWidget.init();
+          } catch (error) {
+            console.log('Widget initialization error:', error);
+          }
         }
-      }, 100);
+      };
+      
+      // Try multiple times with increasing delays to ensure DOM is ready
+      setTimeout(initializeWidget, 100);
+      setTimeout(initializeWidget, 500);
+      setTimeout(initializeWidget, 1000);
     }
     
     return () => {
@@ -76,6 +86,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
         {/* GM Booking Widget */}
         <div className="p-6 bg-background">
           <div 
+            id="gm-booking-widget-container"
             data-gm-widget="booking"
             data-venue={venue}
             data-venue-area={venueArea}
