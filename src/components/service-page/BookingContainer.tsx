@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import WhatsAppButton from '../WhatsAppButton';
 
 interface BookingContainerProps {
@@ -7,14 +7,36 @@ interface BookingContainerProps {
   showBooking: boolean;
   whatsappNumber?: string;
   whatsappMessage?: string;
+  venue?: 'manor' | 'hippie' | 'both';
+  venueArea?: 'upstairs' | 'downstairs' | 'full_venue';
+  theme?: 'light' | 'dark';
+  primaryColor?: string;
 }
 
 const BookingContainer: React.FC<BookingContainerProps> = ({
   bookingUrl,
   showBooking,
   whatsappNumber,
-  whatsappMessage
+  whatsappMessage,
+  venue = 'manor',
+  venueArea,
+  theme = 'light',
+  primaryColor
 }) => {
+  // Add success tracking for booking widget
+  useEffect(() => {
+    const handleBookingSuccess = (event: CustomEvent) => {
+      console.log('Booking successful:', event.detail.bookingId);
+      alert('Thank you for your booking! We\'ll contact you within 24 hours.');
+    };
+
+    document.addEventListener('gm-booking-success', handleBookingSuccess as EventListener);
+    
+    return () => {
+      document.removeEventListener('gm-booking-success', handleBookingSuccess as EventListener);
+    };
+  }, []);
+
   if (!showBooking) return null;
 
   return (
@@ -39,15 +61,17 @@ const BookingContainer: React.FC<BookingContainerProps> = ({
           </div>
         )}
         
-        {/* Booking Form */}
-        <iframe
-          src={bookingUrl}
-          width="100%"
-          height="800"
-          frameBorder="0"
-          className="w-full"
-          title="Booking Form"
-        />
+        {/* GM Booking Widget */}
+        <div className="p-6">
+          <div 
+            data-gm-widget="booking"
+            data-venue={venue}
+            data-venue-area={venueArea}
+            data-theme={theme}
+            data-primary-color={primaryColor}
+            data-show-special-requests="true"
+          />
+        </div>
       </div>
     </div>
   );

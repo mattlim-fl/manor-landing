@@ -29,6 +29,10 @@ interface ServicePageProps {
   bookingUrl: string;
   whatsappNumber?: string;
   whatsappMessage?: string;
+  venue?: 'manor' | 'hippie' | 'both';
+  venueArea?: 'upstairs' | 'downstairs' | 'full_venue';
+  theme?: 'light' | 'dark';
+  primaryColor?: string;
   showSectionsAfterOverview?: boolean;
   showNewsletterSection?: boolean;
 }
@@ -42,6 +46,10 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   bookingUrl,
   whatsappNumber,
   whatsappMessage,
+  venue,
+  venueArea,
+  theme,
+  primaryColor,
   showSectionsAfterOverview = true,
   showNewsletterSection = true
 }) => {
@@ -92,6 +100,10 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
               showBooking={showBooking}
               whatsappNumber={whatsappNumber}
               whatsappMessage={whatsappMessage}
+              venue={venue}
+              venueArea={venueArea}
+              theme={theme}
+              primaryColor={primaryColor}
             />
 
             {greatForCards.length > 0 && <GreatForSection greatForCards={greatForCards} />}

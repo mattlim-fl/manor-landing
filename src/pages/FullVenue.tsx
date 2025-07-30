@@ -30,6 +30,9 @@ const FullVenue = () => {
       accordionItems={accordionItems}
       greatForCards={[]}
       bookingUrl="https://hippieclub.simplybook.net/v2/#book/service/2"
+      venue="manor"
+      venueArea="full_venue"
+      theme="light"
       showSectionsAfterOverview={false}
     />
   );
