@@ -39,11 +39,18 @@ const BookingModal: React.FC<BookingModalProps> = ({
     if (isOpen) {
       document.addEventListener('gm-booking-success', handleBookingSuccess as EventListener);
       
-      // Reinitialize GM widgets when modal opens - with proper error handling
+      // Ensure document.body is ready before widget initialization
       const initializeWidget = () => {
+        if (!document.body) {
+          // If body isn't ready, wait longer
+          setTimeout(initializeWidget, 200);
+          return;
+        }
+        
         const widgetContainer = document.querySelector('[data-gm-widget="booking"]');
         if (widgetContainer && window.GMBookingWidget && window.GMBookingWidget.init) {
           try {
+            console.log('Initializing GM widget...');
             window.GMBookingWidget.init();
           } catch (error) {
             console.log('Widget initialization error:', error);
@@ -51,10 +58,8 @@ const BookingModal: React.FC<BookingModalProps> = ({
         }
       };
       
-      // Try multiple times with increasing delays to ensure DOM is ready
-      setTimeout(initializeWidget, 100);
-      setTimeout(initializeWidget, 500);
-      setTimeout(initializeWidget, 1000);
+      // Wait for modal to be fully rendered
+      setTimeout(initializeWidget, 300);
     }
     
     return () => {
