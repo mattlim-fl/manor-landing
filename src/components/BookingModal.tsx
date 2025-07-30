@@ -2,6 +2,15 @@ import React, { useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from './ui/dialog';
 import { X } from 'lucide-react';
 
+// Extend window type for GM Widget
+declare global {
+  interface Window {
+    GMBookingWidget?: {
+      init: () => void;
+    };
+  }
+}
+
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -19,7 +28,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
   theme = 'light',
   primaryColor
 }) => {
-  // Add success tracking for booking widget
+  // Add success tracking for booking widget and initialize when modal opens
   useEffect(() => {
     const handleBookingSuccess = (event: CustomEvent) => {
       console.log('Booking successful:', event.detail.bookingId);
@@ -29,6 +38,13 @@ const BookingModal: React.FC<BookingModalProps> = ({
 
     if (isOpen) {
       document.addEventListener('gm-booking-success', handleBookingSuccess as EventListener);
+      
+      // Reinitialize GM widgets when modal opens
+      setTimeout(() => {
+        if (window.GMBookingWidget && window.GMBookingWidget.init) {
+          window.GMBookingWidget.init();
+        }
+      }, 100);
     }
     
     return () => {
