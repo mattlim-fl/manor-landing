@@ -94,7 +94,7 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
               whatsappMessage={whatsappMessage}
             />
 
-            <GreatForSection greatForCards={greatForCards} />
+            {greatForCards.length > 0 && <GreatForSection greatForCards={greatForCards} />}
 
             {showNewsletterSection && <NewsletterSection />}
           </>
