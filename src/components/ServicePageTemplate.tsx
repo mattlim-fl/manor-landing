@@ -98,8 +98,6 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
             <BookingContainer 
               bookingUrl={bookingUrl}
               showBooking={showBooking}
-              whatsappNumber={whatsappNumber}
-              whatsappMessage={whatsappMessage}
               venue={venue}
               venueArea={venueArea}
               theme={theme}

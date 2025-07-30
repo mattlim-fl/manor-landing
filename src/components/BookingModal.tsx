@@ -66,7 +66,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
             data-theme={theme}
             data-primary-color={primaryColor}
             data-show-special-requests="true"
-            className="min-h-[400px]"
+            className="min-h-[500px] w-full"
           />
         </div>
       </DialogContent>
