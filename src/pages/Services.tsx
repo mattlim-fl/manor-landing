@@ -244,8 +244,6 @@ const Services = () => {
         venue={selectedVenue.venue}
         venueArea={selectedVenue.venueArea}
         theme="light"
-        whatsappNumber="61412345678"
-        whatsappMessage="Hi! I'd like to discuss venue hire at Manor. Could you please help me with availability and pricing?"
       />
     </div>
   );
