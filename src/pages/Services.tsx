@@ -1,7 +1,20 @@
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
+import BookingModal from "../components/BookingModal";
 
 const Services = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedVenue, setSelectedVenue] = useState<{
+    venue: 'manor';
+    venueArea: 'upstairs' | 'downstairs' | 'full_venue';
+  }>({ venue: 'manor', venueArea: 'downstairs' });
+
+  const openBookingModal = (venueArea: 'upstairs' | 'downstairs' | 'full_venue') => {
+    setSelectedVenue({ venue: 'manor', venueArea });
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen text-manor-white" style={{ backgroundColor: '#2A1205' }}>
       <Header />
@@ -39,8 +52,8 @@ const Services = () => {
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
-                  <Link 
-                    to="/downstairs#booking-container"
+                  <button 
+                    onClick={() => openBookingModal('downstairs')}
                     className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
                     style={{ 
                       backgroundColor: '#F2993B', 
@@ -59,7 +72,7 @@ const Services = () => {
                     }}
                   >
                     ENQUIRE
-                  </Link>
+                  </button>
                   <Link 
                     to="/downstairs"
                     className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
@@ -107,8 +120,8 @@ const Services = () => {
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
-                  <Link 
-                    to="/upstairs#booking-container"
+                  <button 
+                    onClick={() => openBookingModal('upstairs')}
                     className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
                     style={{ 
                       backgroundColor: '#F2993B', 
@@ -127,7 +140,7 @@ const Services = () => {
                     }}
                   >
                     ENQUIRE
-                  </Link>
+                  </button>
                   <Link 
                     to="/upstairs"
                     className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
@@ -175,8 +188,8 @@ const Services = () => {
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
-                  <Link 
-                    to="/full-venue#booking-container"
+                  <button 
+                    onClick={() => openBookingModal('full_venue')}
                     className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
                     style={{ 
                       backgroundColor: '#F2993B', 
@@ -195,7 +208,7 @@ const Services = () => {
                     }}
                   >
                     ENQUIRE
-                  </Link>
+                  </button>
                   <Link 
                     to="/full-venue"
                     className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
@@ -223,6 +236,17 @@ const Services = () => {
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        venue={selectedVenue.venue}
+        venueArea={selectedVenue.venueArea}
+        theme="light"
+        whatsappNumber="61412345678"
+        whatsappMessage="Hi! I'd like to discuss venue hire at Manor. Could you please help me with availability and pricing?"
+      />
     </div>
   );
 };
