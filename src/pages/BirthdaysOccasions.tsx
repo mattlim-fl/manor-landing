@@ -37,6 +37,7 @@ const BirthdaysOccasions = () => {
       bookingUrl={bookingUrl}
       whatsappNumber={whatsappNumber}
       whatsappMessage={whatsappMessage}
+      showNewsletterSection={false}
     />
   );
 };

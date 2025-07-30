@@ -30,6 +30,7 @@ interface ServicePageProps {
   whatsappNumber?: string;
   whatsappMessage?: string;
   showSectionsAfterOverview?: boolean;
+  showNewsletterSection?: boolean;
 }
 
 const ServicePageTemplate: React.FC<ServicePageProps> = ({
@@ -41,7 +42,8 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   bookingUrl,
   whatsappNumber,
   whatsappMessage,
-  showSectionsAfterOverview = true
+  showSectionsAfterOverview = true,
+  showNewsletterSection = true
 }) => {
   const [showBooking, setShowBooking] = useState(false);
   const location = useLocation();
@@ -94,7 +96,7 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
 
             <GreatForSection greatForCards={greatForCards} />
 
-            <NewsletterSection />
+            {showNewsletterSection && <NewsletterSection />}
           </>
         )}
       </div>
