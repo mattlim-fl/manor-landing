@@ -21,23 +21,7 @@ const BirthdaysOccasions = () => {
     }
   ];
 
-  const greatForCards = [
-    {
-      title: 'Milestone Birthdays',
-      description: 'Celebrate your 21st, 30th, 40th or any milestone birthday in style.',
-      image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      title: 'Graduation Parties',
-      description: 'Mark your academic achievements with friends and family.',
-      image: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      title: 'Anniversary Celebrations',
-      description: 'Romantic settings for couples celebrating relationship milestones.',
-      image: 'https://images.unsplash.com/photo-1516997121675-4c2d1684aa7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    }
-  ];
+  const greatForCards = [];
 
   const bookingUrl = 'https://hippieclub.simplybook.net/v2/#book';
   const whatsappNumber = '61412345678'; // Replace with Manor's actual WhatsApp business number
