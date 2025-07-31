@@ -98,24 +98,8 @@ const BookingModal: React.FC<BookingModalProps> = ({
             data-theme={theme}
             data-primary-color={primaryColor}
             data-show-special-requests="true"
-            className="min-h-[500px] w-full pointer-events-auto relative z-10"
-            style={{
-              pointerEvents: 'auto',
-              isolation: 'isolate',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'flex-start'
-            }}
-          >
-            <style>{`
-              #gm-booking-widget-container form,
-              #gm-booking-widget-container .booking-form,
-              #gm-booking-widget-container > div {
-                width: 100% !important;
-                max-width: 100% !important;
-              }
-            `}</style>
-          </div>
+            className="size-full min-h-[500px] w-full pointer-events-auto"
+          />
         </div>
       </DialogContent>
     </Dialog>

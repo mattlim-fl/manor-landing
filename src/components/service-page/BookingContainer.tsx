@@ -46,7 +46,7 @@ const BookingContainer: React.FC<BookingContainerProps> = ({
             data-theme={theme}
             data-primary-color={primaryColor}
             data-show-special-requests="true"
-            className="min-h-[500px] w-full"
+            className="size-large min-h-[500px] w-full"
           />
         </div>
       </div>
