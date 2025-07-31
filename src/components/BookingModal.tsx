@@ -8,6 +8,13 @@ declare global {
     GMBookingWidget?: {
       init: () => void;
     };
+    GMBookingModal?: (options: {
+      venue: string;
+      venueArea?: string;
+      theme?: string;
+      primaryColor?: string;
+      showSpecialRequests?: boolean;
+    }) => void;
   }
 }
 
@@ -28,7 +35,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
   theme = 'light',
   primaryColor
 }) => {
-  // Add success tracking for booking widget and initialize when modal opens
+  // Use the new GMBookingModal function when modal opens
   useEffect(() => {
     const handleBookingSuccess = (event: CustomEvent) => {
       console.log('Booking successful:', event.detail.bookingId);
@@ -39,71 +46,38 @@ const BookingModal: React.FC<BookingModalProps> = ({
     if (isOpen) {
       document.addEventListener('gm-booking-success', handleBookingSuccess as EventListener);
       
-      // Ensure document.body is ready before widget initialization
-      const initializeWidget = () => {
-        if (!document.body) {
-          // If body isn't ready, wait longer
-          setTimeout(initializeWidget, 200);
-          return;
-        }
-        
-        const widgetContainer = document.querySelector('[data-gm-widget="booking"]');
-        if (widgetContainer && window.GMBookingWidget && window.GMBookingWidget.init) {
+      // Open the GM modal instead of rendering inline widget
+      const openGMModal = () => {
+        if (window.GMBookingModal) {
           try {
-            console.log('Initializing GM widget...');
-            window.GMBookingWidget.init();
+            console.log('Opening GM modal...');
+            window.GMBookingModal({
+              venue,
+              venueArea: venueArea ? venueArea.replace('_', '_') : undefined,
+              theme,
+              primaryColor,
+              showSpecialRequests: true
+            });
+            // Close our React modal since GM modal will handle everything
+            onClose();
           } catch (error) {
-            console.log('Widget initialization error:', error);
+            console.log('GM Modal error:', error);
           }
         }
       };
       
-      // Wait for modal to be fully rendered
-      setTimeout(initializeWidget, 300);
+      // Small delay to ensure GM widget is loaded
+      setTimeout(openGMModal, 100);
     }
     
     return () => {
       document.removeEventListener('gm-booking-success', handleBookingSuccess as EventListener);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, venue, venueArea, theme, primaryColor]);
 
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
-        <DialogTitle className="sr-only">Book Your Venue</DialogTitle>
-        <DialogDescription className="sr-only">
-          Complete the booking form to reserve your venue
-        </DialogDescription>
-        
-        {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b bg-background">
-          <h2 className="text-2xl font-bold text-foreground">
-            Book Your Venue
-          </h2>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-muted rounded-full transition-colors"
-          >
-            <X className="h-6 w-6 text-muted-foreground" />
-          </button>
-        </div>
-
-        {/* GM Booking Widget */}
-        <div className="p-6 bg-background">
-        <div 
-            id="gm-booking-widget-container"
-            data-gm-widget="booking"
-            data-venue={venue}
-            data-venue-area={venueArea}
-            data-theme={theme}
-            data-primary-color={primaryColor}
-            data-show-special-requests="true"
-            className="size-full min-h-[500px] w-full pointer-events-auto"
-          />
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
+  // Since we're using GMBookingModal directly, we don't need to render content
+  // The modal will close immediately and open the GM modal
+  return null;
 };
 
 export default BookingModal;
