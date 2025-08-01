@@ -92,8 +92,8 @@
       return venues;
     } catch (error) {
       console.error('Failed to fetch venue config:', error);
-      // Return fallback data
-      return [
+      // Return fallback data and ensure it's cached
+      const fallbackVenues = [
         { id: "manor", name: "Manor", areas: [
           { id: "upstairs", name: "Upstairs", capacity: 50 },
           { id: "downstairs", name: "Downstairs", capacity: 30 },
@@ -105,6 +105,13 @@
           { id: "full_venue", name: "Full Venue", capacity: 65 }
         ]}
       ];
+      
+      // Cache the fallback data
+      venueConfig = fallbackVenues;
+      dataCache.venueConfig = fallbackVenues;
+      dataCache.lastUpdated = Date.now();
+      
+      return fallbackVenues;
     }
   }
 
@@ -175,8 +182,9 @@
   }
 
   async function initializeWidgetData() {
-    if (!isCacheValid()) {
-      await fetchVenueConfig();
+    if (!isCacheValid() || !venueConfig) {
+      const venues = await fetchVenueConfig();
+      venueConfig = venues; // Ensure venueConfig is always set
     }
   }
 
@@ -1092,6 +1100,30 @@
     if (modal) {
       modal.remove();
     }
+  };
+
+  // Venue Hire booking function
+  window.GMVenueHireModal = function(config = {}) {
+    const defaultConfig = {
+      ...window.GMBookingWidgetConfig,
+      bookingType: 'venue_hire',
+      venue: 'both',
+      theme: 'light',
+      showSpecialRequests: true,
+      ...config
+    };
+    
+    return initModalWidget(defaultConfig);
+  };
+
+  // Make venue hire function available globally
+  window.openVenueHireModal = function() {
+    return window.GMVenueHireModal({
+      venue: 'both',
+      theme: 'light',
+      bookingType: 'venue_hire',
+      showSpecialRequests: true
+    });
   };
 
   // Auto-initialize widgets on page load

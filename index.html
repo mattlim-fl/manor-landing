@@ -64,10 +64,21 @@
           });
       }
       
+      // Venue Hire booking (general venue hire)
+      function openVenueHireModal() {
+          GMBookingModal({
+              venue: 'both',              // Shows Manor and Hippie options
+              theme: 'light',
+              bookingType: 'venue_hire',  // Important: This enables venue hire mode
+              showSpecialRequests: true
+          });
+      }
+
       // Make functions globally available
       window.openVIPModal = openVIPModal;
       window.openManorVIPModal = openManorVIPModal;
       window.openHippieVIPModal = openHippieVIPModal;
+      window.openVenueHireModal = openVenueHireModal;
     </script>
   </body>
 </html>

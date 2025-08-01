@@ -53,9 +53,10 @@ const BookingModal: React.FC<BookingModalProps> = ({
             console.log('Opening GM modal...');
             window.GMBookingModal({
               venue,
-              venueArea: venueArea ? venueArea.replace('_', '_') : undefined,
+              venueArea: venueArea,
               theme,
               primaryColor,
+              bookingType: 'venue_hire', // Important: This enables venue hire mode
               showSpecialRequests: true
             });
             // Close our React modal since GM modal will handle everything
