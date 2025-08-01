@@ -2,6 +2,15 @@
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
+// Declare global functions for VIP booking
+declare global {
+  interface Window {
+    openVIPModal: () => void;
+    openManorVIPModal: () => void;
+    openHippieVIPModal: () => void;
+  }
+}
+
 const VipTables = () => {
   const accordionItems = [
     {
@@ -41,14 +50,47 @@ const VipTables = () => {
   ];
 
   return (
-    <ServicePageTemplate
-      heroImage="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
-      heroTitle="VIP TABLES"
-      description="Premium table service with dedicated waitstaff and prime location on the dancefloor. Includes reserved seating and bottle service options for groups of 2-12 people."
-      accordionItems={accordionItems}
-      greatForCards={greatForCards}
-      bookingUrl="https://manor.simplybook.me/vip-tables"
-    />
+    <div className="min-h-screen bg-gray-900 text-white">
+      <ServicePageTemplate
+        heroImage="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
+        heroTitle="VIP TABLES"
+        description="Premium table service with dedicated waitstaff and prime location on the dancefloor. Includes reserved seating and bottle service options for groups of 2-12 people."
+        accordionItems={accordionItems}
+        greatForCards={greatForCards}
+        bookingUrl="#"
+      />
+      
+      {/* VIP Booking Buttons Section */}
+      <div className="bg-gray-800 py-16">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-8 text-orange-400">Book VIP Tickets</h2>
+          <p className="text-gray-300 mb-8">Experience our exclusive VIP Saturday nights with premium service!</p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button 
+              onClick={() => window.openVIPModal?.()}
+              className="vip-button px-8 py-4 text-lg font-semibold"
+            >
+              Book VIP Tickets (Choose Venue)
+            </button>
+            
+            <button 
+              onClick={() => window.openManorVIPModal?.()}
+              className="vip-button px-8 py-4 text-lg font-semibold"
+            >
+              Book Manor VIP
+            </button>
+            
+            <button 
+              onClick={() => window.openHippieVIPModal?.()}
+              className="vip-button px-8 py-4 text-lg font-semibold"
+            >
+              Book Hippie VIP
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

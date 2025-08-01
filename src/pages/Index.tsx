@@ -2,6 +2,15 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import manorLogo from "../assets/img/manor-logo.png";
 
+// Declare global functions for VIP booking
+declare global {
+  interface Window {
+    openVIPModal: () => void;
+    openManorVIPModal: () => void;
+    openHippieVIPModal: () => void;
+  }
+}
+
 const Index = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -136,6 +145,31 @@ const Index = () => {
           >
             Guest List
           </Link>
+          
+          <button 
+            onClick={() => {
+              setIsMenuOpen(false);
+              setTimeout(() => window.openVIPModal?.(), 100);
+            }}
+            className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
+            style={{ 
+              backgroundColor: '#ff6b35', 
+              color: '#FFFFFF',
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: '#ff6b35'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#060201';
+              e.currentTarget.style.color = '#ff6b35';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#ff6b35';
+              e.currentTarget.style.color = '#FFFFFF';
+            }}
+          >
+            VIP Entry
+          </button>
         </div>
       </div>
       {/* Hero Section - Full Width */}

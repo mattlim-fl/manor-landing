@@ -18,13 +18,56 @@
     <meta name="twitter:site" content="@manor_perth" />
     <meta name="twitter:image" content="https://i.postimg.cc/yYZvJhgx/9e4ddb40-3269-46ab-b733-0ee7b2d84696.png" />
     
-    <!-- GM Booking Widget -->
-    <link rel="stylesheet" href="https://booking-widget.getproductbox.com/widget.css">
-    <script src="https://booking-widget.getproductbox.com/gm-booking-widget-standalone.js"></script>
+    <!-- VIP Booking Widget Files -->
+    <link rel="stylesheet" href="/widget.css">
+    <script src="/gm-booking-widget-standalone.js"></script>
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <script>
+      // ===== VIP TICKET BOOKING FUNCTIONS =====
+      
+      // General VIP booking (user chooses venue)
+      function openVIPModal() {
+          GMBookingModal({
+              venue: 'both',              // Shows Manor and Hippie options
+              theme: 'light',             // or 'dark' to match your site
+              bookingType: 'vip_tickets', // Important: This enables VIP mode
+              showSpecialRequests: true   // Allow special requests field
+          });
+      }
+      
+      // Manor VIP booking (pre-configured)
+      function openManorVIPModal() {
+          GMBookingModal({
+              preConfig: {
+                  venue: 'manor',
+                  bookingType: 'vip_tickets'
+              },
+              theme: 'light',
+              showSpecialRequests: true
+          });
+      }
+      
+      // Hippie VIP booking (pre-configured)
+      function openHippieVIPModal() {
+          GMBookingModal({
+              preConfig: {
+                  venue: 'hippie',
+                  bookingType: 'vip_tickets'
+              },
+              theme: 'light',
+              showSpecialRequests: true
+          });
+      }
+      
+      // Make functions globally available
+      window.openVIPModal = openVIPModal;
+      window.openManorVIPModal = openManorVIPModal;
+      window.openHippieVIPModal = openHippieVIPModal;
+    </script>
   </body>
 </html>

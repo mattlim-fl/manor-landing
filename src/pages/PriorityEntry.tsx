@@ -2,6 +2,15 @@
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 
+// Declare global functions for VIP booking
+declare global {
+  interface Window {
+    openVIPModal: () => void;
+    openManorVIPModal: () => void;
+    openHippieVIPModal: () => void;
+  }
+}
+
 const PriorityEntry = () => {
   return (
     <div className="min-h-screen text-manor-white" style={{ backgroundColor: '#2A1205' }}>
@@ -20,11 +29,9 @@ const PriorityEntry = () => {
           </h1>
           
           <div className="mb-12 animate-fade-in">
-            <Link 
-              to="https://hippieclub.simplybook.net/v2/#book"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold px-8 py-4 rounded-full uppercase tracking-wider transition-all duration-300 text-sm inline-block"
+            <button 
+              onClick={() => window.openVIPModal?.()}
+              className="font-bold px-8 py-4 rounded-full uppercase tracking-wider transition-all duration-300 text-sm inline-block cursor-pointer"
               style={{ 
                 backgroundColor: '#F2993B', 
                 color: '#060201',
@@ -41,8 +48,8 @@ const PriorityEntry = () => {
                 e.currentTarget.style.color = '#060201';
               }}
             >
-              BOOK NOW
-            </Link>
+              BOOK VIP ENTRY
+            </button>
           </div>
           
           <div className="max-w-2xl mx-auto text-center animate-fade-in">
