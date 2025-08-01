@@ -92,26 +92,13 @@
       return venues;
     } catch (error) {
       console.error('Failed to fetch venue config:', error);
-      // Return fallback data and ensure it's cached
-      const fallbackVenues = [
-        { id: "manor", name: "Manor", areas: [
-          { id: "upstairs", name: "Upstairs", capacity: 50 },
-          { id: "downstairs", name: "Downstairs", capacity: 30 },
-          { id: "full_venue", name: "Full Venue", capacity: 80 }
-        ]},
-        { id: "hippie", name: "Hippie", areas: [
-          { id: "upstairs", name: "Upstairs", capacity: 40 },
-          { id: "downstairs", name: "Downstairs", capacity: 25 },
-          { id: "full_venue", name: "Full Venue", capacity: 65 }
-        ]}
-      ];
-      
-      // Cache the fallback data
-      venueConfig = fallbackVenues;
-      dataCache.venueConfig = fallbackVenues;
-      dataCache.lastUpdated = Date.now();
-      
-      return fallbackVenues;
+      console.error('API Error Details:', {
+        url: `${window.GMBookingWidgetConfig.apiEndpoint}/venue-config-api`,
+        error: error.message,
+        stack: error.stack
+      });
+      // Return empty array to expose the API issue
+      return [];
     }
   }
 
@@ -182,9 +169,14 @@
   }
 
   async function initializeWidgetData() {
-    if (!isCacheValid() || !venueConfig) {
+    if (!isCacheValid()) {
       const venues = await fetchVenueConfig();
-      venueConfig = venues; // Ensure venueConfig is always set
+      if (!venues || venues.length === 0) {
+        console.error('❌ CRITICAL: No venue data available! Check venue-config-api endpoint.');
+        console.error('🔧 API Endpoint:', `${window.GMBookingWidgetConfig.apiEndpoint}/venue-config-api`);
+        console.error('🔑 API Key configured:', !!window.GMBookingWidgetConfig.apiKey);
+        throw new Error('Failed to load venue configuration. Cannot initialize booking widget.');
+      }
     }
   }
 
@@ -279,6 +271,16 @@
     `;
   }
 
+  /**
+   * Creates the modal overlay structure without form content
+   * 
+   * IMPORTANT: This creates a clean modal structure where form content
+   * is inserted directly into .gm-booking-modal-content after the header.
+   * This ensures CSS selectors like ".gm-booking-modal-content .form-row" work correctly.
+   * 
+   * @param {Object} config - Widget configuration
+   * @returns {HTMLElement} - The modal element
+   */
   function createModalOverlay(config) {
     // Remove existing modal if present
     const existingModal = document.getElementById('gm-booking-modal');
@@ -286,19 +288,36 @@
       existingModal.remove();
     }
 
+    // Generate specific modal title based on venue and booking type
+    let modalTitle = 'Book Your Experience';
+    
+    if (config.bookingType === 'vip_tickets') {
+      if (config.venue === 'manor') {
+        modalTitle = 'Book Manor VIP Tickets';
+      } else if (config.venue === 'hippie') {
+        modalTitle = 'Book Hippie VIP Tickets';
+      } else {
+        modalTitle = 'Book VIP Tickets';
+      }
+    } else {
+      // Venue hire booking
+      if (config.venue === 'manor') {
+        modalTitle = 'Book Manor Venue';
+      } else if (config.venue === 'hippie') {
+        modalTitle = 'Book Hippie Venue';
+      } else {
+        modalTitle = 'Book Your Venue';
+      }
+    }
+
     const modalHTML = `
       <div id="gm-booking-modal" class="gm-booking-modal-overlay">
-        <div class="gm-booking-modal-backdrop"></div>
-        <div class="gm-booking-modal-container">
-          <div class="gm-booking-modal-content ${config.theme === 'dark' ? 'dark' : ''} ${config.bookingType === 'vip_tickets' ? 'vip-modal' : ''}">
-            <div class="modal-header">
-              <h2 class="modal-title">${config.bookingType === 'vip_tickets' ? 'Book VIP Tickets' : 'Book Your Venue'}</h2>
-              <button class="modal-close" onclick="closeBookingModal()">&times;</button>
-            </div>
-            <div class="widget-form">
-              <!-- Form content will be populated by createWidgetHTML -->
-            </div>
+        <div class="gm-booking-modal-content">
+          <div class="gm-booking-modal-header">
+            <h2 class="gm-booking-modal-title">${modalTitle}</h2>
+            <button class="gm-booking-modal-close" onclick="closeBookingModal()">&times;</button>
           </div>
+          <!-- Form content will be inserted directly here -->
         </div>
       </div>
     `;
@@ -306,179 +325,167 @@
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
     // Add backdrop click handler
-    const backdrop = document.querySelector('.gm-booking-modal-backdrop');
-    backdrop.addEventListener('click', closeBookingModal);
+    const modal = document.getElementById('gm-booking-modal');
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeBookingModal();
+      }
+    });
 
     return document.getElementById('gm-booking-modal');
   }
 
+  /**
+   * Creates form HTML for modal insertion (SIMPLIFIED)
+   * 
+   * @param {Object} config - Widget configuration
+   * @returns {string} - Form HTML string
+   */
   function createModalFormHTML(config) {
     const isVIPBooking = config.bookingType === 'vip_tickets';
-    
-    // Get available venues from dynamic data
-    let availableVenues = venueConfig || [];
-    
-    if (config.venue !== 'both' && config.venue) {
-      availableVenues = availableVenues.filter(v => v.id === config.venue);
-    }
+    const availableVenues = (venueConfig || []).filter(v => 
+      !config.venue || config.venue === 'both' || v.id === config.venue
+    );
 
-    // VIP Tickets form fields (using direct modal approach that works)
+    return `
+      <form id="gm-booking-form" class="gm-booking-modal-form">
+        ${generateCustomerFields()}
+        ${generateBookingFields(config, availableVenues, isVIPBooking)}
+        ${config.showSpecialRequests ? generateSpecialRequestsField(isVIPBooking) : ''}
+        ${generateSubmitButton(isVIPBooking)}
+        <div id="widget-status" class="status-container"></div>
+      </form>
+    `;
+  }
+
+  // Helper functions to reduce duplication
+  function generateCustomerFields() {
+    return `
+      <div class="form-group">
+        <label class="form-label">Customer Name *</label>
+        <input type="text" name="customerName" class="form-input" placeholder="Enter your name" required>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" name="customerEmail" class="form-input" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="tel" name="customerPhone" class="form-input" placeholder="+44 123 456 7890">
+        </div>
+      </div>
+    `;
+  }
+
+  function generateBookingFields(config, availableVenues, isVIPBooking) {
     if (isVIPBooking) {
       return `
-        <form id="gm-booking-form" class="direct-modal-form">
-          <div class="form-group">
-            <label class="form-label">Customer Name *</label>
-            <input type="text" name="customerName" class="form-input" placeholder="Enter your name" required>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Email</label>
-              <input type="email" name="customerEmail" class="form-input" placeholder="your@email.com">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Phone</label>
-              <input type="tel" name="customerPhone" class="form-input" placeholder="+44 123 456 7890">
-            </div>
-          </div>
-          
-          ${!config.venue || config.venue === 'both' ? `
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">Venue *</label>
-                <select name="venue" class="form-select" required>
-                  <option value="">Select venue</option>
-                  ${availableVenues.map(venue => 
-                    `<option value="${venue.id}">${venue.name}</option>`
-                  ).join('')}
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Booking Date *</label>
-                <input type="date" name="bookingDate" class="form-input vip-date-picker" required>
-              </div>
-            </div>
-          ` : `
-            <div class="form-group">
-              <label class="form-label">Booking Date *</label>
-              <input type="date" name="bookingDate" class="form-input vip-date-picker" required>
-            </div>
-          `}
-          
-          <small style="color: #666; margin-bottom: 24px; display: block;">VIP tickets are only available on Saturdays</small>
-          
-          <div class="form-group">
-            <label class="form-label">Number of Tickets *</label>
-            <input type="number" name="ticketQuantity" class="form-input" min="1" max="100" placeholder="e.g. 4" required>
-          </div>
-          
-          ${config.showSpecialRequests ? `
-            <div class="form-group">
-              <label class="form-label">Special Requests</label>
-              <textarea name="specialRequests" class="form-textarea" placeholder="VIP table request, dietary requirements..." rows="3"></textarea>
-            </div>
-          ` : ''}
-          
-          <button type="submit" class="submit-button">
-            <span class="button-text">Book VIP Tickets</span>
-            <span class="loading-spinner" style="display: none;">⏳</span>
-          </button>
-          
-          <div id="widget-status" class="status-container"></div>
-        </form>
-      `;
-    }
-
-    // Venue Hire form fields (using direct modal approach that works)
-    return `
-      <form id="gm-booking-form" class="direct-modal-form">
-        <div class="form-group">
-          <label class="form-label">Customer Name *</label>
-          <input type="text" name="customerName" class="form-input" placeholder="Enter your name" required>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" name="customerEmail" class="form-input" placeholder="your@email.com">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Phone</label>
-            <input type="tel" name="customerPhone" class="form-input" placeholder="+44 123 456 7890">
-          </div>
-        </div>
-        
         ${!config.venue || config.venue === 'both' ? `
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Venue *</label>
               <select name="venue" class="form-select" required>
                 <option value="">Select venue</option>
-                ${availableVenues.map(venue => 
-                  `<option value="${venue.id}">${venue.name}</option>`
-                ).join('')}
+                ${availableVenues.map(venue => `<option value="${venue.id}">${venue.name}</option>`).join('')}
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Venue Area *</label>
-              <select name="venueArea" class="form-select" required>
-                <option value="">Select area</option>
-                <!-- Venue areas will be populated dynamically based on selected venue -->
-              </select>
+              <label class="form-label">Booking Date *</label>
+              <input type="date" name="bookingDate" class="form-input vip-date-picker" required>
             </div>
           </div>
         ` : `
           <div class="form-group">
-            <label class="form-label">Venue Area *</label>
-            <select name="venueArea" class="form-select" required>
-              <option value="">Select area</option>
-              <!-- Venue areas will be populated dynamically based on selected venue -->
-            </select>
+            <label class="form-label">Booking Date *</label>
+            <input type="date" name="bookingDate" class="form-input vip-date-picker" required>
           </div>
         `}
         
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Booking Date *</label>
-            <input type="date" name="bookingDate" class="form-input" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Number of Guests *</label>
-            <input type="number" name="guestCount" class="form-input" min="1" max="500" placeholder="e.g. 8" required>
-          </div>
-        </div>
+        <small style="color: #666; margin-bottom: 24px; display: block;">VIP tickets are only available on Saturdays</small>
         
+        <div class="form-group">
+          <label class="form-label">Number of Tickets *</label>
+          <input type="number" name="ticketQuantity" class="form-input" min="1" max="100" placeholder="e.g. 4" required>
+        </div>
+      `;
+    }
+
+    // Venue hire fields
+    return `
+      ${!config.venue || config.venue === 'both' ? `
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Start Time</label>
-            <select name="startTime" class="form-select">
-              <option value="">Select time</option>
-              <!-- Time slots will be populated dynamically based on selected date, venue, and area -->
+            <label class="form-label">Venue *</label>
+            <select name="venue" class="form-select" required>
+              <option value="">Select venue</option>
+              ${availableVenues.map(venue => `<option value="${venue.id}">${venue.name}</option>`).join('')}
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">End Time</label>
-            <select name="endTime" class="form-select">
-              <option value="">Select time</option>
-              <!-- Time slots will be populated dynamically based on selected date, venue, and area -->
+            <label class="form-label">Venue Area *</label>
+            <select name="venueArea" class="form-select" required>
+              <option value="">Select area</option>
             </select>
           </div>
         </div>
-        
-        ${config.showSpecialRequests ? `
-          <div class="form-group">
-            <label class="form-label">Special Requests</label>
-            <textarea name="specialRequests" class="form-textarea" placeholder="Any special requirements..." rows="3"></textarea>
-          </div>
-        ` : ''}
-        
-        <button type="submit" class="submit-button">
-          <span class="button-text">Create Booking</span>
-          <span class="loading-spinner" style="display: none;">⏳</span>
-        </button>
-        
-        <div id="widget-status" class="status-container"></div>
-      </form>
+      ` : `
+        <div class="form-group">
+          <label class="form-label">Venue Area *</label>
+          <select name="venueArea" class="form-select" required>
+            <option value="">Select area</option>
+          </select>
+        </div>
+      `}
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Booking Date *</label>
+          <input type="date" name="bookingDate" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of Guests *</label>
+          <input type="number" name="guestCount" class="form-input" min="1" max="500" placeholder="e.g. 8" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Start Time</label>
+          <select name="startTime" class="form-select">
+            <option value="">Select time</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">End Time</label>
+          <select name="endTime" class="form-select">
+            <option value="">Select time</option>
+          </select>
+        </div>
+      </div>
+    `;
+  }
+
+  function generateSpecialRequestsField(isVIPBooking) {
+    const placeholder = isVIPBooking ? "VIP table request, dietary requirements..." : "Any special requirements...";
+    return `
+      <div class="form-group">
+        <label class="form-label">Special Requests</label>
+        <textarea name="specialRequests" class="form-textarea" placeholder="${placeholder}" rows="3"></textarea>
+      </div>
+    `;
+  }
+
+  function generateSubmitButton(isVIPBooking) {
+    const buttonClass = isVIPBooking ? "submit-button vip-style" : "submit-button";
+    const buttonText = isVIPBooking ? "Book VIP Tickets" : "Create Booking";
+    
+    return `
+      <button type="submit" class="${buttonClass}">
+        <span class="button-text">${buttonText}</span>
+        <span class="loading-spinner" style="display: none;">⏳</span>
+      </button>
     `;
   }
 
@@ -843,10 +850,11 @@
     }
   }
 
-  // Initialize widget
-  async function initWidget(container, config) {
-    // Initialize widget data first
-    await initializeWidgetData();
+    // Initialize widget
+async function initWidget(container, config) {
+    try {
+      // Initialize widget data first
+      await initializeWidgetData();
     
     // Create widget HTML after venue data is loaded
     container.innerHTML = createWidgetHTML(config);
@@ -862,9 +870,34 @@
       container.querySelector('input[name="bookingDate"]').value = formatDateToISO(tomorrow);
     }
     
-    // Set default venue area if specified
-    if (config.defaultVenueArea && !isVIPBooking) {
-      container.querySelector('select[name="venueArea"]').value = config.defaultVenueArea;
+    // Populate venue areas for pre-configured venues and set default
+    if (!isVIPBooking) {
+      const venueSelect = container.querySelector('select[name="venue"]');
+      const venueAreaSelect = container.querySelector('select[name="venueArea"]');
+      
+      // If venue is pre-configured (no venue dropdown), populate areas immediately
+      if (!venueSelect && config.venue && config.venue !== 'both') {
+        populateVenueAreas(config.venue, container);
+        
+        // Set default venue area if specified
+        if (config.defaultVenueArea && venueAreaSelect) {
+          // Use setTimeout to ensure options are populated first
+          setTimeout(() => {
+            venueAreaSelect.value = config.defaultVenueArea;
+          }, 0);
+        }
+      }
+      // If venue dropdown exists but has a pre-selected value, populate areas
+      else if (venueSelect && venueSelect.value) {
+        populateVenueAreas(venueSelect.value, container);
+      }
+      
+      // Set default venue area if specified (for cases with venue dropdown)
+      if (config.defaultVenueArea && venueAreaSelect) {
+        setTimeout(() => {
+          venueAreaSelect.value = config.defaultVenueArea;
+        }, 0);
+      }
     }
     
     // Add form submit handler
@@ -944,25 +977,40 @@
         });
       }
     }
+  } catch (error) {
+    console.error('Failed to initialize booking widget:', error);
+    container.innerHTML = `
+      <div class="widget-error">
+        <h3>⚠️ Booking System Unavailable</h3>
+        <p>Unable to load venue information. Please try refreshing the page or contact support.</p>
+        <small>Error: ${error.message}</small>
+      </div>
+    `;
   }
+}
 
   // Initialize modal widget
   async function initModalWidget(config) {
-    // Remove existing modal if present
-    const existingModal = document.getElementById('gm-booking-modal');
-    if (existingModal) {
-      existingModal.remove();
-    }
+    try {
+      // Remove existing modal if present
+      const existingModal = document.getElementById('gm-booking-modal');
+      if (existingModal) {
+        existingModal.remove();
+      }
 
-    // Initialize widget data first
-    await initializeWidgetData();
+      // Initialize widget data first
+      await initializeWidgetData();
     
     // Create modal overlay
     const modal = createModalOverlay(config);
     
-    // Create widget HTML after venue data is loaded
-    const formContainer = modal.querySelector('.widget-form');
-    formContainer.innerHTML = createModalFormHTML(config);
+    // Insert form content directly into modal content (after header)
+    const modalContent = modal.querySelector('.gm-booking-modal-content');
+    const modalHeader = modalContent.querySelector('.gm-booking-modal-header');
+    modalHeader.insertAdjacentHTML('afterend', createModalFormHTML(config));
+    
+    // For compatibility, create a reference to the modal content as formContainer
+    const formContainer = modalContent;
     
     // Set default date based on booking type
     const isVIPBooking = config.bookingType === 'vip_tickets';
@@ -975,9 +1023,34 @@
       formContainer.querySelector('input[name="bookingDate"]').value = formatDateToISO(tomorrow);
     }
     
-    // Set default venue area if specified
-    if (config.defaultVenueArea && !isVIPBooking) {
-      formContainer.querySelector('select[name="venueArea"]').value = config.defaultVenueArea;
+    // Populate venue areas for pre-configured venues and set default
+    if (!isVIPBooking) {
+      const venueSelect = formContainer.querySelector('select[name="venue"]');
+      const venueAreaSelect = formContainer.querySelector('select[name="venueArea"]');
+      
+      // If venue is pre-configured (no venue dropdown), populate areas immediately
+      if (!venueSelect && config.venue && config.venue !== 'both') {
+        populateVenueAreas(config.venue, formContainer);
+        
+        // Set default venue area if specified
+        if (config.defaultVenueArea && venueAreaSelect) {
+          // Use setTimeout to ensure options are populated first
+          setTimeout(() => {
+            venueAreaSelect.value = config.defaultVenueArea;
+          }, 0);
+        }
+      }
+      // If venue dropdown exists but has a pre-selected value, populate areas
+      else if (venueSelect && venueSelect.value) {
+        populateVenueAreas(venueSelect.value, formContainer);
+      }
+      
+      // Set default venue area if specified (for cases with venue dropdown)
+      if (config.defaultVenueArea && venueAreaSelect) {
+        setTimeout(() => {
+          venueAreaSelect.value = config.defaultVenueArea;
+        }, 0);
+      }
     }
     
     // Add form submit handler
@@ -1060,7 +1133,29 @@
     
     // Show modal
     modal.style.display = 'flex';
+  } catch (error) {
+    console.error('Failed to initialize booking modal:', error);
+    
+    // Create error modal with consistent structure
+    const errorModal = document.createElement('div');
+    errorModal.id = 'gm-booking-modal';
+    errorModal.className = 'gm-booking-modal-overlay';
+    errorModal.style.display = 'flex';
+    errorModal.innerHTML = `
+      <div class="gm-booking-modal-content">
+        <div class="gm-booking-modal-header">
+          <h2 class="gm-booking-modal-title">⚠️ Booking System Unavailable</h2>
+          <button class="gm-booking-modal-close" onclick="this.closest('#gm-booking-modal').remove()">&times;</button>
+        </div>
+        <div style="padding: 16px; text-align: center; color: #dc3545;">
+          <p>Unable to load venue information. Please try refreshing the page or contact support.</p>
+          <small style="color: #666; font-family: monospace;">Error: ${error.message}</small>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(errorModal);
   }
+}
 
   // Global functions for external use
   window.GMBookingWidget = {
@@ -1102,30 +1197,6 @@
     }
   };
 
-  // Venue Hire booking function
-  window.GMVenueHireModal = function(config = {}) {
-    const defaultConfig = {
-      ...window.GMBookingWidgetConfig,
-      bookingType: 'venue_hire',
-      venue: 'both',
-      theme: 'light',
-      showSpecialRequests: true,
-      ...config
-    };
-    
-    return initModalWidget(defaultConfig);
-  };
-
-  // Make venue hire function available globally
-  window.openVenueHireModal = function() {
-    return window.GMVenueHireModal({
-      venue: 'both',
-      theme: 'light',
-      bookingType: 'venue_hire',
-      showSpecialRequests: true
-    });
-  };
-
   // Auto-initialize widgets on page load
   function autoInitWidgets() {
     const widgets = document.querySelectorAll('[data-gm-booking-widget]');
@@ -1164,4 +1235,4 @@
     autoInitWidgets();
     setupMutationObserver();
   }
-})();
+})(); 
