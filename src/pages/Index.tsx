@@ -1,3 +1,4 @@
+// Current version with lava animation
 import React, { useState, useRef, useEffect } from 'react';
 import manorLogo from '../assets/img/manor-logo.png';
 import { Link } from 'react-router-dom';
