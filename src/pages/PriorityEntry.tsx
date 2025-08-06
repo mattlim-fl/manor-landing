@@ -2,6 +2,15 @@
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 
+// Declare global functions for VIP booking
+declare global {
+  interface Window {
+    openVIPModal: () => void;
+    openManorVIPModal: () => void;
+    openHippieVIPModal: () => void;
+  }
+}
+
 const PriorityEntry = () => {
   return (
     <div className="min-h-screen text-manor-white" style={{ backgroundColor: '#2A1205' }}>
