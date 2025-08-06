@@ -69,7 +69,7 @@ const Index = () => {
                 <div className="flex flex-col gap-3 items-center w-full max-w-xs mx-auto">
                   <Link 
                     to="/karaoke"
-                    className="font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
+                    className="w-full font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
                     style={{ 
                       backgroundColor: '#F2993B', 
                       color: '#060201',
@@ -91,7 +91,7 @@ const Index = () => {
                   
                   <Link 
                     to="/services"
-                    className="font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
+                    className="w-full font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
                     style={{ 
                       backgroundColor: '#F2993B', 
                       color: '#060201',
@@ -113,7 +113,7 @@ const Index = () => {
                   
                   <Link 
                     to="/priority-entry"
-                    className="font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
+                    className="w-full font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
                     style={{ 
                       backgroundColor: '#F2993B', 
                       color: '#060201',
@@ -135,7 +135,7 @@ const Index = () => {
                   
                   <Link 
                     to="/birthdays-occasions"
-                    className="font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
+                    className="w-full font-bold px-4 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
                     style={{ 
                       backgroundColor: '#F2993B', 
                       color: '#060201',
