@@ -56,6 +56,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
               venueArea: venueArea,
               theme,
               primaryColor,
+              bookingType: 'venue_hire', // Important: This enables venue hire mode
               showSpecialRequests: true
             });
             // Close our React modal since GM modal will handle everything
