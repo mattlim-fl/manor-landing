@@ -65,6 +65,19 @@ const Index = () => {
                   Leederville
                 </h1>
                 
+                {/* Background Image */}
+                <div
+                  className="absolute inset-x-0 bottom-0"
+                  style={{
+                    top: 'calc(50% + 2rem)',
+                    backgroundImage: 'url(/lovable-uploads/c9b0c6b6-1c09-4522-89aa-b513e0b70415.png)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    zIndex: 5
+                  }}
+                />
+                
                 {/* Stacked Pill Buttons */}
                 <div className="flex flex-col gap-3 items-center w-full max-w-xs mx-auto">
                   <Link 
