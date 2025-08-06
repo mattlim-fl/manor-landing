@@ -2,15 +2,6 @@
 import React from 'react';
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
-// Declare global functions for VIP booking
-declare global {
-  interface Window {
-    openVIPModal: () => void;
-    openManorVIPModal: () => void;
-    openHippieVIPModal: () => void;
-  }
-}
-
 const VipTables = () => {
   const accordionItems = [
     {
