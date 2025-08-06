@@ -29,149 +29,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen text-manor-white" style={{ backgroundColor: '#2A1205' }}>
-      {/* Hidden Menu Overlay */}
-      <div 
-        id="menu-overlay"
-        style={{
-          position: 'fixed',
-          inset: '0',
-          background: 'rgba(0,0,0,.6)',
-          backdropFilter: 'blur(6px)',
-          display: isMenuOpen ? 'flex' : 'none',
-          zIndex: '999',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-        onClick={handleOverlayClick}
-      >
-        <div 
-          className="menu-card"
-          style={{
-            backgroundColor: '#271308',
-            borderRadius: '8px',
-            width: '90vw',
-            maxWidth: '340px',
-            padding: '24px 0',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-            alignItems: 'center'
-          }}
-        >
-          <Link 
-            to="/karaoke"
-            className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
-            style={{ 
-              backgroundColor: '#F2993B', 
-              color: '#060201',
-              borderWidth: '2px',
-              borderStyle: 'solid',
-              borderColor: '#F2993B'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#060201';
-              e.currentTarget.style.color = '#F2993B';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#F2993B';
-              e.currentTarget.style.color = '#060201';
-            }}
-          >
-            Karaoke
-          </Link>
-          
-          <Link 
-            to="/services"
-            className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
-            style={{ 
-              backgroundColor: '#F2993B', 
-              color: '#060201',
-              borderWidth: '2px',
-              borderStyle: 'solid',
-              borderColor: '#F2993B'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#060201';
-              e.currentTarget.style.color = '#F2993B';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#F2993B';
-              e.currentTarget.style.color = '#060201';
-            }}
-          >
-            Venue Hire
-          </Link>
-          
-          <Link 
-            to="/priority-entry"
-            className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
-            style={{ 
-              backgroundColor: '#F2993B', 
-              color: '#060201',
-              borderWidth: '2px',
-              borderStyle: 'solid',
-              borderColor: '#F2993B'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#060201';
-              e.currentTarget.style.color = '#F2993B';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#F2993B';
-              e.currentTarget.style.color = '#060201';
-            }}
-          >
-            25+ Priority
-          </Link>
-          
-          <Link 
-            to="/birthdays-occasions"
-            className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
-            style={{ 
-              backgroundColor: '#F2993B', 
-              color: '#060201',
-              borderWidth: '2px',
-              borderStyle: 'solid',
-              borderColor: '#F2993B'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#060201';
-              e.currentTarget.style.color = '#F2993B';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#F2993B';
-              e.currentTarget.style.color = '#060201';
-            }}
-          >
-            Guest List
-          </Link>
-          
-          <button 
-            onClick={() => {
-              setIsMenuOpen(false);
-              setTimeout(() => window.openVIPModal?.(), 100);
-            }}
-            className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
-            style={{ 
-              backgroundColor: '#ff6b35', 
-              color: '#FFFFFF',
-              borderWidth: '2px',
-              borderStyle: 'solid',
-              borderColor: '#ff6b35'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#060201';
-              e.currentTarget.style.color = '#ff6b35';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#ff6b35';
-              e.currentTarget.style.color = '#FFFFFF';
-            }}
-          >
-            VIP Entry
-          </button>
-        </div>
-      </div>
       {/* Hero Section - Full Width */}
       <div className="relative min-h-screen flex flex-col">
         {/* Main Hero */}
@@ -207,26 +64,97 @@ const Index = () => {
                 >
                   Leederville
                 </h1>
-                <button 
-                  id="cta-step-inside" 
-                  className="btn-primary mx-auto block font-bold px-4 py-2 rounded-full uppercase tracking-wider text-sm transition-transform duration-150 ease-out"
-                  style={{ 
-                    backgroundColor: '#F2993B',
-                    color: '#060201'
-                  }}
-                  onClick={handleStepInsideClick}
-                  onMouseDown={(e) => {
-                    e.currentTarget.style.transform = 'scale(.96)';
-                  }}
-                  onMouseUp={(e) => {
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }}
-                >
-                  Step Inside
-                </button>
+                
+                {/* Stacked Pill Buttons */}
+                <div className="flex flex-col gap-3 items-center w-full max-w-xs mx-auto">
+                  <Link 
+                    to="/karaoke"
+                    className="w-full font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
+                    style={{ 
+                      backgroundColor: '#F2993B', 
+                      color: '#060201',
+                      borderWidth: '2px',
+                      borderStyle: 'solid',
+                      borderColor: '#F2993B'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#060201';
+                      e.currentTarget.style.color = '#F2993B';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#F2993B';
+                      e.currentTarget.style.color = '#060201';
+                    }}
+                  >
+                    Karaoke
+                  </Link>
+                  
+                  <Link 
+                    to="/services"
+                    className="w-full font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
+                    style={{ 
+                      backgroundColor: '#F2993B', 
+                      color: '#060201',
+                      borderWidth: '2px',
+                      borderStyle: 'solid',
+                      borderColor: '#F2993B'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#060201';
+                      e.currentTarget.style.color = '#F2993B';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#F2993B';
+                      e.currentTarget.style.color = '#060201';
+                    }}
+                  >
+                    Venue Hire
+                  </Link>
+                  
+                  <Link 
+                    to="/priority-entry"
+                    className="w-full font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
+                    style={{ 
+                      backgroundColor: '#F2993B', 
+                      color: '#060201',
+                      borderWidth: '2px',
+                      borderStyle: 'solid',
+                      borderColor: '#F2993B'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#060201';
+                      e.currentTarget.style.color = '#F2993B';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#F2993B';
+                      e.currentTarget.style.color = '#060201';
+                    }}
+                  >
+                    25+ Priority
+                  </Link>
+                  
+                  <Link 
+                    to="/birthdays-occasions"
+                    className="w-full font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center"
+                    style={{ 
+                      backgroundColor: '#F2993B', 
+                      color: '#060201',
+                      borderWidth: '2px',
+                      borderStyle: 'solid',
+                      borderColor: '#F2993B'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#060201';
+                      e.currentTarget.style.color = '#F2993B';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#F2993B';
+                      e.currentTarget.style.color = '#060201';
+                    }}
+                  >
+                    Guest List
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
