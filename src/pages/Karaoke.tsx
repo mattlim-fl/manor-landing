@@ -1,5 +1,49 @@
+import React, { useState } from 'react';
 import Header from '../components/Header';
+
+// Extend window type for Karaoke Widget
+declare global {
+  interface Window {
+    GMKaraokeBookingModal?: (bookingType: string, venue: string) => void;
+  }
+}
+
 const Karaoke = () => {
+  const [isBookingLoading, setIsBookingLoading] = useState(false);
+
+  const handleBookKaraoke = () => {
+    setIsBookingLoading(true);
+    
+    // Open the GM Karaoke Booking Modal
+    if (window.GMKaraokeBookingModal) {
+      try {
+        window.GMKaraokeBookingModal('karaoke', 'Manor');
+      } catch (error) {
+        console.error('Karaoke booking error:', error);
+        alert('Booking system temporarily unavailable. Please try again later.');
+      }
+    } else {
+      // Fallback: try to use existing booking modal with karaoke venue
+      if (window.GMBookingModal) {
+        try {
+          window.GMBookingModal({
+            venue: 'manor',
+            venueArea: 'karaoke',
+            theme: 'dark',
+            primaryColor: '#F2993B',
+            showSpecialRequests: true
+          });
+        } catch (error) {
+          console.error('Karaoke booking error:', error);
+          alert('Booking system temporarily unavailable. Please try again later.');
+        }
+      } else {
+        alert('Booking system is loading. Please try again in a moment.');
+      }
+    }
+    
+    setTimeout(() => setIsBookingLoading(false), 1000);
+  };
   return <div className="min-h-screen" style={{
     backgroundColor: '#2A1205',
     color: '#FFFFFF'
@@ -24,12 +68,17 @@ const Karaoke = () => {
                 <div>BOOTHS</div>
               </h1>
               <div className="space-y-4 mb-12 animate-fade-in">
-                <div className="inline-block font-bold px-4 py-2 rounded-full uppercase tracking-wider text-sm" style={{
-                backgroundColor: '#F2993B',
-                color: '#060201'
-              }}>
-                  Coming Soon
-                </div>
+                <button 
+                  onClick={handleBookKaraoke}
+                  disabled={isBookingLoading}
+                  className="inline-block font-bold px-8 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed" 
+                  style={{
+                    backgroundColor: '#F2993B',
+                    color: '#060201'
+                  }}
+                >
+                  {isBookingLoading ? 'Loading...' : 'Book Now'}
+                </button>
               </div>
             </div>
           </div>
@@ -43,10 +92,10 @@ const Karaoke = () => {
               borderColor: '#F2993B'
             }}>
                 <p className="text-lg md:text-xl mb-2">
-                  Private karaoke booths available for hire from August.
+                  Private karaoke booths now available for hire!
                 </p>
                 <p className="text-sm md:text-base">
-                  Great for birthdays, special occasions or just a fun night out with friends!
+                  Perfect for birthdays, special occasions or just a fun night out with friends. Book your booth today!
                 </p>
               </div>
             </div>

@@ -21,6 +21,37 @@
     <!-- VIP Booking Widget Files -->
     <link rel="stylesheet" href="/widget.css">
     <script src="/gm-booking-widget-standalone.js"></script>
+    
+    <!-- Karaoke Booking Widget Files -->
+    <!-- Core Dependencies -->
+    <script src="/karaoke-widget/src/transport/supabase.js"></script>
+    <script src="/karaoke-widget/src/core/dom.js"></script>
+    <script src="/karaoke-widget/src/state/store.js"></script>
+    <script src="/karaoke-widget/src/state/compat.js"></script>
+
+    <!-- API Services -->
+    <script src="/karaoke-widget/src/api/venue.js"></script>
+    <script src="/karaoke-widget/src/api/karaoke.js"></script>
+    <script src="/karaoke-widget/src/api/booking.js"></script>
+    <script src="/karaoke-widget/src/api/wrappers.js"></script>
+
+    <!-- UI Components -->
+    <script src="/karaoke-widget/src/ui/components/DateField.js"></script>
+    <script src="/karaoke-widget/src/ui/components/GuestField.js"></script>
+    <script src="/karaoke-widget/src/ui/components/SlotsGrid.js"></script>
+    <script src="/karaoke-widget/src/ui/components/BoothSelect.js"></script>
+    <script src="/karaoke-widget/src/ui/components/HoldBanner.js"></script>
+    <script src="/karaoke-widget/src/ui/components/Status.js"></script>
+
+    <!-- Features -->
+    <script src="/karaoke-widget/src/features/karaoke/holds.js"></script>
+    <script src="/karaoke-widget/src/features/karaoke/controller.js"></script>
+
+    <!-- Widget Core -->
+    <script src="/karaoke-widget/src/widget/modal.js"></script>
+    <script src="/karaoke-widget/src/widget/modal-init.js"></script>
+    <script src="/karaoke-widget/src/widget/forms.js"></script>
+    <script src="/karaoke-widget/src/widget/index.js"></script>
   </head>
 
   <body>
@@ -74,11 +105,47 @@
           });
       }
 
+      // ===== KARAOKE BOOKING FUNCTIONS =====
+      
+      // Karaoke booking configuration
+      window.GMBookingWidgetConfig = {
+          apiKey: 'YOUR_SUPABASE_SERVICE_ROLE_KEY', // This should be replaced with actual key in production
+          supabaseUrl: 'https://your-project.supabase.co', // This should be replaced with actual URL in production
+          debug: false // Set to true for development debugging
+      };
+      
+      // Karaoke booking modal function
+      function openKaraokeModal() {
+          if (typeof GMBookingModal === 'function') {
+              // Try karaoke-specific modal first
+              if (typeof GMKaraokeBookingModal === 'function') {
+                  GMKaraokeBookingModal('karaoke', 'Manor');
+              } else {
+                  // Fallback to regular booking modal with karaoke configuration
+                  GMBookingModal({
+                      venue: 'manor',
+                      venueArea: 'karaoke',
+                      theme: 'dark',
+                      primaryColor: '#F2993B',
+                      showSpecialRequests: true
+                  });
+              }
+          } else {
+              alert('Karaoke booking system is currently unavailable. Please try again later.');
+          }
+      }
+
       // Make functions globally available
       window.openVIPModal = openVIPModal;
       window.openManorVIPModal = openManorVIPModal;
       window.openHippieVIPModal = openHippieVIPModal;
       window.openVenueHireModal = openVenueHireModal;
+      window.openKaraokeModal = openKaraokeModal;
+      
+      // Make GMKaraokeBookingModal globally available for the React component
+      window.GMKaraokeBookingModal = function(bookingType, venue) {
+          openKaraokeModal();
+      };
     </script>
   </body>
 </html>
