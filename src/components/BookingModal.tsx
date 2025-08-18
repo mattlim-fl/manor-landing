@@ -10,6 +10,7 @@ declare global {
     };
     GMBookingModal?: (options: {
       venue: string;
+      bookingType?: string;
       venueArea?: string;
       theme?: string;
       primaryColor?: string;
@@ -53,6 +54,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
             console.log('Opening GM modal...');
             window.GMBookingModal({
               venue,
+              bookingType: 'venue_hire', // Specify the booking type
               venueArea: venueArea,
               theme,
               primaryColor,

@@ -28,6 +28,7 @@ const Karaoke = () => {
         try {
           window.GMBookingModal({
             venue: 'manor',
+            bookingType: 'karaoke',
             venueArea: 'karaoke',
             theme: 'dark',
             primaryColor: '#F2993B',
