@@ -52,8 +52,8 @@ const Karaoke = () => {
       <div className="h-full flex flex-col" style={{
         backgroundColor: '#2A1205'
       }}>
-        {/* Top spacing */}
-        <div className="flex-1"></div>
+        {/* Top spacing - Reduced by 50% */}
+        <div className="h-20"></div>
         
         {/* Center content - Heading and Button */}
         <div className="flex flex-col items-center text-center px-4 z-10">
