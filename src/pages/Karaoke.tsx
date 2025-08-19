@@ -73,8 +73,8 @@ const Karaoke = () => {
           </div>
         </div>
 
-        {/* Middle spacing */}
-        <div className="flex-1"></div>
+        {/* Middle spacing - Reduced by 50% */}
+        <div className="h-24"></div>
 
         {/* Pill Box - Centered in lower section */}
         <div className="flex items-center justify-center px-4 pb-16 z-10">
