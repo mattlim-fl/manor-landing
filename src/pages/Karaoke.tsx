@@ -85,9 +85,7 @@ const Karaoke = () => {
               borderColor: '#F2993B'
             }}>
                 <p className="text-lg md:text-xl mb-2">Private karaoke booth now available for hire!</p>
-                <p className="text-sm md:text-base">
-                  Perfect for birthdays, special occasions or just a fun night out with friends. Book your booth today!
-                </p>
+                <p className="text-sm md:text-base">Perfect for birthdays, special occasions or just a fun night out with friends.</p>
               </div>
             </div>
           </div>
