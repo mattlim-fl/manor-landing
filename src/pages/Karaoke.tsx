@@ -90,8 +90,8 @@ const Karaoke = () => {
           </div>
         </div>
 
-        {/* Bottom spacing */}
-        <div className="flex-1"></div>
+        {/* Bottom spacing - Reduced by 70% */}
+        <div className="h-16"></div>
       </div>
     </div>;
 };
