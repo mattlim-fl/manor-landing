@@ -7,13 +7,11 @@ declare global {
     GMKaraokeBookingModal?: (bookingType: string, venue: string) => void;
   }
 }
-
 const Karaoke = () => {
   const [isBookingLoading, setIsBookingLoading] = useState(false);
-
   const handleBookKaraoke = () => {
     setIsBookingLoading(true);
-    
+
     // Open the GM Karaoke Booking Modal
     if (window.GMKaraokeBookingModal) {
       try {
@@ -42,7 +40,6 @@ const Karaoke = () => {
         alert('Booking system is loading. Please try again in a moment.');
       }
     }
-    
     setTimeout(() => setIsBookingLoading(false), 1000);
   };
   return <div className="min-h-screen" style={{
@@ -69,15 +66,10 @@ const Karaoke = () => {
                 <div>BOOTHS</div>
               </h1>
               <div className="space-y-4 mb-12 animate-fade-in">
-                <button 
-                  onClick={handleBookKaraoke}
-                  disabled={isBookingLoading}
-                  className="inline-block font-bold px-8 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed" 
-                  style={{
-                    backgroundColor: '#F2993B',
-                    color: '#060201'
-                  }}
-                >
+                <button onClick={handleBookKaraoke} disabled={isBookingLoading} className="inline-block font-bold px-8 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed" style={{
+                backgroundColor: '#F2993B',
+                color: '#060201'
+              }}>
                   {isBookingLoading ? 'Loading...' : 'Book Now'}
                 </button>
               </div>
@@ -92,9 +84,7 @@ const Karaoke = () => {
               color: '#F2993B',
               borderColor: '#F2993B'
             }}>
-                <p className="text-lg md:text-xl mb-2">
-                  Private karaoke booths now available for hire!
-                </p>
+                <p className="text-lg md:text-xl mb-2">Private karaoke booth now available for hire!</p>
                 <p className="text-sm md:text-base">
                   Perfect for birthdays, special occasions or just a fun night out with friends. Book your booth today!
                 </p>
