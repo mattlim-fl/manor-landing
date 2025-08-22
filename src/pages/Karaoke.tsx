@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
+import KaraokeBookingModal from '../components/KaraokeBookingModal';
 
 // Extend window type for Karaoke Widget
 declare global {
@@ -9,38 +10,11 @@ declare global {
 }
 const Karaoke = () => {
   const [isBookingLoading, setIsBookingLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const handleBookKaraoke = () => {
     setIsBookingLoading(true);
-
-    // Open the GM Karaoke Booking Modal
-    if (window.GMKaraokeBookingModal) {
-      try {
-        window.GMKaraokeBookingModal('karaoke', 'Manor');
-      } catch (error) {
-        console.error('Karaoke booking error:', error);
-        alert('Booking system temporarily unavailable. Please try again later.');
-      }
-    } else {
-      // Fallback: try to use existing booking modal with karaoke venue
-      if (window.GMBookingModal) {
-        try {
-          window.GMBookingModal({
-            venue: 'manor',
-            bookingType: 'karaoke',
-            venueArea: 'karaoke',
-            theme: 'dark',
-            primaryColor: '#F2993B',
-            showSpecialRequests: true
-          });
-        } catch (error) {
-          console.error('Karaoke booking error:', error);
-          alert('Booking system temporarily unavailable. Please try again later.');
-        }
-      } else {
-        alert('Booking system is loading. Please try again in a moment.');
-      }
-    }
-    setTimeout(() => setIsBookingLoading(false), 1000);
+    setIsModalOpen(true);
+    setTimeout(() => setIsBookingLoading(false), 300);
   };
   return <div className="h-screen" style={{
     backgroundColor: '#2A1205',
@@ -93,6 +67,7 @@ const Karaoke = () => {
         {/* Bottom spacing - Reduced by 70% */}
         <div className="h-16"></div>
       </div>
+      <KaraokeBookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>;
 };
 export default Karaoke;

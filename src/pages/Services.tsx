@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
-import BookingModal from "../components/BookingModal";
+import DirectVenueBookingModal from "../components/DirectVenueBookingModal";
 
 const Services = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -237,13 +237,12 @@ const Services = () => {
         </div>
       </div>
 
-      {/* Booking Modal */}
-      <BookingModal
+      {/* Direct Booking Modal */}
+      <DirectVenueBookingModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        venue={selectedVenue.venue}
-        venueArea={selectedVenue.venueArea}
-        theme="light"
+        defaultVenue={selectedVenue.venue}
+        defaultVenueArea={selectedVenue.venueArea}
       />
     </div>
   );

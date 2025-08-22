@@ -1,17 +1,11 @@
 
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import Header from "../components/Header";
-
-// Declare global functions for VIP booking
-declare global {
-  interface Window {
-    openVIPModal: () => void;
-    openManorVIPModal: () => void;
-    openHippieVIPModal: () => void;
-  }
-}
+import TicketBookingModal from "../components/TicketBookingModal";
 
 const PriorityEntry = () => {
+  const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
+
   return (
     <div className="min-h-screen text-manor-white" style={{ backgroundColor: '#2A1205' }}>
       <Header />
@@ -30,7 +24,7 @@ const PriorityEntry = () => {
           
           <div className="mb-12 animate-fade-in">
             <button 
-              onClick={() => window.openVIPModal?.()}
+              onClick={() => setIsTicketModalOpen(true)}
               className="font-bold px-8 py-4 rounded-full uppercase tracking-wider transition-all duration-300 text-sm inline-block cursor-pointer"
               style={{ 
                 backgroundColor: '#F2993B', 
@@ -65,6 +59,13 @@ const PriorityEntry = () => {
           </div>
         </div>
       </div>
+
+      {/* Ticket Booking Modal */}
+      <TicketBookingModal
+        isOpen={isTicketModalOpen}
+        onClose={() => setIsTicketModalOpen(false)}
+        defaultVenue="manor"
+      />
     </div>
   );
 };

@@ -13,6 +13,7 @@ import FullVenue from "./pages/FullVenue";
 import Karaoke from "./pages/Karaoke";
 import PriorityEntry from "./pages/PriorityEntry";
 import BirthdaysOccasions from "./pages/BirthdaysOccasions";
+import EmailTest from "./pages/EmailTest";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/karaoke" element={<Karaoke />} />
           <Route path="/priority-entry" element={<PriorityEntry />} />
           <Route path="/birthdays-occasions" element={<BirthdaysOccasions />} />
+          <Route path="/email-test" element={<EmailTest />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
