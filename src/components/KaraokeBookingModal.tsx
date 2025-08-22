@@ -22,14 +22,15 @@ interface Props {
 }
 
 export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'manor' }: Props) {
-  const [venue, setVenue] = useState<Venue>(defaultVenue)
-  const [date, setDate] = useState<Date | undefined>(new Date())
+  const [venue] = useState<Venue>(defaultVenue)
+  const [date, setDate] = useState<Date | undefined>(undefined)
   const [partySize, setPartySize] = useState<number>(2)
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(null)
   const [loadingAvail, setLoadingAvail] = useState(false)
   const [selectedBoothId, setSelectedBoothId] = useState<string>('')
   const [selectedSlot, setSelectedSlot] = useState<{ start: string; end: string } | null>(null)
   const [slotBooths, setSlotBooths] = useState<{ id: string; name: string; capacity: number }[]>([])
+  const [loadingBooths, setLoadingBooths] = useState(false)
   const [hold, setHold] = useState<{ id: string; expiresAt: string } | null>(null)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -39,6 +40,16 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   const [success, setSuccess] = useState<{ id: string; ref: string } | null>(null)
 
   const dateStr = useMemo(() => (date ? format(date, 'yyyy-MM-dd') : ''), [date])
+
+  // Release hold when modal closes
+  useEffect(() => {
+    if (!isOpen && hold) {
+      releaseKaraokeHold(hold.id).catch(() => {})
+      setHold(null)
+      setSelectedBoothId('')
+      setSelectedSlot(null)
+    }
+  }, [isOpen, hold])
 
   useEffect(() => {
     if (!isOpen) return
@@ -55,6 +66,13 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
 
   const createHold = async (boothId: string, start: string, end: string) => {
     setError(null)
+    // Release any existing hold first
+    if (hold) {
+      try {
+        await releaseKaraokeHold(hold.id)
+      } catch {}
+      setHold(null)
+    }
     try {
       const res = await createKaraokeHold({ venue, booth_id: boothId, booking_date: dateStr, start_time: start, end_time: end })
       setHold({ id: res.hold_id, expiresAt: res.expires_at })
@@ -70,6 +88,14 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
     try { await releaseKaraokeHold(hold.id) } catch {}
     setHold(null)
     setSelectedSlot(null)
+    setSelectedBoothId('')
+  }
+
+  const handleClose = () => {
+    if (hold) {
+      releaseKaraokeHold(hold.id).catch(() => {})
+    }
+    onClose()
   }
 
   const confirm = async () => {
@@ -97,7 +123,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={(v) => { if (!v) onClose() }}>
+    <Dialog open={isOpen} onOpenChange={(v) => { if (!v) handleClose() }}>
       <DialogContent className="max-w-3xl">
         {!success && (
           <DialogHeader>
@@ -110,8 +136,15 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
             <div className="flex justify-center">
               <svg className="h-16 w-16 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </div>
-            <h3 className="text-2xl font-semibold text-center">Karaoke Booking Submitted!</h3>
-            <p className="text-center text-gray-600">Your enquiry has been received. Our team will contact you within two business days to confirm details and payment.</p>
+            <h3 className="text-2xl font-semibold text-center">Karaoke Booking Confirmed!</h3>
+            <p className="text-center text-gray-600">Your karaoke booking has been received, and you're booked in.</p>
+            <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
+              <h4 className="font-medium text-blue-900 mb-2">Important Information:</h4>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Please arrive 5 minutes before your session to get ready</li>
+                <li>• You will need to leave 5 minutes before the end of your time to allow us to clean between sessions</li>
+              </ul>
+            </div>
             <ReferenceCodeDisplay referenceCode={success.ref} />
             <div className="flex justify-center">
               <Button onClick={onClose}>Close</Button>
@@ -119,35 +152,39 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Venue</label>
-                <Select value={venue} onValueChange={(v: Venue) => setVenue(v)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="manor">Manor</SelectItem>
-                    <SelectItem value="hippie">Hippie</SelectItem>
-                  </SelectContent>
-                </Select>
+            {/* Top section: Contact info and date picker in two columns */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Left column: Contact information */}
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Full Name *</label>
+                  <input className="w-full border rounded-md p-2" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Email</label>
+                  <input className="w-full border rounded-md p-2" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Phone</label>
+                  <input className="w-full border rounded-md p-2" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Party Size</label>
+                  <Select value={String(partySize)} onValueChange={(v) => setPartySize(Number(v))}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {[...Array(10)].map((_, i) => (
+                        <SelectItem key={i+1} value={String(i+1)}>{i+1}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-              <div className="space-y-2 md:col-span-2">
+
+              {/* Right column: Date picker */}
+              <div className="space-y-2">
                 <label className="text-sm font-medium">Date</label>
                 <Calendar mode="single" selected={date} onSelect={setDate} className="rounded-md border" />
-              </div>
-            </div>
-
-            {/* Party size */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Party Size</label>
-                <Select value={String(partySize)} onValueChange={(v) => setPartySize(Number(v))}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {[...Array(10)].map((_, i) => (
-                      <SelectItem key={i+1} value={String(i+1)}>{i+1}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
               </div>
             </div>
 
@@ -174,11 +211,14 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                                 setSelectedSlot({ start: s.start_time, end: s.end_time })
                                 setSelectedBoothId('')
                                 setHold(null)
+                                setLoadingBooths(true)
                                 try {
                                   const booths = await fetchBoothsForSlot({ venue, bookingDate: dateStr, startTime: s.start_time, endTime: s.end_time, minCapacity: partySize })
                                   setSlotBooths(booths)
                                 } catch (e: any) {
                                   setError(e.message || 'Failed to load booths for slot')
+                                } finally {
+                                  setLoadingBooths(false)
                                 }
                               }}
                               className={`px-3 py-2 rounded-md text-sm border ${isSelected ? 'bg-black text-white' : 'bg-white'} disabled:opacity-50`}
@@ -193,22 +233,27 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                       {selectedSlot && (
                         <div className="space-y-2">
                           <label className="text-sm font-medium">Select Booth</label>
-                          {slotBooths.length === 0 ? (
+                          {loadingBooths ? (
+                            <div className="flex items-center space-x-2 text-sm text-gray-500">
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900"></div>
+                              <span>Loading booths...</span>
+                            </div>
+                          ) : slotBooths.length === 0 ? (
                             <div className="text-sm text-gray-500">No booths available for this slot</div>
                           ) : (
-                            <>
-                              <Select value={selectedBoothId} onValueChange={(v) => setSelectedBoothId(v)}>
-                                <SelectTrigger><SelectValue placeholder="Choose a booth" /></SelectTrigger>
-                                <SelectContent>
-                                  {slotBooths.map((booth) => (
-                                    <SelectItem key={booth.id} value={booth.id}>{booth.name} · up to {booth.capacity}</SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                              <div>
-                                <Button disabled={!selectedBoothId} onClick={() => createHold(selectedBoothId, selectedSlot.start, selectedSlot.end)}>Reserve Booth</Button>
-                              </div>
-                            </>
+                            <Select value={selectedBoothId} onValueChange={(v) => {
+                              setSelectedBoothId(v)
+                              if (v) {
+                                createHold(v, selectedSlot.start, selectedSlot.end)
+                              }
+                            }}>
+                              <SelectTrigger><SelectValue placeholder="Choose a booth" /></SelectTrigger>
+                              <SelectContent>
+                                {slotBooths.map((booth) => (
+                                  <SelectItem key={booth.id} value={booth.id}>{booth.name} · up to {booth.capacity}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           )}
                         </div>
                       )}
@@ -217,22 +262,6 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                 </div>
               </div>
             )}
-
-            {/* Contact */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2 md:col-span-3">
-                <label className="text-sm font-medium">Full Name *</label>
-                <input className="w-full border rounded-md p-2" value={name} onChange={(e) => setName(e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Email</label>
-                <input className="w-full border rounded-md p-2" value={email} onChange={(e) => setEmail(e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Phone</label>
-                <input className="w-full border rounded-md p-2" value={phone} onChange={(e) => setPhone(e.target.value)} />
-              </div>
-            </div>
 
             {hold && (
               <div className="flex items-center justify-between rounded-md border p-3">
