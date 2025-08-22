@@ -53,6 +53,31 @@ export async function createTicketBooking(input: CreateTicketBookingInput) {
 
   if (error) throw new Error(error.message)
   
+  // Send confirmation email
+  try {
+    await supabase.functions.invoke('send-email', {
+      body: {
+        template: 'priority-ticket-confirmation',
+        data: {
+          customerName: input.customerName,
+          customerEmail: input.customerEmail,
+          customerPhone: input.customerPhone,
+          referenceCode: data.reference_code,
+          venue: input.venue === 'manor' ? 'Manor' : 'Hippie',
+          bookingDate: new Date(input.bookingDate).toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          }),
+          ticketQuantity: input.ticketQuantity
+        }
+      }
+    })
+  } catch (e) {
+    console.warn('Non-blocking: failed to send priority ticket confirmation email', e)
+  }
+  
   return data
 }
 
