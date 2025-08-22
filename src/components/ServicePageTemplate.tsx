@@ -5,7 +5,6 @@ import Header from './Header';
 import HeroSection from './service-page/HeroSection';
 import DescriptionSection from './service-page/DescriptionSection';
 import OverviewSection from './service-page/OverviewSection';
-import BookingContainer from './service-page/BookingContainer';
 import GreatForSection from './service-page/GreatForSection';
 import NewsletterSection from './service-page/NewsletterSection';
 
@@ -26,13 +25,6 @@ interface ServicePageProps {
   description: string;
   accordionItems: AccordionItem[];
   greatForCards: GreatForCard[];
-  bookingUrl: string;
-  whatsappNumber?: string;
-  whatsappMessage?: string;
-  venue?: 'manor' | 'hippie' | 'both';
-  venueArea?: 'upstairs' | 'downstairs' | 'full_venue';
-  theme?: 'light' | 'dark';
-  primaryColor?: string;
   showSectionsAfterOverview?: boolean;
   showNewsletterSection?: boolean;
 }
@@ -43,13 +35,6 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   description,
   accordionItems,
   greatForCards,
-  bookingUrl,
-  whatsappNumber,
-  whatsappMessage,
-  venue,
-  venueArea,
-  theme,
-  primaryColor,
   showSectionsAfterOverview = true,
   showNewsletterSection = true
 }) => {
@@ -95,15 +80,6 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
 
         {showSectionsAfterOverview && (
           <>
-            <BookingContainer 
-              bookingUrl={bookingUrl}
-              showBooking={showBooking}
-              venue={venue}
-              venueArea={venueArea}
-              theme={theme}
-              primaryColor={primaryColor}
-            />
-
             {greatForCards.length > 0 && <GreatForSection greatForCards={greatForCards} />}
 
             {showNewsletterSection && <NewsletterSection />}

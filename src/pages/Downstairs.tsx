@@ -47,10 +47,6 @@ const Downstairs = () => {
       description="Featuring the main bar, dance floor and courtyard.\n\nGreat for cocktail parties, celebrations, events and corporate functions up to 150 people."
       accordionItems={accordionItems}
       greatForCards={greatForCards}
-      bookingUrl="https://hippieclub.simplybook.net/v2/#book/service/3"
-      venue="manor"
-      venueArea="downstairs"
-      theme="light"
       showSectionsAfterOverview={false}
     />
   );

@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import KaraokeBookingModal from '../components/KaraokeBookingModal';
-
-// Extend window type for Karaoke Widget
-declare global {
-  interface Window {
-    GMKaraokeBookingModal?: (bookingType: string, venue: string) => void;
-  }
-}
 const Karaoke = () => {
   const [isBookingLoading, setIsBookingLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
