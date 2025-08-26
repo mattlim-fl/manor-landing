@@ -10,7 +10,7 @@ const FullVenue = () => {
     },
     {
       title: "Capacity",
-      content: "Full venue capacity for 120-150 people standing. Seated dining for up to 80 guests across both levels. Flexible layouts from cocktail style to formal dining. Multiple areas for different event activities and guest experiences."
+      content: "Full venue capacity for up to 250 people. Flexible layouts from cocktail style to lounge bar. Multiple areas for different activities and guest experiences."
     },
     {
       title: "Pricing", 
