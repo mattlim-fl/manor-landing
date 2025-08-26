@@ -33,7 +33,7 @@ const UpstairsDescriptionSection: React.FC<DescriptionSectionProps> = ({
             color: '#060201',
             border: '1px solid #060201'
           }}>
-            VIP Seating
+            Cocktails
           </Badge>
         </div>
         
