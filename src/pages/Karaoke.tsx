@@ -10,14 +10,14 @@ const Karaoke = () => {
     setTimeout(() => setIsBookingLoading(false), 300);
   };
   return <div className="h-screen" style={{
-    backgroundColor: '#2A1205',
+    backgroundColor: '#261209',
     color: '#FFFFFF'
   }}>
       <Header />
       
       {/* Main Content */}
       <div className="h-full flex flex-col" style={{
-        backgroundColor: '#2A1205'
+        backgroundColor: '#261209'
       }}>
         {/* Top spacing - Reduced by 50% */}
         <div className="h-20"></div>

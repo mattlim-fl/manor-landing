@@ -64,7 +64,7 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#2A1205' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#261209' }}>
       <Header />
       
       <div className="pt-20">

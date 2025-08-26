@@ -19,7 +19,7 @@ const Services = () => {
     setIsModalOpen(true);
   };
   return <div className="min-h-screen text-manor-white" style={{
-    backgroundColor: '#2A1205'
+    backgroundColor: '#261209'
   }}>
       <Header />
       
@@ -27,7 +27,7 @@ const Services = () => {
       <div className="relative min-h-screen flex flex-col justify-center">
         {/* Background */}
         <div className="absolute inset-0" style={{
-        backgroundColor: '#2A1205'
+        backgroundColor: '#261209'
       }} />
         
         <div className="max-w-7xl mx-auto px-4 text-center relative z-10 pt-20 md:pt-0">
