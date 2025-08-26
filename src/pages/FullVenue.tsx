@@ -18,7 +18,7 @@ const FullVenue = () => {
     },
     {
       title: "Access",
-      content: "Complete exclusive venue access with private entry. Full control of both upstairs and downstairs areas. All bar and kitchen facilities included. Professional event coordination and dedicated security. Custom setup and breakdown included."
+      content: "Exclusive venue access with private laneway entry. Full control of both upstairs and downstairs areas."
     }
   ];
 
