@@ -10,7 +10,7 @@ const Upstairs = () => {
     },
     {
       title: "Capacity",
-      content: "• Suitable for 20 to 60 guests\n• Flexible layout options to suit your event"
+      content: "• Suitable for 20 to 70 guests\n• Flexible layout options to suit your event"
     },
     {
       title: "Availability & Pricing", 
