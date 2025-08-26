@@ -53,7 +53,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       
       {/* Title and button below image */}
       <div className="flex flex-col items-center justify-center py-3" style={{ backgroundColor: '#2A1205' }}>
-        <div className="flex items-center justify-center w-full max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-center w-full max-w-7xl mx-auto px-4 mb-4">
           {left && (
             <button
               onClick={() => navigate(left)}
@@ -63,7 +63,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               <ChevronLeft size={32} className="md:w-12 md:h-12" />
             </button>
           )}
-          <h1 className="manor-heading text-4xl md:text-8xl lg:text-[12rem] text-center mb-4 flex-1" style={{ color: '#E14116' }}>
+          <h1 className="manor-heading text-4xl md:text-8xl lg:text-[12rem] text-center flex-1" style={{ color: '#E14116' }}>
             {heroTitle}
           </h1>
           {right && (
