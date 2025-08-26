@@ -34,9 +34,6 @@ const BirthdaysOccasions = () => {
       description={description}
       accordionItems={accordionItems}
       greatForCards={greatForCards}
-      bookingUrl={bookingUrl}
-      whatsappNumber={whatsappNumber}
-      whatsappMessage={whatsappMessage}
       showNewsletterSection={false}
     />
   );

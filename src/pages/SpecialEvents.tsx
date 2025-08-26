@@ -47,7 +47,6 @@ const SpecialEvents = () => {
       description="Full venue hire available for corporate events, private parties, product launches, and celebrations. Custom packages with dedicated event coordination."
       accordionItems={accordionItems}
       greatForCards={greatForCards}
-      bookingUrl="https://manor.simplybook.me/special-events"
     />
   );
 };

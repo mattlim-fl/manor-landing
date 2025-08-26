@@ -26,7 +26,7 @@ export default function EmailEventsDebug() {
     setLoading(true)
     try {
       const events = await getEmailEvents(bookingId)
-      setEmailEvents(events)
+      setEmailEvents(events as unknown as EmailEvent[])
     } catch (error) {
       console.error('Failed to fetch email events:', error)
     } finally {

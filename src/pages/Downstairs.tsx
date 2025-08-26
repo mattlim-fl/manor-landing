@@ -6,7 +6,7 @@ const Downstairs = () => {
   const accordionItems = [
     {
       title: "Features",
-      content: "• Main Bar area with cocktail service.\n• Dance floor with professional sound system\n• DJ equipment & lighting\n• Direct access to courtyard\n• Ample male & female bathrooms"
+      content: "• Main Bar area with cocktail service\n• Dance floor with professional sound system\n• DJ equipment & lighting\n• Direct access to courtyard\n• Ample male & female bathrooms"
     },
     {
       title: "Capacity",

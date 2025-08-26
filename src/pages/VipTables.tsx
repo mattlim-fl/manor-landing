@@ -57,7 +57,6 @@ const VipTables = () => {
         description="Premium table service with dedicated waitstaff and prime location on the dancefloor. Includes reserved seating and bottle service options for groups of 2-12 people."
         accordionItems={accordionItems}
         greatForCards={greatForCards}
-        bookingUrl="#"
       />
       
       {/* VIP Booking Buttons Section */}
