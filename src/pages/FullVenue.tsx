@@ -6,7 +6,7 @@ const FullVenue = () => {
   const accordionItems = [
     {
       title: "Features",
-      content: "Exclusive access to entire Manor venue including upstairs and downstairs areas. Both main and secondary bars with full cocktail service. Complete dancefloor and VIP seating areas. Professional sound, lighting, and AV equipment throughout. Outdoor terrace access and private entrance arrangements."
+      content: "Exclusive Manor venue access including upstairs and downstairs. Both main and lounge bars with curated cocktail service. Spacious dance floor with professional sound, lighting and DJ equipment. Outdoor courtyard, private laneway entrance and ample bathrooms."
     },
     {
       title: "Capacity",
