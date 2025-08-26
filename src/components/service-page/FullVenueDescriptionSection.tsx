@@ -56,7 +56,7 @@ const FullVenueDescriptionSection: React.FC<DescriptionSectionProps> = ({
             backgroundColor: '#F2993B',
             color: '#060201',
             border: '1px solid #060201'
-          }}>Great for cocktail parties, celebrations, events and corporate functions up to 150 people.</Badge>
+          }}>Great for cocktail parties, celebrations, events and corporate functions up to 250 people.</Badge>
         </div>
       </div>
     </div>
