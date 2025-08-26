@@ -93,7 +93,7 @@ const Services = () => {
                   <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">
                     Featuring the karaoke booth, lounge bar and dance floor views.
                   </p>
-                  <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">Suitable for 20 to 60 guests.</p>
+                  <p className="text-lg mb-8 text-manor-white leading-relaxed max-w-lg mx-auto">Suitable for 20 to 70 guests.</p>
                 </div>
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
                   
