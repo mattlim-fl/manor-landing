@@ -32,7 +32,7 @@ const Services = () => {
         
         <div className="max-w-7xl mx-auto px-4 text-center relative z-10 pt-20 md:pt-0">
           <h1 className="manor-heading text-6xl md:text-8xl mb-12 animate-fade-in" style={{
-          color: '#E14116'
+          color: '#CD3B2E'
         }}>
             VENUE HIRE
           </h1>
@@ -47,7 +47,7 @@ const Services = () => {
               <div className="absolute inset-0 flex flex-col justify-between text-center px-12 py-8">
                 <div className="flex-1 flex flex-col justify-center">
                   <h2 className="manor-heading text-4xl mb-6" style={{
-                  color: '#E14116'
+                  color: '#CD3B2E'
                 }}>
                     DOWNSTAIRS
                   </h2>
@@ -86,7 +86,7 @@ const Services = () => {
               <div className="absolute inset-0 flex flex-col justify-between text-center px-12 py-8">
                 <div className="flex-1 flex flex-col justify-center">
                   <h2 className="manor-heading text-4xl mb-6" style={{
-                  color: '#E14116'
+                  color: '#CD3B2E'
                 }}>
                     UPSTAIRS
                   </h2>
@@ -125,7 +125,7 @@ const Services = () => {
               <div className="absolute inset-0 flex flex-col justify-between text-center px-12 py-8">
                 <div className="flex-1 flex flex-col justify-center">
                   <h2 className="manor-heading text-4xl mb-6" style={{
-                  color: '#E14116'
+                  color: '#CD3B2E'
                 }}>
                     FULL VENUE
                   </h2>

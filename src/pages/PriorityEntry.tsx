@@ -16,7 +16,7 @@ const PriorityEntry = () => {
         <div className="absolute inset-0" style={{ backgroundColor: '#2A1205' }} />
         
         <div className="max-w-7xl mx-auto px-4 text-center relative z-10 pt-20 md:pt-0">
-          <h1 className="manor-heading text-5xl md:text-7xl lg:text-8xl mb-8 animate-fade-in" style={{ color: '#E14116' }}>
+          <h1 className="manor-heading text-5xl md:text-7xl lg:text-8xl mb-8 animate-fade-in" style={{ color: '#CD3B2E' }}>
             <div>25+</div>
             <div>PRIORITY</div>
             <div>ENTRY</div>

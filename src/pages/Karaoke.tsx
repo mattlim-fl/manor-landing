@@ -25,7 +25,7 @@ const Karaoke = () => {
         {/* Center content - Heading and Button */}
         <div className="flex flex-col items-center text-center px-4 z-10">
           <h1 className="manor-heading text-6xl md:text-8xl lg:text-9xl mb-6 animate-fade-in" style={{
-            color: '#E14116'
+            color: '#CD3B2E'
           }}>
             <div>KARAOKE</div>
             <div>BOOTHS</div>
