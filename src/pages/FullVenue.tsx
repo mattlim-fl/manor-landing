@@ -13,7 +13,7 @@ const FullVenue = () => {
       content: "Full venue capacity for up to 250 people. Flexible layouts from cocktail style to lounge bar. Multiple areas for different activities and guest experiences."
     },
     {
-      title: "Pricing", 
+      title: "Availability & Pricing", 
       content: "Custom pricing available upon enquiry."
     },
     {
