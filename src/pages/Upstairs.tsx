@@ -18,7 +18,7 @@ const Upstairs = () => {
     },
     {
       title: "Access",
-      content: "Private staircase access to upstairs area. Exclusive VIP restroom facilities. Elevated views of entire venue. Premium table service throughout your event. Direct access to secondary bar area."
+      content: "Private staircase access to upstairs area."
     }
   ];
 
