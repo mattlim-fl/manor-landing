@@ -14,7 +14,7 @@ const FullVenue = () => {
     },
     {
       title: "Availability & Pricing", 
-      content: "Custom pricing available upon enquiry."
+      content: "Sunday to Friday\n• 6pm to 5am\n• Custom pricing available upon request\n\nSaturday\n• 6pm to 11pm*\n• Custom pricing available upon request\n\n*At 11pm the venue opens to the public. Your guests are welcome to stay as long as they like."
     },
     {
       title: "Access",
