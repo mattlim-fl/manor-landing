@@ -14,7 +14,7 @@ const FullVenue = () => {
     },
     {
       title: "Pricing", 
-      content: "Full venue hire from $3500 for 5 hours. Premium exclusive access with complete venue control. Package includes all sound and lighting equipment, both bar areas, and dedicated event coordination. Custom pricing for extended events and additional services."
+      content: "Custom pricing available upon enquiry."
     },
     {
       title: "Access",
