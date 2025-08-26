@@ -1,6 +1,6 @@
 
 import React from 'react';
-import ServicePageTemplate from '../components/ServicePageTemplate';
+import FullVenueServicePageTemplate from '../components/FullVenueServicePageTemplate';
 
 const FullVenue = () => {
   const accordionItems = [
@@ -23,7 +23,7 @@ const FullVenue = () => {
   ];
 
   return (
-    <ServicePageTemplate
+    <FullVenueServicePageTemplate
       heroImage="https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
       heroTitle="FULL VENUE"
       description="Complete exclusive hire of the entire Manor including both upstairs and downstairs areas. Perfect for product launches, wedding receptions, and major corporate events up to 150 people."
