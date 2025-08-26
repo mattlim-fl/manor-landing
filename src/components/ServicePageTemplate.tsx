@@ -27,6 +27,7 @@ interface ServicePageProps {
   greatForCards: GreatForCard[];
   showSectionsAfterOverview?: boolean;
   showNewsletterSection?: boolean;
+  customPillText?: string;
 }
 
 const ServicePageTemplate: React.FC<ServicePageProps> = ({
@@ -36,7 +37,8 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   accordionItems,
   greatForCards,
   showSectionsAfterOverview = true,
-  showNewsletterSection = true
+  showNewsletterSection = true,
+  customPillText
 }) => {
   const [showBooking, setShowBooking] = useState(false);
   const location = useLocation();
@@ -75,7 +77,7 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
         currentPage="downstairs"
       />
 
-        <DescriptionSection description={description} />
+        <DescriptionSection description={description} customPillText={customPillText} />
 
         <OverviewSection accordionItems={accordionItems} />
 
