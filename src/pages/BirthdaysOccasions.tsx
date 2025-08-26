@@ -35,7 +35,6 @@ const BirthdaysOccasions = () => {
       accordionItems={accordionItems}
       greatForCards={greatForCards}
       showNewsletterSection={false}
-      customPillText="Looking to celebrate? Message us for priority entry, reserved areas and drink packages to mark the occasion."
     />
   );
 };
