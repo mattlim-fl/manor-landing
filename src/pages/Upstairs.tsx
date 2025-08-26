@@ -1,6 +1,6 @@
 
 import React from 'react';
-import ServicePageTemplate from '../components/ServicePageTemplate';
+import UpstairsServicePageTemplate from '../components/UpstairsServicePageTemplate';
 
 const Upstairs = () => {
   const accordionItems = [
@@ -23,7 +23,7 @@ const Upstairs = () => {
   ];
 
   return (
-    <ServicePageTemplate
+    <UpstairsServicePageTemplate
       heroImage="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
       heroTitle="UPSTAIRS"
       description="Exclusive hire of our premium upstairs area with VIP seating, elevated views, and sophisticated atmosphere. Perfect for intimate celebrations and executive events up to 60 people."
