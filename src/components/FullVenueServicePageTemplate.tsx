@@ -67,11 +67,12 @@ const FullVenueServicePageTemplate: React.FC<ServicePageProps> = ({
       <Header />
       
       <div className="pt-20">
-        <HeroSection 
-          heroImage={heroImage}
-          heroTitle={heroTitle}
-          onBookingClick={openBooking}
-        />
+      <HeroSection 
+        heroImage={heroImage}
+        heroTitle={heroTitle}
+        onBookingClick={openBooking}
+        currentPage="full-venue"
+      />
 
         <FullVenueDescriptionSection description={description} />
 

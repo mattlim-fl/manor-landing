@@ -68,11 +68,12 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
       <Header />
       
       <div className="pt-20">
-        <HeroSection 
-          heroImage={heroImage}
-          heroTitle={heroTitle}
-          onBookingClick={openBooking}
-        />
+      <HeroSection 
+        heroImage={heroImage}
+        heroTitle={heroTitle}
+        onBookingClick={openBooking}
+        currentPage="downstairs"
+      />
 
         <DescriptionSection description={description} />
 
