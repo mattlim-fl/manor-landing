@@ -44,7 +44,7 @@ const Services = () => {
               backgroundImage: `url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
             }} />
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
-              <div className="absolute inset-0 flex flex-col justify-between text-center px-12 py-8">
+              <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-12 py-8">
                 <div className="flex-1 flex flex-col justify-center">
                   <h2 className="manor-heading text-4xl mb-6" style={{
                   color: '#CD3E28'
