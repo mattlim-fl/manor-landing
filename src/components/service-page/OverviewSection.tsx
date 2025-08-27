@@ -25,7 +25,14 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
     const lines = content.split('\n');
     return lines.map((line, index) => (
       <div key={index} className="mb-1">
-        {line}
+        {line.startsWith('•') ? (
+          <span>
+            <span style={{ color: '#D04E2B' }}>•</span>
+            <span style={{ color: '#E59D50', fontWeight: 500 }}>{line.substring(1)}</span>
+          </span>
+        ) : (
+          <span style={{ color: '#E59D50', fontWeight: 500 }}>{line}</span>
+        )}
       </div>
     ));
   };
