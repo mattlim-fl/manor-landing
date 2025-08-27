@@ -19,18 +19,18 @@ const Index = () => {
           to="/karaoke"
           className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
           style={{ 
-            backgroundColor: '#F2993B', 
+            backgroundColor: '#E59D50', 
             color: '#060201',
             borderWidth: '2px',
             borderStyle: 'solid',
-            borderColor: '#F2993B'
+            borderColor: '#E59D50'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#060201';
-            e.currentTarget.style.color = '#F2993B';
+            e.currentTarget.style.color = '#E59D50';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#F2993B';
+            e.currentTarget.style.backgroundColor = '#E59D50';
             e.currentTarget.style.color = '#060201';
           }}
         >
@@ -41,18 +41,18 @@ const Index = () => {
           to="/services"
           className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
           style={{ 
-            backgroundColor: '#F2993B', 
+            backgroundColor: '#E59D50', 
             color: '#060201',
             borderWidth: '2px',
             borderStyle: 'solid',
-            borderColor: '#F2993B'
+            borderColor: '#E59D50'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#060201';
-            e.currentTarget.style.color = '#F2993B';
+            e.currentTarget.style.color = '#E59D50';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#F2993B';
+            e.currentTarget.style.backgroundColor = '#E59D50';
             e.currentTarget.style.color = '#060201';
           }}
         >
@@ -63,18 +63,18 @@ const Index = () => {
           to="/priority-entry"
           className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
           style={{ 
-            backgroundColor: '#F2993B', 
+            backgroundColor: '#E59D50', 
             color: '#060201',
             borderWidth: '2px',
             borderStyle: 'solid',
-            borderColor: '#F2993B'
+            borderColor: '#E59D50'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#060201';
-            e.currentTarget.style.color = '#F2993B';
+            e.currentTarget.style.color = '#E59D50';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#F2993B';
+            e.currentTarget.style.backgroundColor = '#E59D50';
             e.currentTarget.style.color = '#060201';
           }}
         >
@@ -85,18 +85,18 @@ const Index = () => {
           to="/birthdays-occasions"
           className="btn-menu font-bold px-3 py-1.5 rounded-full uppercase tracking-wider transition-all duration-300 text-xs text-center whitespace-nowrap"
           style={{ 
-            backgroundColor: '#F2993B', 
+            backgroundColor: '#E59D50', 
             color: '#060201',
             borderWidth: '2px',
             borderStyle: 'solid',
-            borderColor: '#F2993B'
+            borderColor: '#E59D50'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#060201';
-            e.currentTarget.style.color = '#F2993B';
+            e.currentTarget.style.color = '#E59D50';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#F2993B';
+            e.currentTarget.style.backgroundColor = '#E59D50';
             e.currentTarget.style.color = '#060201';
           }}
         >
@@ -132,7 +132,7 @@ const Index = () => {
                 <h1 
                   className="inline-block font-bold px-4 py-2 rounded-full uppercase tracking-wider text-sm"
                   style={{ 
-                    backgroundColor: '#F2993B', 
+                    backgroundColor: '#E59D50', 
                     color: '#060201'
                   }}
                 >

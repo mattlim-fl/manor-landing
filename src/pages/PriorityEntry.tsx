@@ -26,16 +26,16 @@ const PriorityEntry = () => {
           
           <div className="mb-12 animate-fade-in">
             <button onClick={() => setIsTicketModalOpen(true)} className="font-bold px-8 py-4 rounded-full uppercase tracking-wider transition-all duration-300 text-sm inline-block cursor-pointer" style={{
-            backgroundColor: '#F2993B',
+            backgroundColor: '#E59D50',
             color: '#060201',
             borderWidth: '2px',
             borderStyle: 'solid',
-            borderColor: '#F2993B'
+            borderColor: '#E59D50'
           }} onMouseEnter={e => {
             e.currentTarget.style.backgroundColor = '#060201';
-            e.currentTarget.style.color = '#F2993B';
+            e.currentTarget.style.color = '#E59D50';
           }} onMouseLeave={e => {
-            e.currentTarget.style.backgroundColor = '#F2993B';
+            e.currentTarget.style.backgroundColor = '#E59D50';
             e.currentTarget.style.color = '#060201';
           }}>
               BOOK VIP ENTRY
