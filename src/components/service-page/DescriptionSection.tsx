@@ -12,21 +12,21 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
       <div className="space-y-6">
         <div className="flex flex-wrap justify-center gap-3">
           <Badge className="px-4 py-2 text-sm font-semibold" style={{
-          backgroundColor: '#FFB347',
+          backgroundColor: '#D04E2B',
           color: '#271308',
           border: '1px solid #6A2A00'
         }}>
             Main Bar
           </Badge>
           <Badge className="px-4 py-2 text-sm font-semibold" style={{
-          backgroundColor: '#FFB347',
+          backgroundColor: '#D04E2B',
           color: '#271308',
           border: '1px solid #6A2A00'
         }}>
             Dance Floor
           </Badge>
           <Badge className="px-4 py-2 text-sm font-semibold" style={{
-          backgroundColor: '#FFB347',
+          backgroundColor: '#D04E2B',
           color: '#271308',
           border: '1px solid #6A2A00'
         }}>
@@ -36,7 +36,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
         
         <div className="flex flex-wrap justify-center gap-3">
           <Badge className="px-4 py-2 text-lg" style={{
-          backgroundColor: '#FFB347',
+          backgroundColor: '#D04E2B',
           color: '#271308',
           border: '1px solid #6A2A00'
         }}>Great for cocktail parties, celebrations, events and corporate functions up to 150 people.</Badge>
