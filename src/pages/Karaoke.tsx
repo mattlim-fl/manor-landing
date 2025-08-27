@@ -27,7 +27,7 @@ const Karaoke = () => {
           <h1 className="manor-heading text-6xl md:text-8xl lg:text-9xl mb-6 animate-fade-in" style={{
             color: '#CD3E28'
           }}>
-            <div>KARAOKE</div>
+            <div style={{ color: '#CD3E28' }}>KARAOKE</div>
             <div>BOOTHS</div>
           </h1>
           <div className="space-y-4 mb-12 animate-fade-in">
