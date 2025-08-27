@@ -14,21 +14,24 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
           <Badge className="px-4 py-2 text-sm font-semibold" style={{
           backgroundColor: '#D04E2B',
           color: '#271308',
-          border: '1px solid #6A2A00'
+          border: '1px solid #6A2A00',
+          boxShadow: '0 0 0 2px #271308'
         }}>
             Main Bar
           </Badge>
           <Badge className="px-4 py-2 text-sm font-semibold" style={{
           backgroundColor: '#D04E2B',
           color: '#271308',
-          border: '1px solid #6A2A00'
+          border: '1px solid #6A2A00',
+          boxShadow: '0 0 0 2px #271308'
         }}>
             Dance Floor
           </Badge>
           <Badge className="px-4 py-2 text-sm font-semibold" style={{
           backgroundColor: '#D04E2B',
           color: '#271308',
-          border: '1px solid #6A2A00'
+          border: '1px solid #6A2A00',
+          boxShadow: '0 0 0 2px #271308'
         }}>
             Courtyard
           </Badge>
@@ -38,7 +41,8 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
           <Badge className="px-4 py-2 text-lg" style={{
           backgroundColor: '#D04E2B',
           color: '#271308',
-          border: '1px solid #6A2A00'
+          border: '1px solid #6A2A00',
+          boxShadow: '0 0 0 2px #271308'
         }}>Great for cocktail parties, celebrations, events and corporate functions up to 150 people.</Badge>
         </div>
       </div>
