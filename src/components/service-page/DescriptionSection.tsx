@@ -19,7 +19,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
             Main Bar
           </Badge>
           <Badge className="px-4 py-2 text-sm font-semibold" style={{
-          backgroundColor: '#D04E2B',
+          backgroundColor: '#E59D50',
           color: '#060201',
           border: '1px solid #060201'
         }}>
