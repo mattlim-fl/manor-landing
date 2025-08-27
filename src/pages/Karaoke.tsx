@@ -32,7 +32,7 @@ const Karaoke = () => {
           </h1>
           <div className="space-y-4 mb-12 animate-fade-in">
             <button onClick={handleBookKaraoke} disabled={isBookingLoading} className="inline-block font-bold px-8 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed" style={{
-              backgroundColor: '#E59D50',
+              backgroundColor: '#D04E2B',
               color: '#060201'
             }}>
               {isBookingLoading ? 'Loading...' : 'Book Now'}
@@ -48,8 +48,8 @@ const Karaoke = () => {
           <div className="text-center max-w-2xl">
             <div className="rounded-full px-8 py-6 border-2" style={{
               backgroundColor: '#060201',
-              color: '#E59D50',
-              borderColor: '#E59D50'
+              color: '#D04E2B',
+              borderColor: '#D04E2B'
             }}>
               <p className="text-lg md:text-xl mb-2">Private karaoke booth now available for hire!</p>
               <p className="text-sm md:text-base">Perfect for birthdays, special occasions or just a fun night out with friends.</p>

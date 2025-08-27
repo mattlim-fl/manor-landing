@@ -32,26 +32,26 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
 
   return (
     <div className="max-w-4xl mx-auto px-4 pb-8" style={{ paddingTop: '10px', paddingBottom: '24px' }}>
-      <h2 className="manor-heading text-3xl mb-6" style={{ color: '#E59D50' }}>DETAILS</h2>
+      <h2 className="manor-heading text-3xl mb-6" style={{ color: '#D04E2B' }}>DETAILS</h2>
       <div className="space-y-4">
         {accordionItems.map((item, index) => (
           <div key={index} className="border-b" style={{ borderColor: '#060201' }}>
             <button
               onClick={() => toggleAccordion(index)}
               className="w-full flex justify-between items-center py-4 text-left transition-colors"
-              style={{ color: '#E59D50' }}
+              style={{ color: '#D04E2B' }}
             >
               <span className="text-xl font-medium">
                 {item.title}
               </span>
               {expandedAccordion === index ? (
-                <Minus size={24} style={{ color: '#E59D50' }} />
+                <Minus size={24} style={{ color: '#D04E2B' }} />
               ) : (
-                <Plus size={24} style={{ color: '#E59D50' }} />
+                <Plus size={24} style={{ color: '#D04E2B' }} />
               )}
             </button>
             {expandedAccordion === index && (
-              <div className="pb-4 leading-relaxed" style={{ color: '#E59D50' }}>
+              <div className="pb-4 leading-relaxed" style={{ color: '#D04E2B' }}>
                 {renderContent(item.content)}
               </div>
             )}

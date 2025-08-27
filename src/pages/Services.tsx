@@ -60,16 +60,16 @@ const Services = () => {
                   
                   <Link to="/downstairs" className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap" style={{
                   backgroundColor: 'transparent',
-                  color: '#E59D50',
+                  color: '#D04E2B',
                   borderWidth: '2px',
                   borderStyle: 'solid',
-                  borderColor: '#E59D50'
+                  borderColor: '#D04E2B'
                 }} onMouseEnter={e => {
-                  e.currentTarget.style.backgroundColor = '#E59D50';
+                  e.currentTarget.style.backgroundColor = '#D04E2B';
                   e.currentTarget.style.color = '#060201';
                 }} onMouseLeave={e => {
                   e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#E59D50';
+                  e.currentTarget.style.color = '#D04E2B';
                 }}>
                     INFO
                   </Link>
@@ -99,16 +99,16 @@ const Services = () => {
                   
                   <Link to="/upstairs" className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap" style={{
                   backgroundColor: 'transparent',
-                  color: '#E59D50',
+                  color: '#D04E2B',
                   borderWidth: '2px',
                   borderStyle: 'solid',
-                  borderColor: '#E59D50'
+                  borderColor: '#D04E2B'
                 }} onMouseEnter={e => {
-                  e.currentTarget.style.backgroundColor = '#E59D50';
+                  e.currentTarget.style.backgroundColor = '#D04E2B';
                   e.currentTarget.style.color = '#060201';
                 }} onMouseLeave={e => {
                   e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#E59D50';
+                  e.currentTarget.style.color = '#D04E2B';
                 }}>
                     INFO
                   </Link>
@@ -136,16 +136,16 @@ const Services = () => {
                   
                   <Link to="/full-venue" className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap" style={{
                   backgroundColor: 'transparent',
-                  color: '#E59D50',
+                  color: '#D04E2B',
                   borderWidth: '2px',
                   borderStyle: 'solid',
-                  borderColor: '#E59D50'
+                  borderColor: '#D04E2B'
                 }} onMouseEnter={e => {
-                  e.currentTarget.style.backgroundColor = '#E59D50';
+                  e.currentTarget.style.backgroundColor = '#D04E2B';
                   e.currentTarget.style.color = '#060201';
                 }} onMouseLeave={e => {
                   e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#E59D50';
+                  e.currentTarget.style.color = '#D04E2B';
                 }}>
                     INFO
                   </Link>

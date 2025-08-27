@@ -80,19 +80,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           onClick={onBookingClick}
           className="px-6 py-3 text-lg font-semibold cursor-pointer transition-all duration-300" 
           style={{ 
-            backgroundColor: '#E59D50', 
+            backgroundColor: '#D04E2B', 
             color: '#060201', 
-            border: '1px solid #E59D50'
+            border: '1px solid #D04E2B'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#060201';
-            e.currentTarget.style.color = '#E59D50';
-            e.currentTarget.style.borderColor = '#E59D50';
+            e.currentTarget.style.color = '#D04E2B';
+            e.currentTarget.style.borderColor = '#D04E2B';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#E59D50';
+            e.currentTarget.style.backgroundColor = '#D04E2B';
             e.currentTarget.style.color = '#060201';
-            e.currentTarget.style.borderColor = '#E59D50';
+            e.currentTarget.style.borderColor = '#D04E2B';
           }}
         >
           ENQUIRE
