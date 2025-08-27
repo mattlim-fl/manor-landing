@@ -10,7 +10,7 @@ const FullVenueDescriptionSection: React.FC<DescriptionSectionProps> = ({
 }) => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 text-center" style={{
-      backgroundColor: '#261209'
+      backgroundColor: '#271308'
     }}>
       <div className="space-y-6">
         <div className="flex flex-wrap justify-center gap-3">

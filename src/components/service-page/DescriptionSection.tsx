@@ -6,8 +6,8 @@ interface DescriptionSectionProps {
 const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   description
 }) => {
-  return <div className="max-w-4xl mx-auto px-4 py-8 text-center" style={{
-    backgroundColor: '#261209'
+   return <div className="max-w-4xl mx-auto px-4 py-8 text-center" style={{
+    backgroundColor: '#271308'
   }}>
       <div className="space-y-6">
         <div className="flex flex-wrap justify-center gap-3">

@@ -12,7 +12,7 @@ declare global {
 const Index = () => {
 
   return (
-    <div className="min-h-screen text-manor-white" style={{ backgroundColor: '#261209' }}>
+    <div className="min-h-screen text-manor-white" style={{ backgroundColor: '#271308' }}>
       {/* Fixed Navigation Buttons - Bottom Right */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col space-y-3">
         <Link 
@@ -108,7 +108,7 @@ const Index = () => {
         {/* Main Hero */}
         <div className="flex-1 relative overflow-hidden">
           {/* Background */}
-          <div className="absolute inset-0" style={{ backgroundColor: '#261209' }} />
+          <div className="absolute inset-0" style={{ backgroundColor: '#271308' }} />
           
           
           {/* Content */}

@@ -63,7 +63,7 @@ const FullVenueServicePageTemplate: React.FC<ServicePageProps> = ({
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#261209' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#271308' }}>
       <Header />
       
       <div className="pt-20">
