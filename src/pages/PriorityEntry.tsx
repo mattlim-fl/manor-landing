@@ -44,7 +44,7 @@ const PriorityEntry = () => {
           </div>
           
           <div className="mb-12 animate-fade-in">
-            <button onClick={() => setIsTicketModalOpen(true)} className="font-bold px-8 py-4 rounded-full uppercase tracking-wider transition-all duration-300 text-sm inline-block cursor-pointer" style={{
+            <a href="https://megatix.com.au/white-label/manor-leederville-priority-entry" className="font-bold px-8 py-4 rounded-full uppercase tracking-wider transition-all duration-300 text-sm inline-block cursor-pointer" style={{
             backgroundColor: '#D04E2B',
             color: '#FFFFFF',
             borderWidth: '2px',
@@ -52,13 +52,13 @@ const PriorityEntry = () => {
             borderColor: '#271308'
           }} onMouseEnter={e => {
             e.currentTarget.style.backgroundColor = '#FFFFFF';
-            e.currentTarget.style.color = '#D04E2B';
+            (e.currentTarget as HTMLAnchorElement).style.color = '#D04E2B';
           }} onMouseLeave={e => {
             e.currentTarget.style.backgroundColor = '#D04E2B';
-            e.currentTarget.style.color = '#FFFFFF';
+            (e.currentTarget as HTMLAnchorElement).style.color = '#FFFFFF';
           }}>
               BOOK NOW
-            </button>
+            </a>
           </div>
           
           <div className="max-w-2xl mx-auto text-center animate-fade-in">

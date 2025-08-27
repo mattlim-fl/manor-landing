@@ -279,14 +279,8 @@ export async function sendVenueBookingConfirmation(
       result = (sendCustomer.data as { success: boolean; error?: string; data?: { id?: string } }) || { success: false, error: sendCustomer.error?.message }
     }
 
-    // Internal notification (always attempt)
-    try {
-      await supabase.functions.invoke('send-email', {
-        body: { template: 'venue-internal-notification', data, to: 'matt@getproductbox.com' }
-      })
-    } catch (e) {
-      console.warn('Internal notification email failed (non-blocking):', e)
-    }
+    // Internal notification is sent within the edge function when using
+    // template 'venue-confirmation', so no separate invocation here.
 
     // If the sendCustomer invocation returned an error object, handle it
     if (!result.success) {

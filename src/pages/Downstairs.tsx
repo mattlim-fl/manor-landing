@@ -48,6 +48,7 @@ const Downstairs = () => {
       accordionItems={accordionItems}
       greatForCards={greatForCards}
       showSectionsAfterOverview={false}
+      currentPage="downstairs"
     />
   );
 };

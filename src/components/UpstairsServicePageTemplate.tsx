@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from './Header';
+import DirectVenueBookingModal from './DirectVenueBookingModal';
 import HeroSection from './service-page/HeroSection';
 import UpstairsDescriptionSection from './service-page/UpstairsDescriptionSection';
 import OverviewSection from './service-page/OverviewSection';
@@ -86,6 +87,13 @@ const UpstairsServicePageTemplate: React.FC<ServicePageProps> = ({
           </>
         )}
       </div>
+
+      <DirectVenueBookingModal
+        isOpen={showBooking}
+        onClose={() => setShowBooking(false)}
+        defaultVenue="manor"
+        defaultVenueArea="upstairs"
+      />
     </div>
   );
 };

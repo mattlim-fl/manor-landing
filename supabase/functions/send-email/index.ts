@@ -1,4 +1,8 @@
+// @ts-expect-error - Deno remote import types are not available in this toolchain
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+// Minimal declaration for Deno global used for env access in Edge Functions
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare const Deno: any
 
 const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
@@ -36,24 +40,199 @@ function get(data: Record<string, unknown>, path: string): unknown {
   }, data)
 }
 
-function render(template: string, data: Record<string, unknown>): string {
-  // Handle conditional sections: {{#key}}...{{/key}}
-  template = template.replace(/\{\{#\s*([\w.]+)\s*\}\}([\s\S]*?)\{\{\/\s*\1\s*\}\}/g, (_m, key: string, inner: string) => {
-    const value = get(data, key)
-    const isTruthy = !!value && value !== 'false' && value !== '0'
-    return isTruthy ? inner : ''
-  })
-
-  // Simple variable replacement: {{key}}
-  return template.replace(/\{\{\s*([\w.]+)\s*\}\}/g, (_m, key: string) => {
-    const value = get(data, key)
-    return value === undefined || value === null ? '' : String(value)
-  })
+function formatDateAU(iso?: string): string {
+  if (!iso) return ''
+  try {
+    const d = new Date(String(iso))
+    return d.toLocaleDateString('en-AU', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+  } catch {
+    return String(iso)
+  }
 }
 
-async function loadTemplate(name: string): Promise<string> {
-  const url = new URL(`./templates/${name}.html`, import.meta.url)
-  return await Deno.readTextFile(url)
+function renderVenueConfirmationHTML(data: Record<string, unknown>): string {
+  const venue = String(get(data, 'venue') ?? 'manor')
+  const venueDisplayName = venue === 'manor' ? 'Manor' : 'Hippie'
+  const area = String(get(data, 'venueArea') ?? '')
+  const areaDisplayName = area === 'downstairs' ? 'Downstairs' : area === 'upstairs' ? 'Upstairs' : 'Full Venue'
+  const bookingDate = formatDateAU(String(get(data, 'bookingDate') ?? ''))
+  const startTime = String(get(data, 'startTime') ?? '')
+  const endTime = String(get(data, 'endTime') ?? '')
+  const guestCount = String(get(data, 'guestCount') ?? '')
+  const customerName = String(get(data, 'customerName') ?? '')
+  const referenceCode = String(get(data, 'referenceCode') ?? '')
+  const customerEmail = String(get(data, 'customerEmail') ?? '')
+
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Booking Confirmation - Manor Perth</title>
+      <style>
+        body { 
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          line-height: 1.6;
+          color: #333;
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #f9f9f9;
+        }
+        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo { font-size: 28px; font-weight: bold; color: #8B4513; margin-bottom: 10px; }
+        .reference-code { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 2px solid #dee2e6; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0; }
+        .reference-code-label { font-size: 14px; font-weight: 600; color: #6c757d; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .reference-code-value { font-size: 24px; font-weight: bold; font-family: 'Courier New', monospace; color: #495057; letter-spacing: 2px; }
+        .booking-details { background: #f8f9fa; border-radius: 8px; padding: 20px; margin: 25px 0; }
+        .detail-row { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e9ecef; }
+        .detail-row:last-child { border-bottom: none; margin-bottom: 0; }
+        .detail-label { font-weight: 600; color: #495057; }
+        .detail-value { color: #6c757d; }
+        .message { background: #e7f3ff; border-left: 4px solid #007bff; padding: 20px; margin: 25px 0; border-radius: 0 8px 8px 0; }
+        .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e9ecef; color: #6c757d; font-size: 14px; }
+        .contact-info { margin-top: 15px; }
+        .contact-info a { color: #007bff; text-decoration: none; }
+        .contact-info a:hover { text-decoration: underline; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <div class="logo">MANOR</div>
+          <h1 style="margin: 0; color: #333; font-size: 24px;">Booking Enquiry Received</h1>
+        </div>
+
+        <p>Hi ${customerName},</p>
+
+        <p>Thank you for your venue booking enquiry with Manor Perth! We've received your request and our team will review it within the next two business days.</p>
+
+        <div class="reference-code">
+          <div class="reference-code-label">Reference Code</div>
+          <div class="reference-code-value">${referenceCode}</div>
+        </div>
+
+        <div class="booking-details">
+          <h3 style="margin-top: 0; color: #333;">Booking Details</h3>
+          <div class="detail-row"><span class="detail-label">Venue:</span><span class="detail-value">${venueDisplayName}</span></div>
+          <div class="detail-row"><span class="detail-label">Area:</span><span class="detail-value">${areaDisplayName}</span></div>
+          <div class="detail-row"><span class="detail-label">Date:</span><span class="detail-value">${bookingDate}</span></div>
+          <div class="detail-row"><span class="detail-label">Time:</span><span class="detail-value">${startTime} - ${endTime}</span></div>
+          <div class="detail-row"><span class="detail-label">Guests:</span><span class="detail-value">${guestCount} people</span></div>
+        </div>
+
+        <div class="message">
+          <strong>What happens next?</strong><br>
+          Our team will review your enquiry and get in touch within the next two business days to discuss availability, pricing, and confirm your booking details.
+        </div>
+
+        <p>Please keep your reference code handy for any future correspondence about this booking.</p>
+
+        <div class="footer">
+          <p><strong>Manor Perth</strong></p>
+          <div class="contact-info">
+            <p>📍 123 Murray Street, Perth WA 6000</p>
+            <p>📧 <a href="mailto:bookings@manorperth.com.au">bookings@manorperth.com.au</a></p>
+            <p>📞 <a href="tel:+61812345678">(08) 1234 5678</a></p>
+          </div>
+          <p style="margin-top: 20px; font-size: 12px; color: #adb5bd;">
+            This email was sent to ${customerEmail} in response to your booking enquiry.
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `
+}
+
+function renderKaraokeConfirmationHTML(data: Record<string, unknown>): string {
+  const customerName = String(get(data, 'customerName') ?? '')
+  const referenceCode = String(get(data, 'referenceCode') ?? '')
+  const bookingDate = String(get(data, 'bookingDate') ?? '')
+  const startTime = String(get(data, 'startTime') ?? '')
+  const endTime = String(get(data, 'endTime') ?? '')
+  const guestCount = String(get(data, 'guestCount') ?? '')
+
+  return `
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Karaoke Booking Confirmation - Manor Perth</title>
+      <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,.1); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo { font-size: 28px; font-weight: bold; color: #8B4513; margin-bottom: 10px; }
+        .reference-code { background: linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%); border: 2px solid #dee2e6; border-radius: 12px; padding: 20px; text-align: center; margin: 25px 0; }
+        .reference-code-label { font-size: 14px; font-weight: 600; color: #6c757d; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
+        .reference-code-value { font-size: 24px; font-weight: bold; font-family: 'Courier New', monospace; color: #495057; letter-spacing: 2px; }
+        .booking-details { background: #f8f9fa; border-radius: 8px; padding: 20px; margin: 25px 0; }
+        .detail-row { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e9ecef; }
+        .detail-row:last-child { border-bottom: none; margin-bottom: 0; }
+        .detail-label { font-weight: 600; color: #495057; }
+        .detail-value { color: #6c757d; }
+        .message { background: #e7f3ff; border-left: 4px solid #007bff; padding: 20px; margin: 25px 0; border-radius: 0 8px 8px 0; }
+        .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e9ecef; color: #6c757d; font-size: 14px; }
+        .karaoke-highlight { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); color: white; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <div class="logo">MANOR</div>
+          <h1 style="margin:0;color:#333;font-size:24px;">Karaoke Booking Confirmed!</h1>
+        </div>
+
+        <div class="karaoke-highlight">
+          <h2 style="margin:0;font-size:20px;">🎤 Your Karaoke Session is Booked!</h2>
+        </div>
+
+        <p>Hi ${customerName},</p>
+        <p>Thanks for your Karaoke Booth booking at Manor, here are the details:</p>
+
+        <div class="reference-code">
+          <div class="reference-code-label">Reference Code</div>
+          <div class="reference-code-value">${referenceCode}</div>
+        </div>
+
+        <div class="booking-details">
+          <h3 style="margin-top:0;color:#333;">Booking Details</h3>
+          <div class="detail-row"><span class="detail-label">Date:</span><span class="detail-value">${bookingDate}</span></div>
+          <div class="detail-row"><span class="detail-label">Time:</span><span class="detail-value">${startTime} - ${endTime}</span></div>
+          <div class="detail-row"><span class="detail-label">Capacity:</span><span class="detail-value">${guestCount} people</span></div>
+        </div>
+
+        <p>10 minutes before your booking, head to the bar upstairs at Manor to check in and receive your wristbands.</p>
+        <p>If you have purchased Guest List entries for your group, you will receive them via email the day before your booking.</p>
+        <p>If you haven’t purchased any Guest List entries and don’t want to miss your booking by getting stuck in line outside, message us on IG or WhatsApp.</p>
+        <p>IG: @manorleederville<br />FB: @manorleederville</p>
+
+        <div class="footer">
+          <p style="margin-top:20px;font-size:12px;color:#adb5bd;">This email was sent to ${String(get(data, 'customerEmail') ?? '')} to confirm your karaoke booking.</p>
+        </div>
+      </div>
+    </body>
+  </html>`
+}
+
+function renderVenueInternalNotificationHTML(data: Record<string, unknown>): string {
+  return `<!DOCTYPE html><html><body style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <h2>New Venue Hire Enquiry</h2>
+    <p><strong>Name:</strong> ${String(get(data, 'customerName') ?? '')}</p>
+    <p><strong>Email:</strong> ${String(get(data, 'customerEmail') ?? '')}</p>
+    <p><strong>Phone:</strong> ${String(get(data, 'customerPhone') ?? '')}</p>
+    <p><strong>Reference:</strong> ${String(get(data, 'referenceCode') ?? '')}</p>
+    <p><strong>Venue:</strong> ${String(get(data, 'venue') ?? '')}</p>
+    <p><strong>Area:</strong> ${String(get(data, 'venueArea') ?? '')}</p>
+    <p><strong>Date:</strong> ${formatDateAU(String(get(data, 'bookingDate') ?? ''))}</p>
+    <p><strong>Time:</strong> ${String(get(data, 'startTime') ?? '')} - ${String(get(data, 'endTime') ?? '')}</p>
+    <p><strong>Guests:</strong> ${String(get(data, 'guestCount') ?? '')}</p>
+    ${get(data, 'specialRequests') ? `<p><strong>Special Requests:</strong> ${String(get(data, 'specialRequests'))}</p>` : ''}
+  </body></html>`
 }
 
 serve(async (req: Request) => {
@@ -91,15 +270,21 @@ serve(async (req: Request) => {
     const from = payload.from ?? "Manor Perth <bookings@getproductbox.com>"
     const replyTo = payload.replyTo
 
-    // Prepare HTML
+    // Prepare HTML (inline templates)
     let html = payload.html ?? ""
     if (!html) {
-      const tpl = await loadTemplate(payload.template!)
-      html = render(tpl, payload.data || {})
+      const tplName = String(payload.template || '').toLowerCase()
+      if (tplName === 'venue-confirmation' || tplName === '' ) {
+        html = renderVenueConfirmationHTML(payload.data || {})
+      } else if (tplName === 'karaoke-confirmation') {
+        html = renderKaraokeConfirmationHTML(payload.data || {})
+      } else if (tplName === 'venue-internal-notification') {
+        html = renderVenueInternalNotificationHTML(payload.data || {})
+      }
     }
     if (!html) return json({ success: false, error: "Missing email HTML content" }, 400)
 
-    // Send customer email first
+    // Send email
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -109,7 +294,11 @@ serve(async (req: Request) => {
       body: JSON.stringify({
         from,
         to: payload.to,
-        subject,
+        subject: payload.subject ?? (
+          (String(payload.template).toLowerCase() === 'karaoke-confirmation')
+            ? 'Karaoke Booking Confirmation - Manor Perth'
+            : 'Booking Confirmation - Manor Perth'
+        ),
         html,
         reply_to: replyTo,
       }),
@@ -126,14 +315,11 @@ serve(async (req: Request) => {
 
     // Optional: internal notification for venue-confirmation
     let internalStatus: "sent" | "skipped" | "failed" = "skipped"
-    if ((payload.template ?? "") === "venue-confirmation") {
+    if (String(payload.template).toLowerCase() === 'venue-confirmation') {
       try {
-        const internalTo = "matt@getproductbox.com" // TODO: move to secret later
-        const internalTpl = await loadTemplate("venue-internal-notification")
-        const internalData = payload.data || {}
-        const internalHtml = render(internalTpl, internalData)
-        const internalSubject = `New Venue Enquiry: ${String(get(internalData, "customerName") || "Customer")} (${String(get(internalData, "referenceCode") || "ref")})`
-
+        const internalTo = "matt@getproductbox.com"
+        const internalHtml = renderVenueInternalNotificationHTML(payload.data || {})
+        const internalSubject = `New Venue Enquiry: ${String(get(payload.data || {}, 'customerName') || 'Customer')} (${String(get(payload.data || {}, 'referenceCode') || 'ref')})`
         const res2 = await fetch("https://api.resend.com/emails", {
           method: "POST",
           headers: {
@@ -145,18 +331,15 @@ serve(async (req: Request) => {
             to: internalTo,
             subject: internalSubject,
             html: internalHtml,
-            reply_to: replyTo ?? String(get(internalData, "customerEmail") || ""),
+            reply_to: replyTo ?? String(get(payload.data || {}, 'customerEmail') || ''),
           }),
         })
         if (!res2.ok) {
-          const r2 = await res2.json().catch(() => ({}))
-          console.error("Internal email send failed:", r2)
           internalStatus = "failed"
         } else {
           internalStatus = "sent"
         }
-      } catch (e) {
-        console.error("Internal email error:", e)
+      } catch {
         internalStatus = "failed"
       }
     }
