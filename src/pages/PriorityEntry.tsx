@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "../components/Header";
 import TicketBookingModal from "../components/TicketBookingModal";
 const PriorityEntry = () => {
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
+  const navigate = useNavigate();
    return <div className="min-h-screen text-manor-white" style={{
     backgroundColor: '#271308'
   }}>
@@ -16,13 +19,29 @@ const PriorityEntry = () => {
       }} />
         
         <div className="max-w-7xl mx-auto px-4 text-center relative z-10 pt-20 md:pt-0">
-          <h1 className="manor-heading text-5xl md:text-7xl lg:text-8xl mb-8 animate-fade-in" style={{
-          color: '#E14116'
-        }}>
-            <div>25+</div>
-            <div>PRIORITY</div>
-            <div>ENTRY</div>
-          </h1>
+          <div className="flex items-center justify-center w-full max-w-7xl mx-auto mb-8">
+            <button
+              onClick={() => navigate('/birthdays-occasions')}
+              className="mr-4 p-2 transition-all duration-300 hover:scale-110"
+              style={{ color: '#CD3E28' }}
+            >
+              <ChevronLeft size={32} className="md:w-12 md:h-12" />
+            </button>
+            <h1 className="manor-heading text-5xl md:text-7xl lg:text-8xl animate-fade-in flex-1 text-center" style={{
+            color: '#E14116'
+          }}>
+              <div>25+</div>
+              <div>PRIORITY</div>
+              <div>ENTRY</div>
+            </h1>
+            <button
+              onClick={() => navigate('/birthdays-occasions')}
+              className="ml-4 p-2 transition-all duration-300 hover:scale-110"
+              style={{ color: '#CD3E28' }}
+            >
+              <ChevronRight size={32} className="md:w-12 md:h-12" />
+            </button>
+          </div>
           
           <div className="mb-12 animate-fade-in">
             <button onClick={() => setIsTicketModalOpen(true)} className="font-bold px-8 py-4 rounded-full uppercase tracking-wider transition-all duration-300 text-sm inline-block cursor-pointer" style={{
