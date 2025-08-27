@@ -14,13 +14,25 @@ const UpstairsDescriptionSection: React.FC<DescriptionSectionProps> = ({
     }}>
       <div className="space-y-6">
         <div className="flex flex-wrap justify-center gap-3">
-          <Badge className="pill pill-flame text-sm font-semibold">
+          <Badge className="px-4 py-2 text-sm font-semibold" style={{
+            backgroundColor: '#D04E2B',
+            color: '#060201',
+            border: '1px solid #060201'
+          }}>
             Lounge Bar
           </Badge>
-          <Badge className="pill pill-flame text-sm font-semibold">
+          <Badge className="px-4 py-2 text-sm font-semibold" style={{
+            backgroundColor: '#D04E2B',
+            color: '#060201',
+            border: '1px solid #060201'
+          }}>
             Karaoke Booth
           </Badge>
-          <Badge className="pill pill-flame text-sm font-semibold">
+          <Badge className="px-4 py-2 text-sm font-semibold" style={{
+            backgroundColor: '#D04E2B',
+            color: '#060201',
+            border: '1px solid #060201'
+          }}>
             Cocktails
           </Badge>
         </div>
