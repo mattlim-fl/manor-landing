@@ -35,6 +35,7 @@ const BirthdaysOccasions = () => {
       accordionItems={accordionItems}
       greatForCards={greatForCards}
       showNewsletterSection={false}
+      currentPage="birthdays-occasions"
     />
   );
 };

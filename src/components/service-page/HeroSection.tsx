@@ -28,6 +28,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         return { left: '/downstairs', right: '/full-venue' };
       case 'full-venue':
         return { left: '/upstairs', right: '/downstairs' };
+      case 'birthdays-occasions':
+        return { left: '/priority-entry', right: '/priority-entry' };
       default:
         return { left: null, right: null };
     }
