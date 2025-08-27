@@ -63,9 +63,9 @@ const Karaoke = () => {
         <div className="flex items-center justify-center px-4 pb-16 z-10">
           <div className="text-center max-w-2xl">
             <div className="rounded-full px-8 py-6 border-2" style={{
-              backgroundColor: '#060201',
-              color: '#D04E2B',
-              borderColor: '#D04E2B'
+              backgroundColor: '#271308',
+              color: '#E59D50',
+              borderColor: '#E59D50'
             }}>
               <p className="text-lg md:text-xl mb-2">Private karaoke booth now available for hire!</p>
               <p className="text-sm md:text-base">Perfect for birthdays, special occasions or just a fun night out with friends.</p>
