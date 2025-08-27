@@ -59,17 +59,17 @@ const Services = () => {
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
                   
                   <Link to="/downstairs" className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap" style={{
-                  backgroundColor: 'transparent',
-                  color: '#D04E2B',
+                  backgroundColor: '#D04E2B',
+                  color: '#060201',
                   borderWidth: '2px',
                   borderStyle: 'solid',
                   borderColor: '#D04E2B'
                 }} onMouseEnter={e => {
-                  e.currentTarget.style.backgroundColor = '#D04E2B';
-                  e.currentTarget.style.color = '#060201';
-                }} onMouseLeave={e => {
                   e.currentTarget.style.backgroundColor = 'transparent';
                   e.currentTarget.style.color = '#D04E2B';
+                }} onMouseLeave={e => {
+                  e.currentTarget.style.backgroundColor = '#D04E2B';
+                  e.currentTarget.style.color = '#060201';
                 }}>
                     INFO
                   </Link>
