@@ -58,19 +58,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             <button
               onClick={() => navigate(left)}
               className="mr-4 p-2 transition-all duration-300 hover:scale-110"
-              style={{ color: '#CD3B2E' }}
+              style={{ color: '#CD3E28' }}
             >
               <ChevronLeft size={32} className="md:w-12 md:h-12" />
             </button>
           )}
-          <h1 className="manor-heading text-4xl md:text-8xl lg:text-[12rem] text-center flex-1" style={{ color: '#CD3B2E' }}>
+          <h1 className="manor-heading text-4xl md:text-8xl lg:text-[12rem] text-center flex-1" style={{ color: '#CD3E28' }}>
             {heroTitle}
           </h1>
           {right && (
             <button
               onClick={() => navigate(right)}
               className="ml-4 p-2 transition-all duration-300 hover:scale-110"
-              style={{ color: '#CD3B2E' }}
+              style={{ color: '#CD3E28' }}
             >
               <ChevronRight size={32} className="md:w-12 md:h-12" />
             </button>
