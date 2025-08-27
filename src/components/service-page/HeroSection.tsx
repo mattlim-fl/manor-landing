@@ -76,9 +76,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </button>
           )}
         </div>
-        <Badge 
+        <Badge
           onClick={onBookingClick}
-          className="px-6 py-3 text-lg font-semibold cursor-pointer transition-all duration-300" 
+          className="px-6 py-3 text-lg font-semibold cursor-pointer transition-all duration-300 mt-6" 
           style={{ 
             backgroundColor: '#C63D1E', 
             color: '#FFFFFF', 
