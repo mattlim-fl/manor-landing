@@ -11,25 +11,13 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   }}>
       <div className="space-y-6">
         <div className="flex flex-wrap justify-center gap-3">
-          <Badge className="px-4 py-2 text-sm font-semibold" style={{
-          backgroundColor: '#E59D50',
-          color: '#060201',
-          border: '1px solid #060201'
-        }}>
+          <Badge className="pill text-sm font-semibold">
             Main Bar
           </Badge>
-          <Badge className="px-4 py-2 text-sm font-semibold" style={{
-          backgroundColor: '#E59D50',
-          color: '#060201',
-          border: '1px solid #060201'
-        }}>
+          <Badge className="pill text-sm font-semibold">
             Dance Floor
           </Badge>
-          <Badge className="px-4 py-2 text-sm font-semibold" style={{
-          backgroundColor: '#E59D50',
-          color: '#060201',
-          border: '1px solid #060201'
-        }}>
+          <Badge className="pill text-sm font-semibold">
             Courtyard
           </Badge>
         </div>

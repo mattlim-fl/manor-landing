@@ -36,6 +36,15 @@
 
     --radius: 0rem;
 
+    /* Custom pill color tokens */
+    --wood: #271308;
+    --sandy-500: #E59D50;
+    --sandy-600: #D68E45;
+    --sandy-400: #F1A85A;
+    --flame-pea: #D04E2B;
+    --flame-600: #B8442A;
+    --flame-400: #E65A3C;
+
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -125,5 +134,36 @@
 
   .manor-heading {
     @apply font-display font-black uppercase tracking-wider;
+  }
+
+  .pill {
+    background: linear-gradient(180deg, var(--sandy-400) 0%, var(--sandy-500) 62%, var(--sandy-600) 100%);
+    color: var(--wood);
+    border-radius: 999px;
+    padding: 10px 18px;
+    border: 1px solid rgba(39,19,8,.85);
+    box-shadow: 
+      0 0 0 2px rgba(39,19,8,.85),
+      0 8px 16px rgba(39,19,8,.45),
+      inset 0 1px 0 rgba(255,255,255,.20),
+      inset 0 -1px 0 rgba(39,19,8,.15);
+    font-weight: 600;
+    letter-spacing: .2px;
+    opacity: 1;
+    mix-blend-mode: normal;
+    transition: all 0.2s ease;
+  }
+
+  .pill:active {
+    transform: scale(.97);
+    filter: brightness(.96) saturate(1.05);
+  }
+
+  .pill:hover {
+    filter: saturate(1.04);
+  }
+
+  .pill-flame {
+    background: linear-gradient(180deg, var(--flame-400) 0%, var(--flame-pea) 62%, var(--flame-600) 100%);
   }
 }
