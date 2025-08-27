@@ -31,10 +31,26 @@ const Karaoke = () => {
             <div>BOOTHS</div>
           </h1>
           <div className="space-y-4 mb-12 animate-fade-in">
-            <button onClick={handleBookKaraoke} disabled={isBookingLoading} className="inline-block font-bold px-8 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed" style={{
-              backgroundColor: '#D04E2B',
-              color: '#060201'
-            }}>
+            <button 
+              onClick={handleBookKaraoke} 
+              disabled={isBookingLoading} 
+              className="inline-block font-bold px-8 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed border-2"
+              style={{
+                backgroundColor: '#D04E2B',
+                color: '#FFFFFF',
+                borderColor: '#271308'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#FFFFFF';
+                e.currentTarget.style.color = '#D04E2B';
+                e.currentTarget.style.borderColor = '#D04E2B';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#D04E2B';
+                e.currentTarget.style.color = '#FFFFFF';
+                e.currentTarget.style.borderColor = '#271308';
+              }}
+            >
               {isBookingLoading ? 'Loading...' : 'Book Now'}
             </button>
           </div>
