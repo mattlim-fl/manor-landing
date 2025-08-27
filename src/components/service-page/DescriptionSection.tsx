@@ -19,9 +19,9 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
             Main Bar
           </Badge>
           <Badge className="px-4 py-2 text-sm font-semibold" style={{
-          backgroundColor: '#E59D50',
-          color: '#060201',
-          border: '1px solid #060201'
+          backgroundColor: '#FFB347',
+          color: '#271308',
+          border: '1px solid #6A2A00'
         }}>
             Dance Floor
           </Badge>
