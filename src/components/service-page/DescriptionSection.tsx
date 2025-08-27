@@ -38,7 +38,8 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
           <Badge className="px-4 py-2 text-lg" style={{
           backgroundColor: '#E59D50',
           color: '#060201',
-          border: '1px solid #060201'
+          border: '1px solid #060201',
+          opacity: 1
         }}>Great for cocktail parties, celebrations, events and corporate functions up to 150 people.</Badge>
         </div>
       </div>
