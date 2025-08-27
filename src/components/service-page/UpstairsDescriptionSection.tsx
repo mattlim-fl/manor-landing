@@ -39,9 +39,9 @@ const UpstairsDescriptionSection: React.FC<DescriptionSectionProps> = ({
         
         <div className="flex flex-wrap justify-center gap-3">
           <Badge className="px-4 py-2 text-lg" style={{
-            backgroundColor: '#D04E2B',
-            color: '#060201',
-            border: '1px solid #060201'
+            backgroundColor: '#FFB347',
+            color: '#271308',
+            border: '1px solid #6A2A00'
           }}>Great for cocktail parties, celebrations, events and corporate functions up to 70 people.</Badge>
         </div>
       </div>
