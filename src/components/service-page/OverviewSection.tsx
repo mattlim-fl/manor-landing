@@ -42,7 +42,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
       <h2 className="manor-heading text-3xl mb-6" style={{ color: '#D04E2B' }}>DETAILS</h2>
       <div className="space-y-4">
         {accordionItems.map((item, index) => (
-          <div key={index} className="border-b" style={{ borderColor: '#060201' }}>
+          <div key={index} className="border-b" style={{ borderColor: '#E59D50' }}>
             <button
               onClick={() => toggleAccordion(index)}
               className="w-full flex justify-between items-center py-4 text-left transition-colors"
