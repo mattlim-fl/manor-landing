@@ -57,7 +57,7 @@ const PriorityEntry = () => {
             e.currentTarget.style.backgroundColor = '#D04E2B';
             e.currentTarget.style.color = '#060201';
           }}>
-              BOOK VIP ENTRY
+              BOOK NOW
             </button>
           </div>
           
