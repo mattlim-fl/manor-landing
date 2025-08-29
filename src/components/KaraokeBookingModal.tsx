@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { SQUARE_APPLICATION_ID, SQUARE_LOCATION_ID, SQUARE_SCRIPT_SRC } from '../lib/config'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
 import { Button } from './ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
@@ -38,6 +39,11 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<{ id: string; ref: string } | null>(null)
+  const [showPayment, setShowPayment] = useState(false)
+  const [squareLoaded, setSquareLoaded] = useState(false)
+  const [squarePayments, setSquarePayments] = useState<{ card: () => Promise<{ attach: (sel: string) => Promise<void>; tokenize: () => Promise<{ status: string; token: string; errors?: Array<{ message?: string }> }> }> } | null>(null)
+  const [squareCard, setSquareCard] = useState<{ attach: (sel: string) => Promise<void>; tokenize: () => Promise<{ status: string; token: string; errors?: Array<{ message?: string }> }> } | null>(null)
+  const [cardMounted, setCardMounted] = useState(false)
 
   const dateStr = useMemo(() => (date ? format(date, 'yyyy-MM-dd') : ''), [date])
 
@@ -70,7 +76,9 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
     if (hold) {
       try {
         await releaseKaraokeHold(hold.id)
-      } catch {}
+      } catch (err) {
+        console.debug('Failed to release existing hold before creating a new one', err)
+      }
       setHold(null)
     }
     try {
@@ -78,14 +86,15 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
       setHold({ id: res.hold_id, expiresAt: res.expires_at })
       setSelectedBoothId(boothId)
       setSelectedSlot({ start, end })
-    } catch (e: any) {
-      setError(e.message || 'Failed to create hold')
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e)
+      setError(msg || 'Failed to create hold')
     }
   }
 
   const cancelHold = async () => {
     if (!hold) return
-    try { await releaseKaraokeHold(hold.id) } catch {}
+    try { await releaseKaraokeHold(hold.id) } catch (err) { console.debug('Failed to release hold', err) }
     setHold(null)
     setSelectedSlot(null)
     setSelectedBoothId('')
@@ -93,30 +102,108 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
 
   const handleClose = () => {
     if (hold) {
-      releaseKaraokeHold(hold.id).catch(() => {})
+      releaseKaraokeHold(hold.id).catch((err) => { console.debug('Failed to release hold on close', err) })
     }
     onClose()
   }
+
+  // Load Square SDK when needed
+  useEffect(() => {
+    if (!showPayment || squareLoaded) return
+    const existing = document.querySelector(`script[src="${SQUARE_SCRIPT_SRC}"]`) as HTMLScriptElement | null
+    if (existing) { setSquareLoaded(true); return }
+    const script = document.createElement('script')
+    script.src = SQUARE_SCRIPT_SRC
+    script.async = true
+    script.onload = () => setSquareLoaded(true)
+    script.onerror = () => setError('Failed to load payment SDK')
+    document.body.appendChild(script)
+  }, [showPayment, squareLoaded])
+
+  // Initialize payments instance when SDK is loaded
+  useEffect(() => {
+    if (!showPayment || !squareLoaded || squarePayments) return
+    const squareObj = (window as unknown as { Square?: { payments: (appId: string, locationId: string) => { card: () => Promise<{ attach: (sel: string) => Promise<void>; tokenize: () => Promise<{ status: string; token: string; errors?: Array<{ message?: string }> }> }> } } }).Square
+    if (!squareObj) return
+    try {
+      const p = squareObj.payments(SQUARE_APPLICATION_ID, SQUARE_LOCATION_ID)
+      setSquarePayments(p)
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      setError(msg || 'Failed to initialize payment SDK')
+    }
+  }, [showPayment, squareLoaded, squarePayments])
+
+  // Create and mount the card when payments is ready and payment view is visible
+  useEffect(() => {
+    let canceled = false
+    const mount = async () => {
+      if (!showPayment || !squarePayments || squareCard || cardMounted) return
+      try {
+        const card = await squarePayments.card()
+        await card.attach('#card-container')
+        if (!canceled) {
+          setSquareCard(card)
+          setCardMounted(true)
+        }
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err)
+        setError(msg || 'Failed to mount payment form')
+      }
+    }
+    mount()
+    return () => { canceled = true }
+  }, [showPayment, squarePayments, squareCard, cardMounted])
+
+  // Cleanup card when closing payment step
+  useEffect(() => {
+    if (!showPayment) {
+      setSquareCard(null)
+      setCardMounted(false)
+      const el = document.getElementById('card-container')
+      if (el) el.innerHTML = ''
+    }
+  }, [showPayment])
 
   const confirm = async () => {
     if (!hold) { setError('Please select a time slot'); return }
     if (!name.trim()) { setError('Please enter your name'); return }
     if (!email && !phone) { setError('Provide an email or phone'); return }
+    setShowPayment(true)
+  }
+
+  const handlePayAndBook = async () => {
+    if (!hold || !selectedSlot || !selectedBoothId || !dateStr) { setError('Missing selection details'); return }
+    if (!squareCard) { setError('Payment form not ready'); return }
     setSubmitting(true)
     setError(null)
     try {
-      const res = await confirmKaraokeBooking({ holdId: hold.id, customer_name: name, customer_email: email || undefined, customer_phone: phone || undefined })
+      // Tokenize the mounted card
+      const result = await squareCard.tokenize()
+      if (result.status !== 'OK') throw new Error(result?.errors?.[0]?.message || 'Failed to tokenize card')
+
+      const res = await confirmKaraokeBooking({
+        holdId: hold.id,
+        customer_name: name,
+        customer_email: email || undefined,
+        customer_phone: phone || undefined,
+        party_size: partySize,
+        payment_token: result.token
+      })
       let ref = res.reference_code
-      // If reference code isn't returned by the function, fetch it from the DB
       if (!ref && res.booking_id) {
         try {
           const { fetchBookingReferenceCode } = await import('../services/karaoke')
           ref = (await fetchBookingReferenceCode(res.booking_id)) || ''
-        } catch {}
+        } catch (err) {
+          console.debug('Failed to fetch reference code', err)
+        }
       }
       setSuccess({ id: res.booking_id, ref: ref || '' })
-    } catch (e: any) {
-      setError(e.message || 'Failed to confirm booking')
+      setShowPayment(false)
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e)
+      setError(msg || 'Payment failed')
     } finally {
       setSubmitting(false)
     }
@@ -215,8 +302,9 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                                 try {
                                   const booths = await fetchBoothsForSlot({ venue, bookingDate: dateStr, startTime: s.start_time, endTime: s.end_time, minCapacity: partySize })
                                   setSlotBooths(booths)
-                                } catch (e: any) {
-                                  setError(e.message || 'Failed to load booths for slot')
+                                } catch (e) {
+                                  const msg = e instanceof Error ? e.message : String(e)
+                                  setError(msg || 'Failed to load booths for slot')
                                 } finally {
                                   setLoadingBooths(false)
                                 }
@@ -276,9 +364,22 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
               </div>
             )}
 
-            <div className="flex justify-end">
-              <Button onClick={confirm} disabled={submitting || !hold}>{submitting ? 'Submitting...' : 'Confirm Booking'}</Button>
-            </div>
+            {!showPayment ? (
+              <div className="flex justify-end">
+                <Button onClick={confirm} disabled={submitting || !hold}>{submitting ? 'Submitting...' : 'Continue to Payment'}</Button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium">Payment</label>
+                  <div id="card-container" className="border rounded-md p-3" />
+                </div>
+                <div className="flex justify-end gap-2">
+                  <Button variant="secondary" onClick={() => setShowPayment(false)} disabled={submitting}>Back</Button>
+                  <Button onClick={handlePayAndBook} disabled={submitting || !squareLoaded}>{submitting ? 'Processing...' : 'Pay & Book'}</Button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </DialogContent>

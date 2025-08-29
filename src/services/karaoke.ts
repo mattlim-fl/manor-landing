@@ -46,6 +46,7 @@ export interface ConfirmBookingInput {
   customer_email?: string
   customer_phone?: string
   party_size?: number
+  payment_token?: string
 }
 
 export interface ConfirmBookingResult {
@@ -53,7 +54,7 @@ export interface ConfirmBookingResult {
   reference_code?: string
 }
 
-function getSessionId(): string {
+export function getSessionId(): string {
   try {
     const key = 'karaoke_session_id'
     let val = localStorage.getItem(key)
@@ -123,7 +124,8 @@ export async function fetchBoothsForSlot(params: { venue: Venue; bookingDate: st
 }
 
 async function normalizeAvailability(raw: any, meta: { date: string; venue: Venue }): Promise<AvailabilityResponse> {
-  if (raw && raw.success && Array.isArray(raw.slots)) {
+  // Handle shape: { slots: [{ startTime, endTime, available }] }
+  if (raw && Array.isArray(raw.slots)) {
     const slots = raw.slots.map((s: any) => ({
       start_time: s.startTime || s.start_time || '',
       end_time: s.endTime || s.end_time || '',
@@ -222,7 +224,8 @@ export async function confirmKaraokeBooking(input: ConfirmBookingInput): Promise
     customerName: input.customer_name,
     customerEmail: input.customer_email,
     customerPhone: input.customer_phone,
-    guestCount: input.party_size
+    guestCount: input.party_size,
+    paymentToken: input.payment_token
   }
   const { data, error } = await supabase.functions.invoke('karaoke-book', { body })
   if (error) {
@@ -285,6 +288,49 @@ export async function confirmKaraokeBooking(input: ConfirmBookingInput): Promise
     console.warn('Non-blocking: failed to send karaoke confirmation email', e)
   }
   return { booking_id: bookingId, reference_code: referenceCode }
+}
+
+export interface PayAndBookInput {
+  holdId: string
+  customer_name: string
+  customer_email?: string
+  customer_phone?: string
+  party_size?: number
+  venue: Venue
+  booking_date: string
+  start_time: string
+  end_time: string
+  booth_id: string
+  payment_token: string
+}
+
+export async function payAndBookKaraoke(input: PayAndBookInput): Promise<{ booking_id: string; reference_code?: string; payment_id: string }> {
+  const supabase = getSupabase()
+  const sessionId = getSessionId()
+  const body = {
+    holdId: input.holdId,
+    customerName: input.customer_name,
+    customerEmail: input.customer_email,
+    customerPhone: input.customer_phone,
+    guestCount: input.party_size,
+    bookingDate: input.booking_date,
+    venue: input.venue,
+    startTime: input.start_time,
+    endTime: input.end_time,
+    boothId: input.booth_id,
+    paymentToken: input.payment_token,
+    sessionId,
+  }
+  const { data, error } = await supabase.functions.invoke('karaoke-pay-and-book', { body })
+  if (error) {
+    const details = (error as any)?.context?.body || (error as any)?.context || undefined
+    throw new Error(`Pay and book error: ${error.message}${details ? ` | ${JSON.stringify(details)}` : ''}`)
+  }
+  const raw: any = (data as any)?.data ?? data
+  if (!raw?.success) {
+    throw new Error(String(raw?.error || 'Payment failed'))
+  }
+  return { booking_id: String(raw.bookingId), reference_code: String(raw.referenceCode || ''), payment_id: String(raw.paymentId) }
 }
 
 export async function fetchBookingReferenceCode(bookingId: string): Promise<string | null> {
