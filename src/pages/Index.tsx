@@ -136,7 +136,7 @@ const Index = () => {
                     color: '#060201'
                   }}
                 >
-                  Leederville
+                  LEEDERVILLE
                 </h1>
               </div>
             </div>
