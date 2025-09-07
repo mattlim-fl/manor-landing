@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
@@ -7,6 +7,7 @@ import { Calendar } from './ui/calendar'
 import { format } from 'date-fns'
 import ReferenceCodeDisplay from './ReferenceCodeDisplay'
 import { createVenueBooking, type Venue, type VenueArea } from '../services/booking'
+import { fetchActiveVenueAreas, type VenueAreaRecord, generateHalfHourSlotsForDate, getEffectiveWeeklyHours } from '../services/venueAreas'
 
 interface Props {
   isOpen: boolean
@@ -23,6 +24,9 @@ export default function DirectVenueBookingModal({
 }: Props) {
   const [venue] = useState<Venue>(defaultVenue)
   const [venueArea, setVenueArea] = useState<VenueArea>(defaultVenueArea)
+  const [areaOptions, setAreaOptions] = useState<{ value: string; label: string }[]>([])
+  const [areasByCode, setAreasByCode] = useState<Record<string, VenueAreaRecord>>({})
+  const [loadingAreas, setLoadingAreas] = useState(false)
   const [date, setDate] = useState<Date | undefined>(undefined)
   const [startTime, setStartTime] = useState('')
   const [duration, setDuration] = useState<number>(2)
@@ -37,27 +41,104 @@ export default function DirectVenueBookingModal({
 
   const dateStr = useMemo(() => (date ? format(date, 'yyyy-MM-dd') : ''), [date])
 
-  const areaOptions: { value: VenueArea; label: string }[] = [
-    { value: 'downstairs', label: 'Downstairs' },
-    { value: 'upstairs', label: 'Upstairs' },
-    { value: 'full_venue', label: 'Full Venue' }
-  ]
+  const MIN_DURATION_HOURS = 2
+  const MAX_DURATION_HOURS = 8
+
+  const toMinutes = (t: string): number => {
+    const [hh, mm] = t.split(':').map(Number)
+    return (hh * 60) + mm
+  }
+  const minutesToTime = (mins: number): string => {
+    const m = ((mins % (24 * 60)) + (24 * 60)) % (24 * 60)
+    const hh = Math.floor(m / 60)
+    const mm = m % 60
+    return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`
+  }
+
+  useEffect(() => {
+    let isMounted = true
+    async function loadAreas() {
+      try {
+        setLoadingAreas(true)
+        const areas: VenueAreaRecord[] = await fetchActiveVenueAreas(venue)
+        if (!isMounted) return
+        const opts = areas.map(a => ({ value: a.code, label: a.name }))
+        const byCode: Record<string, VenueAreaRecord> = {}
+        areas.forEach(a => { byCode[a.code] = a })
+        setAreasByCode(byCode)
+        setAreaOptions(opts)
+        if (opts.length > 0 && !opts.find(o => o.value === venueArea)) {
+          setVenueArea(opts[0].value as VenueArea)
+        }
+      } catch (e) {
+        console.warn('Failed to load venue areas', e)
+      } finally {
+        if (isMounted) setLoadingAreas(false)
+      }
+    }
+    loadAreas()
+    return () => { isMounted = false }
+  }, [venue])
 
   const durationOptions = Array.from({ length: 12 }, (_, i) => i + 1) // 1-12 hours
 
-  const timeOptions = Array.from({ length: 48 }, (_, i) => {
-    const hour = Math.floor(i / 2)
-    const minute = (i % 2) * 30
-    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
-  })
+  const [timeOptions, setTimeOptions] = useState<string[]>([])
+  const [availableDurations, setAvailableDurations] = useState<number[]>([])
+
+  useEffect(() => {
+    // Compute slots from weekly_hours embedded on chosen area
+    const area = areasByCode[venueArea as string]
+    if (!area || !dateStr) { setTimeOptions([]); setAvailableDurations([]); return }
+    const slots = generateHalfHourSlotsForDate(dateStr, area.weekly_hours)
+
+    const day = new Date(dateStr).getDay()
+    const effective = getEffectiveWeeklyHours(area.weekly_hours)
+    const todays = effective[String(day)]
+    if (!todays) { setTimeOptions([]); setAvailableDurations([]); return }
+    let openM = toMinutes(todays.open)
+    let closeM = toMinutes(todays.close)
+    if (closeM <= openM) closeM += 24 * 60
+
+    // Filter start times to ensure min duration fits before close
+    const filtered = slots.filter((t) => {
+      const m = toMinutes(t)
+      const abs = (closeM > 24 * 60 && m < openM) ? m + 24 * 60 : m
+      return abs + MIN_DURATION_HOURS * 60 <= closeM
+    })
+    setTimeOptions(filtered)
+    if (startTime && !filtered.includes(startTime)) {
+      setStartTime('')
+    }
+
+    // Compute available durations based on selected start time
+    if (startTime && filtered.includes(startTime)) {
+      const m = toMinutes(startTime)
+      const abs = (closeM > 24 * 60 && m < openM) ? m + 24 * 60 : m
+      const remaining = Math.max(0, closeM - abs)
+      const maxByClose = Math.floor(remaining / 60)
+      const maxAllowed = Math.min(MAX_DURATION_HOURS, maxByClose)
+      const minAllowed = Math.min(MIN_DURATION_HOURS, maxAllowed)
+      const opts = Array.from({ length: Math.max(0, maxAllowed - minAllowed + 1) }, (_, i) => minAllowed + i)
+      setAvailableDurations(opts)
+      if (!opts.includes(duration)) {
+        if (opts.length > 0) setDuration(opts[0])
+      }
+    } else {
+      // No start time selected yet: show the base 2..8 range
+      setAvailableDurations(Array.from({ length: MAX_DURATION_HOURS - MIN_DURATION_HOURS + 1 }, (_, i) => MIN_DURATION_HOURS + i))
+      if (duration < MIN_DURATION_HOURS || duration > MAX_DURATION_HOURS) setDuration(MIN_DURATION_HOURS)
+    }
+  }, [areasByCode, venueArea, dateStr, startTime, duration])
 
   const getModalTitle = () => 'Venue Hire Enquiry'
 
   const isFormValid = () => {
+    const hasValidDuration = availableDurations.includes(duration)
     return dateStr && 
            (email || phone) && 
            name.trim() && 
-           guestCount && guestCount > 0
+           guestCount && guestCount > 0 &&
+           startTime && hasValidDuration
   }
 
   const submit = async () => {
@@ -69,15 +150,35 @@ export default function DirectVenueBookingModal({
 
     setSubmitting(true)
     try {
+      // compute end time from start time and duration
+      const area = areasByCode[venueArea as string]
+      let computedEndTime: string | undefined = undefined
+      if (area && startTime) {
+        const day = new Date(dateStr).getDay()
+        const effective = getEffectiveWeeklyHours(area.weekly_hours)
+        const todays = effective[String(day)]
+        if (todays) {
+          let openM = toMinutes(todays.open)
+          let closeM = toMinutes(todays.close)
+          if (closeM <= openM) closeM += 24 * 60
+          const startM = toMinutes(startTime)
+          const startAbs = (closeM > 24 * 60 && startM < openM) ? startM + 24 * 60 : startM
+          const endAbs = startAbs + duration * 60
+          // endAbs could pass midnight; convert back to time-of-day
+          computedEndTime = minutesToTime(endAbs)
+        }
+      }
+
       const res = await createVenueBooking({
         customerName: name,
         customerEmail: email || undefined,
         customerPhone: phone || undefined,
         venue,
         venueArea,
+        venueAreaName: (areaOptions.find(o => o.value === venueArea)?.label) || undefined,
         bookingDate: dateStr,
         startTime: startTime || undefined,
-        endTime: undefined, // We'll calculate this based on duration if needed
+        endTime: computedEndTime,
         guestCount,
         specialRequests: specialRequests || undefined
       })
@@ -139,9 +240,9 @@ export default function DirectVenueBookingModal({
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Venue Area</label>
-                  <Select value={venueArea} onValueChange={(v) => setVenueArea(v as VenueArea)}>
+                  <Select value={venueArea} onValueChange={(v) => setVenueArea(v as VenueArea)} disabled={loadingAreas}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select area" />
+                      <SelectValue placeholder={loadingAreas ? 'Loading areas...' : 'Select area'} />
                     </SelectTrigger>
                     <SelectContent>
                       {areaOptions.map((opt) => (
@@ -153,9 +254,9 @@ export default function DirectVenueBookingModal({
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Start Time</label>
-                  <Select value={startTime} onValueChange={setStartTime}>
+                  <Select value={startTime} onValueChange={setStartTime} disabled={!dateStr || timeOptions.length === 0}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select start time" />
+                      <SelectValue placeholder={!dateStr ? 'Select a date first' : (timeOptions.length === 0 ? 'No times available' : 'Select start time')} />
                     </SelectTrigger>
                     <SelectContent>
                       {timeOptions.map((time) => (

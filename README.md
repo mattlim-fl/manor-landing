@@ -78,6 +78,22 @@ This project can be deployed to any static hosting service like:
 
 Build the project with `npm run build` and deploy the `dist` folder.
 
+## WhatsApp Enquiry (Birthdays & Occasions)
+
+Configure the Enquire button on `/birthdays-occasions` to open WhatsApp with a prefilled message.
+
+- Add the following environment variables (e.g., in `.env.local`):
+
+```
+VITE_ENABLE_WHATSAPP_ENQUIRY=true
+VITE_WHATSAPP_PHONE=61412345678
+VITE_WHATSAPP_TEMPLATE=Hi! I'd like to enquire about a birthday or special occasion at Manor.
+```
+
+- `VITE_WHATSAPP_PHONE` must be the international number without `+` or spaces.
+- To test with your own number, set `VITE_WHATSAPP_PHONE` to your digits-only E.164 number; swap to the business number later without code changes.
+- If the feature is disabled or phone is missing, the Enquire button falls back to the existing booking modal.
+
 ## Contributing
 
 1. Fork the repository

@@ -302,6 +302,7 @@ export interface PayAndBookInput {
   end_time: string
   booth_id: string
   payment_token: string
+  ticket_quantity?: number
 }
 
 export async function payAndBookKaraoke(input: PayAndBookInput): Promise<{ booking_id: string; reference_code?: string; payment_id: string }> {
@@ -319,6 +320,7 @@ export async function payAndBookKaraoke(input: PayAndBookInput): Promise<{ booki
     endTime: input.end_time,
     boothId: input.booth_id,
     paymentToken: input.payment_token,
+    ticketQuantity: input.ticket_quantity,
     sessionId,
   }
   const { data, error } = await supabase.functions.invoke('karaoke-pay-and-book', { body })
@@ -330,7 +332,62 @@ export async function payAndBookKaraoke(input: PayAndBookInput): Promise<{ booki
   if (!raw?.success) {
     throw new Error(String(raw?.error || 'Payment failed'))
   }
-  return { booking_id: String(raw.bookingId), reference_code: String(raw.referenceCode || ''), payment_id: String(raw.paymentId) }
+  const bookingId: string = String(raw.bookingId)
+  const referenceCode: string = String(raw.referenceCode || '')
+
+  // Fire-and-forget: send customer confirmation email for karaoke (tickets handled separately)
+  try {
+    // Fetch booking details to populate email
+    let bookingRow: any | null = null
+    try {
+      const { data: b } = await supabase
+        .from('bookings')
+        .select('venue, booking_date, start_time, end_time, guest_count, karaoke_booth_id, reference_code')
+        .eq('id', bookingId)
+        .single()
+      bookingRow = b || null
+    } catch {
+      // best-effort only
+    }
+
+    // Resolve booth name
+    let boothName = 'Karaoke Booth'
+    try {
+      const boothId = (bookingRow as any)?.karaoke_booth_id
+      if (boothId) {
+        const { data: booth } = await supabase
+          .from('karaoke_booths')
+          .select('name')
+          .eq('id', boothId)
+          .single()
+        boothName = (booth as any)?.name || boothName
+      }
+    } catch {
+      // ignore
+    }
+
+    await supabase.functions.invoke('send-email', {
+      body: {
+        template: 'karaoke-confirmation',
+        data: {
+          customerName: input.customer_name,
+          customerEmail: input.customer_email,
+          customerPhone: input.customer_phone,
+          referenceCode: (bookingRow as any)?.reference_code || referenceCode || '',
+          venue: String((bookingRow as any)?.venue || input.venue || 'Manor'),
+          boothName,
+          bookingDate: String((bookingRow as any)?.booking_date || input.booking_date || ''),
+          startTime: String((bookingRow as any)?.start_time || input.start_time || ''),
+          endTime: String((bookingRow as any)?.end_time || input.end_time || ''),
+          guestCount: Number((bookingRow as any)?.guest_count || input.party_size || 0)
+        }
+      }
+    })
+  } catch {
+    // non-blocking
+  }
+
+  return { booking_id: bookingId, reference_code: referenceCode, payment_id: String(raw.paymentId) }
 }
 
 export async function fetchBookingReferenceCode(bookingId: string): Promise<string | null> {

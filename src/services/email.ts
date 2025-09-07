@@ -10,6 +10,7 @@ export interface EmailTemplateData {
   referenceCode: string
   venue: string
   venueArea: string
+  venueAreaName?: string
   bookingDate: string
   startTime: string
   endTime: string
@@ -62,11 +63,18 @@ async function logEmailEvent(event: EmailEvent): Promise<void> {
 /**
  * Generate venue booking confirmation email HTML
  */
+function toDisplayNameFromCode(code: string): string {
+  return code
+    .replace(/_/g, ' ')
+    .split(' ')
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ')
+}
+
 function generateVenueBookingEmailHTML(data: EmailTemplateData): string {
   const formattedDate = format(new Date(data.bookingDate), 'EEEE, MMMM do, yyyy')
   const venueDisplayName = data.venue === 'manor' ? 'Manor' : 'Hippie'
-  const areaDisplayName = data.venueArea === 'downstairs' ? 'Downstairs' : 
-                         data.venueArea === 'upstairs' ? 'Upstairs' : 'Full Venue'
+  const areaDisplayName = data.venueAreaName || toDisplayNameFromCode(data.venueArea)
 
   return `
     <!DOCTYPE html>

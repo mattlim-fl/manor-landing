@@ -1,19 +1,22 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { SQUARE_APPLICATION_ID, SQUARE_LOCATION_ID, SQUARE_SCRIPT_SRC } from '../lib/config'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog'
 import { Button } from './ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Calendar } from './ui/calendar'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
 import { format } from 'date-fns'
 import ReferenceCodeDisplay from './ReferenceCodeDisplay'
 import {
   type Venue,
   type AvailabilityResponse,
+  type SlotBooth,
   fetchKaraokeAvailability,
   fetchBoothsForSlot,
   createKaraokeHold,
   releaseKaraokeHold,
-  confirmKaraokeBooking
+  payAndBookKaraoke
 } from '../services/karaoke'
 
 interface Props {
@@ -30,7 +33,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   const [loadingAvail, setLoadingAvail] = useState(false)
   const [selectedBoothId, setSelectedBoothId] = useState<string>('')
   const [selectedSlot, setSelectedSlot] = useState<{ start: string; end: string } | null>(null)
-  const [slotBooths, setSlotBooths] = useState<{ id: string; name: string; capacity: number }[]>([])
+  const [slotBooths, setSlotBooths] = useState<SlotBooth[]>([])
   const [loadingBooths, setLoadingBooths] = useState(false)
   const [hold, setHold] = useState<{ id: string; expiresAt: string } | null>(null)
   const [name, setName] = useState('')
@@ -44,8 +47,17 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   const [squarePayments, setSquarePayments] = useState<{ card: () => Promise<{ attach: (sel: string) => Promise<void>; tokenize: () => Promise<{ status: string; token: string; errors?: Array<{ message?: string }> }> }> } | null>(null)
   const [squareCard, setSquareCard] = useState<{ attach: (sel: string) => Promise<void>; tokenize: () => Promise<{ status: string; token: string; errors?: Array<{ message?: string }> }> } | null>(null)
   const [cardMounted, setCardMounted] = useState(false)
+  const [confirmCloseOpen, setConfirmCloseOpen] = useState(false)
 
   const dateStr = useMemo(() => (date ? format(date, 'yyyy-MM-dd') : ''), [date])
+  const selectedBooth = useMemo(() => slotBooths.find(b => b.id === selectedBoothId) || null, [slotBooths, selectedBoothId])
+  const boothUnitPrice = selectedBooth?.hourly_rate ?? undefined
+  const ticketUnitPrice = 10
+  const ticketsQty = partySize
+  const ticketsTotal = useMemo(() => ticketsQty * ticketUnitPrice, [ticketsQty])
+  const boothTotal = useMemo(() => (boothUnitPrice ? Number(boothUnitPrice) : 0), [boothUnitPrice])
+  const grandTotal = useMemo(() => boothTotal + ticketsTotal, [boothTotal, ticketsTotal])
+  const formatAUD = (n: number) => n.toLocaleString('en-AU', { style: 'currency', currency: 'AUD' })
 
   // Release hold when modal closes
   useEffect(() => {
@@ -86,6 +98,8 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
       setHold({ id: res.hold_id, expiresAt: res.expires_at })
       setSelectedBoothId(boothId)
       setSelectedSlot({ start, end })
+      // Auto-open payment step once a hold is successfully created
+      setShowPayment(true)
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e)
       setError(msg || 'Failed to create hold')
@@ -100,7 +114,15 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
     setSelectedBoothId('')
   }
 
+  const hasAnyInput = useMemo(() => {
+    return Boolean(name.trim() || email.trim() || phone.trim() || date || selectedBoothId || hold)
+  }, [name, email, phone, date, selectedBoothId, hold])
+
   const handleClose = () => {
+    if (hasAnyInput) {
+      setConfirmCloseOpen(true)
+      return
+    }
     if (hold) {
       releaseKaraokeHold(hold.id).catch((err) => { console.debug('Failed to release hold on close', err) })
     }
@@ -165,15 +187,13 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
     }
   }, [showPayment])
 
-  const confirm = async () => {
-    if (!hold) { setError('Please select a time slot'); return }
-    if (!name.trim()) { setError('Please enter your name'); return }
-    if (!email && !phone) { setError('Provide an email or phone'); return }
-    setShowPayment(true)
-  }
+  // Show payment UI automatically once hold is created; button stays disabled until all fields valid
 
   const handlePayAndBook = async () => {
     if (!hold || !selectedSlot || !selectedBoothId || !dateStr) { setError('Missing selection details'); return }
+    if (!name.trim()) { setError('Please enter your name'); return }
+    if (!email && !phone) { setError('Provide an email or phone'); return }
+    if (!partySize || partySize < 1) { setError('Please select tickets required'); return }
     if (!squareCard) { setError('Payment form not ready'); return }
     setSubmitting(true)
     setError(null)
@@ -182,12 +202,18 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
       const result = await squareCard.tokenize()
       if (result.status !== 'OK') throw new Error(result?.errors?.[0]?.message || 'Failed to tokenize card')
 
-      const res = await confirmKaraokeBooking({
+      const res = await payAndBookKaraoke({
         holdId: hold.id,
         customer_name: name,
         customer_email: email || undefined,
         customer_phone: phone || undefined,
         party_size: partySize,
+        venue,
+        booking_date: dateStr,
+        start_time: selectedSlot.start,
+        end_time: selectedSlot.end,
+        booth_id: selectedBoothId,
+        ticket_quantity: partySize,
         payment_token: result.token
       })
       let ref = res.reference_code
@@ -209,7 +235,16 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
     }
   }
 
+  const canPay = useMemo(() => {
+    const hasContact = Boolean(name.trim() && (email || phone))
+    const ticketsOk = partySize >= 1
+    const selectionOk = Boolean(hold && selectedSlot && selectedBoothId && dateStr)
+    const paymentReady = Boolean(squareCard)
+    return hasContact && ticketsOk && selectionOk && paymentReady && !submitting
+  }, [name, email, phone, partySize, hold, selectedSlot, selectedBoothId, dateStr, squareCard, submitting])
+
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={(v) => { if (!v) handleClose() }}>
       <DialogContent className="max-w-3xl">
         {!success && (
@@ -256,7 +291,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                   <input className="w-full border rounded-md p-2" value={phone} onChange={(e) => setPhone(e.target.value)} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Party Size</label>
+                  <label className="text-sm font-medium">Tickets Required</label>
                   <Select value={String(partySize)} onValueChange={(v) => setPartySize(Number(v))}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
@@ -271,7 +306,19 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
               {/* Right column: Date picker */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Date</label>
-                <Calendar mode="single" selected={date} onSelect={setDate} className="rounded-md border" />
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  className="rounded-md border"
+                  disabled={(d) => {
+                    const today = new Date()
+                    today.setHours(0,0,0,0)
+                    const dd = new Date(d)
+                    dd.setHours(0,0,0,0)
+                    return dd < today
+                  }}
+                />
               </div>
             </div>
 
@@ -290,7 +337,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                         {b.slots.map((s, idx) => {
                           const isSelected = selectedSlot && selectedSlot.start === s.start_time && selectedSlot.end === s.end_time
                           const disabled = s.status !== 'available' || !!hold
-                          return (
+                          const btn = (
                             <button
                               key={idx}
                               disabled={disabled}
@@ -314,6 +361,19 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                               {s.start_time}–{s.end_time} {s.status !== 'available' ? `· ${s.status}` : ''}
                             </button>
                           )
+                          if (disabled && !!hold) {
+                            return (
+                              <TooltipProvider key={idx}>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>{btn}</TooltipTrigger>
+                                  <TooltipContent side="top">
+                                    <p className="max-w-xs">Release your current time slot to change to a new one.</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                            )
+                          }
+                          return btn
                         })}
                       </div>
 
@@ -364,26 +424,69 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
               </div>
             )}
 
-            {!showPayment ? (
-              <div className="flex justify-end">
-                <Button onClick={confirm} disabled={submitting || !hold}>{submitting ? 'Submitting...' : 'Continue to Payment'}</Button>
-              </div>
-            ) : (
-              <div className="space-y-4">
+            <div className="space-y-4">
+              {/* Show invoice + card only after a hold is created (we auto-open payment then) */}
+              {showPayment && (
+                <>
+                <div className="rounded-md border p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-sm font-medium">Order Summary</h4>
+                  </div>
+                  <div className="divide-y">
+                    <div className="py-2 flex text-sm">
+                      <div className="flex-1">
+                        <div className="font-medium">Karaoke Booth</div>
+                        <div className="text-gray-500">Qty 1</div>
+                      </div>
+                      <div className="w-28 text-right">{boothUnitPrice ? formatAUD(boothUnitPrice) : '—'}</div>
+                      <div className="w-32 text-right font-medium">{boothUnitPrice ? formatAUD(boothTotal) : '—'}</div>
+                    </div>
+                    <div className="py-2 flex text-sm">
+                      <div className="flex-1">
+                        <div className="font-medium">Venue Tickets</div>
+                        <div className="text-gray-500">Qty {ticketsQty}</div>
+                      </div>
+                      <div className="w-28 text-right">{formatAUD(ticketUnitPrice)}</div>
+                      <div className="w-32 text-right font-medium">{formatAUD(ticketsTotal)}</div>
+                    </div>
+                    <div className="py-2 flex text-sm">
+                      <div className="flex-1" />
+                      <div className="w-28 text-right font-medium">Total</div>
+                      <div className="w-32 text-right font-semibold">{formatAUD(grandTotal)}</div>
+                    </div>
+                  </div>
+                </div>
                 <div>
                   <label className="text-sm font-medium">Payment</label>
                   <div id="card-container" className="border rounded-md p-3" />
                 </div>
-                <div className="flex justify-end gap-2">
-                  <Button variant="secondary" onClick={() => setShowPayment(false)} disabled={submitting}>Back</Button>
-                  <Button onClick={handlePayAndBook} disabled={submitting || !squareLoaded}>{submitting ? 'Processing...' : 'Pay & Book'}</Button>
-                </div>
+                </>
+              )}
+              <div className="flex justify-end gap-2">
+                <Button onClick={handlePayAndBook} disabled={!canPay}>{submitting ? 'Processing...' : 'Pay & Book'}</Button>
               </div>
-            )}
+            </div>
           </div>
         )}
       </DialogContent>
     </Dialog>
+
+    {/* Confirm close dialog */}
+    <AlertDialog open={confirmCloseOpen} onOpenChange={setConfirmCloseOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Discard your booking?</AlertDialogTitle>
+          <AlertDialogDescription>
+            You have entered some details. If you close now, your progress will be lost.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => setConfirmCloseOpen(false)}>Continue booking</AlertDialogCancel>
+          <AlertDialogAction onClick={() => { setConfirmCloseOpen(false); if (hold) releaseKaraokeHold(hold.id).catch(()=>{}); onClose() }}>Discard</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   )
 }
 

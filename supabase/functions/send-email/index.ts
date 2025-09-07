@@ -54,7 +54,8 @@ function renderVenueConfirmationHTML(data: Record<string, unknown>): string {
   const venue = String(get(data, 'venue') ?? 'manor')
   const venueDisplayName = venue === 'manor' ? 'Manor' : 'Hippie'
   const area = String(get(data, 'venueArea') ?? '')
-  const areaDisplayName = area === 'downstairs' ? 'Downstairs' : area === 'upstairs' ? 'Upstairs' : 'Full Venue'
+  const areaName = String(get(data, 'venueAreaName') ?? '')
+  const areaDisplayName = areaName || (area === 'downstairs' ? 'Downstairs' : area === 'upstairs' ? 'Upstairs' : (area || 'Full Venue'))
   const bookingDate = formatDateAU(String(get(data, 'bookingDate') ?? ''))
   const startTime = String(get(data, 'startTime') ?? '')
   const endTime = String(get(data, 'endTime') ?? '')

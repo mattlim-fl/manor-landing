@@ -17,6 +17,7 @@ type PayAndBookRequest = {
   endTime: string
   boothId: string
   paymentToken: string
+  ticketQuantity?: number
 }
 
 type JsonBody = Record<string, unknown>
@@ -24,7 +25,8 @@ type JsonBody = Record<string, unknown>
 const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, apikey, x-client-info, x-action",
+  // Fallback allow-list; we will echo request headers dynamically in the OPTIONS handler
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, apikey, x-client-info, x-action, x-api-key",
 }
 
 function json(body: unknown, status = 200) {
@@ -32,6 +34,21 @@ function json(body: unknown, status = 200) {
     status,
     headers: { ...corsHeaders, "Content-Type": "application/json" },
   })
+}
+
+async function toIdempotencyKey(value: string): Promise<string> {
+  try {
+    const data = new TextEncoder().encode(value)
+    const digest = await crypto.subtle.digest('SHA-256', data)
+    const bytes = new Uint8Array(digest)
+    let hex = ''
+    for (let i = 0; i < bytes.length; i++) hex += bytes[i].toString(16).padStart(2, '0')
+    // Square idempotency key must be <= 45 chars
+    return hex.slice(0, 45)
+  } catch {
+    // Fallback: truncate original string
+    return String(value).slice(0, 45)
+  }
 }
 
 async function fetchBoothHourlyRate(boothId: string, supabaseUrl: string, supabaseKey: string): Promise<number> {
@@ -49,7 +66,48 @@ async function fetchBoothHourlyRate(boothId: string, supabaseUrl: string, supaba
   return Number(rate)
 }
 
-async function chargeSquare(amountCents: number, token: string, idempotencyKey: string, locationId: string, accessToken: string): Promise<{ paymentId: string }> {
+async function createSquareOrder(params: { locationId: string; accessToken: string; idempotencyKey: string; boothCents: number; ticketCents: number; ticketQty: number }): Promise<{ orderId: string; totalCents: number }> {
+  const { locationId, accessToken, idempotencyKey, boothCents, ticketCents, ticketQty } = params
+  const line_items: Array<Record<string, unknown>> = []
+  line_items.push({
+    name: 'Karaoke Booth',
+    quantity: '1',
+    base_price_money: { amount: boothCents, currency: 'AUD' },
+  })
+  if (ticketQty > 0 && ticketCents > 0) {
+    line_items.push({
+      name: 'Venue Ticket',
+      quantity: String(ticketQty),
+      base_price_money: { amount: ticketCents, currency: 'AUD' },
+    })
+  }
+  const res = await fetch('https://connect.squareupsandbox.com/v2/orders', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      idempotency_key: idempotencyKey,
+      order: {
+        location_id: locationId,
+        line_items,
+      }
+    })
+  })
+  const body = await res.json()
+  if (!res.ok) {
+    const message = body?.errors?.[0]?.detail || body?.message || 'Square order creation failed'
+    throw new Error(message)
+  }
+  const orderId = body?.order?.id
+  const totalCents = Number(body?.order?.total_money?.amount || 0)
+  if (!orderId) throw new Error('Missing Square order id')
+  return { orderId, totalCents }
+}
+
+async function chargeSquare(params: { amountCents: number; token: string; idempotencyKey: string; locationId: string; accessToken: string; orderId?: string }): Promise<{ paymentId: string }> {
+  const { amountCents, token, idempotencyKey, locationId, accessToken, orderId } = params
   const res = await fetch('https://connect.squareupsandbox.com/v2/payments', {
     method: 'POST',
     headers: {
@@ -60,7 +118,8 @@ async function chargeSquare(amountCents: number, token: string, idempotencyKey: 
       idempotency_key: idempotencyKey,
       source_id: token,
       location_id: locationId,
-      amount_money: { amount: amountCents, currency: 'AUD' }
+      amount_money: { amount: amountCents, currency: 'AUD' },
+      order_id: orderId
     })
   })
   const body = await res.json()
@@ -73,12 +132,12 @@ async function chargeSquare(amountCents: number, token: string, idempotencyKey: 
   return { paymentId }
 }
 
-async function createBooking(payload: Omit<PayAndBookRequest, 'paymentToken'> & { totalAmount: number; squarePaymentId: string }, supabaseUrl: string, supabaseKey: string) {
+async function createKaraokeBooking(payload: Omit<PayAndBookRequest, 'paymentToken'> & { totalAmount: number; squarePaymentId: string }, supabaseUrl: string, supabaseKey: string) {
   const row: Record<string, unknown> = {
     customer_name: payload.customerName,
     customer_email: payload.customerEmail || null,
     customer_phone: payload.customerPhone || null,
-    booking_type: 'karaoke',
+    booking_type: 'karaoke_booking',
     venue: payload.venue,
     booking_date: payload.bookingDate,
     start_time: payload.startTime,
@@ -109,10 +168,58 @@ async function createBooking(payload: Omit<PayAndBookRequest, 'paymentToken'> & 
     const message = body?.message || JSON.stringify(body)
     throw new Error(`Failed to create booking: ${message}`)
   }
-  const id = body?.id
-  const reference = body?.reference_code || ''
+  type BookingResp = { id?: string; reference_code?: string }
+  const asObj: BookingResp | BookingResp[] = body as BookingResp | BookingResp[]
+  const first: BookingResp | undefined = Array.isArray(asObj) ? asObj[0] : asObj
+  const id = first?.id
+  const reference = first?.reference_code || ''
   if (!id) throw new Error('Missing booking id')
   return { bookingId: String(id), referenceCode: String(reference || '') }
+}
+
+async function createTicketBookingRow(payload: { customerName: string; customerEmail?: string; customerPhone?: string; venue: string; bookingDate: string; ticketQuantity: number; totalAmount: number; squarePaymentId: string }, supabaseUrl: string, supabaseKey: string) {
+  const row: Record<string, unknown> = {
+    customer_name: payload.customerName,
+    customer_email: payload.customerEmail || null,
+    customer_phone: payload.customerPhone || null,
+    booking_type: 'vip_tickets',
+    venue: payload.venue,
+    booking_date: payload.bookingDate,
+    ticket_quantity: payload.ticketQuantity,
+    status: 'confirmed',
+    payment_status: 'paid',
+    total_amount: payload.totalAmount,
+    // Omit square_payment_id due to unique constraint on bookings.square_payment_id
+    // Preserve for audit in staff_notes; adjust schema later if needed
+    staff_notes: `square_payment_id=${payload.squarePaymentId}`,
+    payment_attempted_at: new Date().toISOString(),
+    payment_completed_at: new Date().toISOString(),
+    booking_source: 'website_direct'
+  }
+  const res = await fetch(`${supabaseUrl}/rest/v1/bookings`, {
+    method: 'POST',
+    headers: {
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(row)
+  })
+  if (!res.ok) {
+    let message = ''
+    try {
+      const text = await res.text()
+      try {
+        const parsed = JSON.parse(text) as { message?: unknown }
+        message = typeof parsed.message === 'string' ? parsed.message : text
+      } catch {
+        message = text
+      }
+    } catch {
+      message = 'Unknown error'
+    }
+    throw new Error(`Failed to create ticket booking: ${message}`)
+  }
 }
 
 function generateReferenceCode(): string {
@@ -123,17 +230,22 @@ function generateReferenceCode(): string {
 }
 
 serve(async (req: Request) => {
-  if (req.method === 'OPTIONS') return new Response(null, { status: 200, headers: corsHeaders })
+  if (req.method === 'OPTIONS') {
+    const reqHeaders = req.headers.get('Access-Control-Request-Headers') || '*'
+    const headers = { ...corsHeaders, "Access-Control-Allow-Headers": reqHeaders }
+    return new Response('ok', { status: 200, headers })
+  }
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405)
 
   try {
     const SUPABASE_URL = Deno.env.get('SUPABASE_URL')
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || Deno.env.get('SUPABASE_ANON_KEY')
-    const SQUARE_ACCESS_TOKEN = Deno.env.get('SQUARE_SANDBOX_ACCESS_TOKEN') || Deno.env.get('SQUARE_ACCESS_TOKEN')
-    const SQUARE_LOCATION_ID = Deno.env.get('SQUARE_LOCATION_ID') || 'L0XWHCW89KK4V'
+    // Enforce sandbox only
+    const SQUARE_ACCESS_TOKEN = Deno.env.get('SQUARE_SANDBOX_ACCESS_TOKEN')
+    const SQUARE_LOCATION_ID = Deno.env.get('SQUARE_SANDBOX_LOCATION_ID') || Deno.env.get('SQUARE_LOCATION_ID') || 'L0XWHCW89KK4V'
 
-    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) return json({ success: false, error: 'Supabase env not configured' }, 500)
-    if (!SQUARE_ACCESS_TOKEN) return json({ success: false, error: 'Square access token not configured' }, 500)
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) return json({ success: false, error: 'Supabase env not configured' }, 200)
+    if (!SQUARE_ACCESS_TOKEN) return json({ success: false, error: 'Square sandbox token not configured' }, 200)
 
     const body = (await req.json()) as JsonBody
     const input: PayAndBookRequest = {
@@ -147,35 +259,65 @@ serve(async (req: Request) => {
       startTime: String(body.startTime || ''),
       endTime: String(body.endTime || ''),
       boothId: String(body.boothId || ''),
-      paymentToken: String(body.paymentToken || '')
+      paymentToken: String(body.paymentToken || ''),
+      ticketQuantity: body.ticketQuantity != null ? Number(body.ticketQuantity) : undefined,
     }
 
-    if (!input.holdId) return json({ success: false, error: 'Missing holdId' }, 400)
-    if (!input.boothId) return json({ success: false, error: 'Missing boothId' }, 400)
-    if (!input.paymentToken) return json({ success: false, error: 'Missing payment token' }, 400)
+    if (!input.holdId) return json({ success: false, error: 'Missing holdId' }, 200)
+    if (!input.boothId) return json({ success: false, error: 'Missing boothId' }, 200)
+    if (!input.paymentToken) return json({ success: false, error: 'Missing payment token' }, 200)
 
     // Fetch booth hourly rate
     const hourlyRate = await fetchBoothHourlyRate(input.boothId, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
-    const amountCents = Math.round(Number(hourlyRate) * 100)
+    const boothCents = Math.round(Number(hourlyRate) * 100)
+    const ticketQty = Math.max(0, Number(input.ticketQuantity || input.guestCount || 0))
+    const TICKET_PRICE_CENTS = 1000 // $10 per ticket
+    const ticketsCents = ticketQty * TICKET_PRICE_CENTS
+    const totalCents = boothCents + ticketsCents
 
-    // Idempotency key based on hold + booth + date/time
-    const idempotencyKey = `${input.holdId}:${input.boothId}:${input.bookingDate}:${input.startTime}-${input.endTime}`
+    // Idempotency key based on hold + booth + date/time (hashed to <=45 chars)
+    const rawIdKey = `${input.holdId}:${input.boothId}:${input.bookingDate}:${input.startTime}-${input.endTime}:t${ticketQty}`
+    const idempotencyKey = await toIdempotencyKey(rawIdKey)
 
-    // Charge with Square first
-    const { paymentId } = await chargeSquare(amountCents, input.paymentToken, idempotencyKey, SQUARE_LOCATION_ID, SQUARE_ACCESS_TOKEN)
+    // Create Square order with line items
+    const { orderId } = await createSquareOrder({
+      locationId: SQUARE_LOCATION_ID,
+      accessToken: SQUARE_ACCESS_TOKEN,
+      idempotencyKey,
+      boothCents,
+      ticketCents: TICKET_PRICE_CENTS,
+      ticketQty,
+    })
 
-    // Create booking as confirmed/paid
-    const booking = await createBooking({
+    // Charge with Square referencing the order
+    const { paymentId } = await chargeSquare({ amountCents: totalCents, token: input.paymentToken, idempotencyKey, locationId: SQUARE_LOCATION_ID, accessToken: SQUARE_ACCESS_TOKEN, orderId })
+
+    // Create karaoke booking row (confirmed/paid) with booth amount only
+    const booking = await createKaraokeBooking({
       ...input,
-      totalAmount: amountCents / 100,
+      totalAmount: boothCents / 100,
       squarePaymentId: paymentId,
     }, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+
+    // Create separate vip_tickets booking row (confirmed/paid)
+    if (ticketQty > 0) {
+      await createTicketBookingRow({
+        customerName: input.customerName,
+        customerEmail: input.customerEmail,
+        customerPhone: input.customerPhone,
+        venue: input.venue,
+        bookingDate: input.bookingDate,
+        ticketQuantity: ticketQty,
+        totalAmount: ticketsCents / 100,
+        squarePaymentId: paymentId
+      }, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+    }
 
     return json({ success: true, bookingId: booking.bookingId, referenceCode: booking.referenceCode, paymentId })
   } catch (err) {
     console.error('karaoke-pay-and-book error:', err)
     const message = err instanceof Error ? err.message : String(err)
-    return json({ success: false, error: message }, 400)
+    return json({ success: false, error: message }, 200)
   }
 })
 

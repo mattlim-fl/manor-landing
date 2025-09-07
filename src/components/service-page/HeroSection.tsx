@@ -1,5 +1,7 @@
 
 import React from 'react';
+import { ENABLE_WHATSAPP_ENQUIRY, WHATSAPP_PHONE, WHATSAPP_TEMPLATE } from '@/lib/config';
+import { getWhatsAppEnquiryUrl } from '@/lib/whatsapp';
 import { Badge } from '../ui/badge';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -45,6 +47,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     heroImage
   ];
 
+  const isBirthdaysPage = currentPage === 'birthdays-occasions';
+  const whatsappUrl = isBirthdaysPage && ENABLE_WHATSAPP_ENQUIRY
+    ? getWhatsAppEnquiryUrl({ phone: WHATSAPP_PHONE, message: WHATSAPP_TEMPLATE })
+    : null;
+
   return (
     <div>
       {/* Image gallery container */}
@@ -78,27 +85,53 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </button>
           )}
         </div>
-        <Badge
-          onClick={onBookingClick}
-          className="px-6 py-3 text-lg font-semibold cursor-pointer transition-all duration-300 mt-6" 
-          style={{ 
-            backgroundColor: '#C63D1E', 
-            color: '#FFFFFF', 
-            border: '1px solid #C63D1E'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#FFFFFF';
-            e.currentTarget.style.color = '#C63D1E';
-            e.currentTarget.style.borderColor = '#C63D1E';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#C63D1E';
-            e.currentTarget.style.color = '#FFFFFF';
-            e.currentTarget.style.borderColor = '#C63D1E';
-          }}
-        >
-          ENQUIRE
-        </Badge>
+        {isBirthdaysPage && whatsappUrl ? (
+          <a 
+            href={whatsappUrl}
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="px-6 py-3 text-lg font-semibold cursor-pointer transition-all duration-300 mt-6 inline-flex items-center rounded-full"
+            style={{ 
+              backgroundColor: '#C63D1E', 
+              color: '#FFFFFF', 
+              border: '1px solid #C63D1E'
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#FFFFFF';
+              (e.currentTarget as HTMLAnchorElement).style.color = '#C63D1E';
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = '#C63D1E';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#C63D1E';
+              (e.currentTarget as HTMLAnchorElement).style.color = '#FFFFFF';
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = '#C63D1E';
+            }}
+          >
+            ENQUIRE
+          </a>
+        ) : (
+          <Badge
+            onClick={onBookingClick}
+            className="px-6 py-3 text-lg font-semibold cursor-pointer transition-all duration-300 mt-6" 
+            style={{ 
+              backgroundColor: '#C63D1E', 
+              color: '#FFFFFF', 
+              border: '1px solid #C63D1E'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#FFFFFF';
+              e.currentTarget.style.color = '#C63D1E';
+              e.currentTarget.style.borderColor = '#C63D1E';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#C63D1E';
+              e.currentTarget.style.color = '#FFFFFF';
+              e.currentTarget.style.borderColor = '#C63D1E';
+            }}
+          >
+            ENQUIRE
+          </Badge>
+        )}
       </div>
     </div>
   );

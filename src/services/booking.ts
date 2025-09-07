@@ -2,7 +2,7 @@ import getSupabase from '../lib/supabaseClient'
 import { sendVenueBookingConfirmation, type EmailTemplateData } from './email'
 
 export type Venue = 'manor' | 'hippie'
-export type VenueArea = 'upstairs' | 'downstairs' | 'full_venue'
+export type VenueArea = string
 
 // Generate a user-friendly reference code
 const generateReferenceCode = (): string => {
@@ -21,6 +21,7 @@ export interface CreateVenueBookingInput {
   customerPhone?: string
   venue: Venue
   venueArea: VenueArea
+  venueAreaName?: string
   bookingDate: string // YYYY-MM-DD
   startTime?: string  // HH:MM
   endTime?: string    // HH:MM
@@ -71,6 +72,7 @@ export async function createVenueBooking(input: CreateVenueBookingInput) {
         referenceCode: data.reference_code,
         venue: input.venue,
         venueArea: input.venueArea,
+        venueAreaName: input.venueAreaName,
         bookingDate: input.bookingDate,
         startTime: input.startTime || '',
         endTime: input.endTime || '',

@@ -23,9 +23,7 @@ const BirthdaysOccasions = () => {
 
   const greatForCards = [];
 
-  const bookingUrl = 'https://hippieclub.simplybook.net/v2/#book';
-  const whatsappNumber = '61412345678'; // Replace with Manor's actual WhatsApp business number
-  const whatsappMessage = 'Hi! I\'d like to discuss planning a birthday celebration or special occasion at Manor. Could you please help me with the details and availability?';
+  // WhatsApp config is handled globally; no per-page constants are needed here.
 
   return (
     <ServicePageTemplate
