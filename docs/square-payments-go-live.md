@@ -84,3 +84,4 @@ supabase functions deploy karaoke-pay-and-book
 If you run into anything unexpected, share the function response body (we return `{ success: false, error }` on errors) and the Square Dashboard order/payment IDs.
 
 
+

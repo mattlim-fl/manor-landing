@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ENABLE_WHATSAPP_ENQUIRY, WHATSAPP_PHONE, WHATSAPP_TEMPLATE } from '@/lib/config';
+import { ENABLE_WHATSAPP_ENQUIRY, WHATSAPP_PHONE, WHATSAPP_TEMPLATE, ENABLE_SOCIAL_ENQUIRY, INSTAGRAM_HANDLE, FACEBOOK_PAGE_URL } from '@/lib/config';
 import { getWhatsAppEnquiryUrl } from '@/lib/whatsapp';
 import { Badge } from '../ui/badge';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -85,31 +85,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </button>
           )}
         </div>
-        {isBirthdaysPage && whatsappUrl ? (
-          <a 
-            href={whatsappUrl}
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="px-6 py-3 text-lg font-semibold cursor-pointer transition-all duration-300 mt-6 inline-flex items-center rounded-full"
-            style={{ 
-              backgroundColor: '#C63D1E', 
-              color: '#FFFFFF', 
-              border: '1px solid #C63D1E'
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#FFFFFF';
-              (e.currentTarget as HTMLAnchorElement).style.color = '#C63D1E';
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = '#C63D1E';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#C63D1E';
-              (e.currentTarget as HTMLAnchorElement).style.color = '#FFFFFF';
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = '#C63D1E';
-            }}
-          >
-            ENQUIRE
-          </a>
-        ) : (
+        {
           <Badge
             onClick={onBookingClick}
             className="px-6 py-3 text-lg font-semibold cursor-pointer transition-all duration-300 mt-6" 
@@ -131,7 +107,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           >
             ENQUIRE
           </Badge>
-        )}
+        }
       </div>
     </div>
   );

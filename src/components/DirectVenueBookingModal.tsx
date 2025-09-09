@@ -80,7 +80,7 @@ export default function DirectVenueBookingModal({
     return () => { isMounted = false }
   }, [venue])
 
-  const durationOptions = Array.from({ length: 12 }, (_, i) => i + 1) // 1-12 hours
+  
 
   const [timeOptions, setTimeOptions] = useState<string[]>([])
   const [availableDurations, setAvailableDurations] = useState<number[]>([])
@@ -275,7 +275,7 @@ export default function DirectVenueBookingModal({
                       <SelectValue placeholder="Select duration" />
                     </SelectTrigger>
                     <SelectContent>
-                      {durationOptions.map((hours) => (
+                      {availableDurations.map((hours) => (
                         <SelectItem key={hours} value={String(hours)}>
                           {hours} {hours === 1 ? 'hour' : 'hours'}
                         </SelectItem>

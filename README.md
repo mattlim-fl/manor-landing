@@ -94,6 +94,21 @@ VITE_WHATSAPP_TEMPLATE=Hi! I'd like to enquire about a birthday or special occas
 - To test with your own number, set `VITE_WHATSAPP_PHONE` to your digits-only E.164 number; swap to the business number later without code changes.
 - If the feature is disabled or phone is missing, the Enquire button falls back to the existing booking modal.
 
+## Social Enquiry (Instagram / Messenger)
+
+To use Instagram DM and Facebook Messenger instead of WhatsApp on `/birthdays-occasions`:
+
+- Add to `.env.local` (and optionally `.env`):
+
+```
+VITE_ENABLE_SOCIAL_ENQUIRY=true
+VITE_INSTAGRAM_HANDLE=@manorleederville
+VITE_FACEBOOK_PAGE_URL=https://www.facebook.com/manorleederville
+```
+
+- The page will render two CTAs: “Enquire via Instagram” (links to `ig.me/m/<handle>`) and “Enquire via Messenger” (links to `m.me/<page-username>` derived from the FB page URL).
+- If either value is missing, that respective CTA is hidden. If both are missing and WhatsApp is enabled, it falls back to WhatsApp; otherwise, it falls back to the booking modal.
+
 ## Contributing
 
 1. Fork the repository

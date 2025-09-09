@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import DirectVenueBookingModal from './DirectVenueBookingModal';
+import SocialEnquiryModal from './SocialEnquiryModal';
+import { ENABLE_SOCIAL_ENQUIRY, INSTAGRAM_HANDLE, FACEBOOK_PAGE_URL } from '@/lib/config';
 import HeroSection from './service-page/HeroSection';
 import DescriptionSection from './service-page/DescriptionSection';
 import OverviewSection from './service-page/OverviewSection';
@@ -42,6 +44,7 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   currentPage
 }) => {
   const [showBooking, setShowBooking] = useState(false);
+  const [showSocialEnquiry, setShowSocialEnquiry] = useState(false);
   const location = useLocation();
 
   // Check for booking hash on component mount and location changes
@@ -58,6 +61,10 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   }, [location.hash]);
 
   const openBooking = () => {
+    if (currentPage === 'birthdays-occasions' && ENABLE_SOCIAL_ENQUIRY) {
+      setShowSocialEnquiry(true);
+      return;
+    }
     setShowBooking(true);
     setTimeout(() => {
       document.getElementById('booking-container')?.scrollIntoView({ 
@@ -96,6 +103,13 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
         onClose={() => setShowBooking(false)}
         defaultVenue="manor"
         defaultVenueArea="downstairs"
+      />
+
+      <SocialEnquiryModal
+        isOpen={showSocialEnquiry}
+        onClose={() => setShowSocialEnquiry(false)}
+        instagramHandle={INSTAGRAM_HANDLE}
+        facebookPageUrl={FACEBOOK_PAGE_URL}
       />
     </div>
   );
