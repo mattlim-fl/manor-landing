@@ -27,6 +27,7 @@ interface ServicePageProps {
   greatForCards: GreatForCard[];
   showSectionsAfterOverview?: boolean;
   showNewsletterSection?: boolean;
+  galleryImages?: string[];
 }
 
 const FullVenueServicePageTemplate: React.FC<ServicePageProps> = ({
@@ -36,7 +37,8 @@ const FullVenueServicePageTemplate: React.FC<ServicePageProps> = ({
   accordionItems,
   greatForCards,
   showSectionsAfterOverview = true,
-  showNewsletterSection = true
+  showNewsletterSection = true,
+  galleryImages
 }) => {
   const [showBooking, setShowBooking] = useState(false);
   const location = useLocation();
@@ -67,12 +69,13 @@ const FullVenueServicePageTemplate: React.FC<ServicePageProps> = ({
     <div className="min-h-screen" style={{ backgroundColor: '#271308' }}>
       <Header />
       
-      <div className="pt-20">
+      <div className="pt-12">
       <HeroSection 
         heroImage={heroImage}
         heroTitle={heroTitle}
         onBookingClick={openBooking}
         currentPage="full-venue"
+        galleryImages={galleryImages}
       />
 
         <FullVenueDescriptionSection description={description} />

@@ -19,9 +19,11 @@ const Header = ({ showLogo = true }: HeaderProps) => {
           {/* Logo - conditionally rendered */}
           {showLogo && (
             <Link to="/" className="relative">
-              <h1 className="manor-heading text-2xl md:text-3xl" style={{ color: '#CD3E28' }}>
-                MANOR
-              </h1>
+              <img 
+                src="/manor-logo-updated.png"
+                alt="Manor"
+                className="h-8 md:h-10"
+              />
             </Link>
           )}
 

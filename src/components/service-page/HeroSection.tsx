@@ -12,13 +12,15 @@ interface HeroSectionProps {
   heroTitle: string;
   onBookingClick: () => void;
   currentPage?: string;
+  galleryImages?: string[];
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
   heroImage,
   heroTitle,
   onBookingClick,
-  currentPage
+  currentPage,
+  galleryImages
 }) => {
   const navigate = useNavigate();
 
@@ -31,15 +33,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       case 'full-venue':
         return { left: '/upstairs', right: '/downstairs' };
       case 'birthdays-occasions':
-        return { left: '/priority-entry', right: '/priority-entry' };
+        return { left: null, right: null }; // No navigation for birthdays page
       default:
         return { left: null, right: null };
     }
   };
 
   const { left, right } = getNavigationPaths();
-  // Create gallery images using the existing image as placeholders
-  const galleryImages = [
+  // Use custom gallery images if provided, otherwise use hero image as placeholders
+  const images = galleryImages || [
     heroImage,
     heroImage,
     heroImage,
@@ -56,7 +58,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     <div>
       {/* Image gallery container */}
       <ImageGallery 
-        images={galleryImages}
+        images={images}
         className="relative h-64 sm:h-80 md:h-96 lg:h-screen"
       />
       
@@ -72,7 +74,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               <ChevronLeft size={32} className="md:w-12 md:h-12" />
             </button>
           )}
-          <h1 className="manor-heading text-4xl md:text-8xl lg:text-[12rem] text-center flex-1" style={{ color: '#CD3E28' }}>
+          <h1 className="font-blur font-medium text-4xl md:text-8xl lg:text-[12rem] text-center flex-1 uppercase tracking-wider" style={{ color: '#CD3E28' }}>
             {heroTitle}
           </h1>
           {right && (
@@ -88,7 +90,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         {
           <Badge
             onClick={onBookingClick}
-            className="px-6 py-3 text-lg font-semibold cursor-pointer transition-all duration-300 mt-6" 
+            className="px-6 py-3 text-lg font-blur font-medium cursor-pointer transition-all duration-300 mt-6" 
             style={{ 
               backgroundColor: '#C63D1E', 
               color: '#FFFFFF', 

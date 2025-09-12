@@ -31,6 +31,7 @@ interface ServicePageProps {
   showSectionsAfterOverview?: boolean;
   showNewsletterSection?: boolean;
   currentPage?: string;
+  galleryImages?: string[];
 }
 
 const ServicePageTemplate: React.FC<ServicePageProps> = ({
@@ -41,7 +42,8 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   greatForCards,
   showSectionsAfterOverview = true,
   showNewsletterSection = true,
-  currentPage
+  currentPage,
+  galleryImages
 }) => {
   const [showBooking, setShowBooking] = useState(false);
   const [showSocialEnquiry, setShowSocialEnquiry] = useState(false);
@@ -77,12 +79,13 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
     <div className="min-h-screen" style={{ backgroundColor: '#271308' }}>
       <Header />
       
-      <div className="pt-20">
+      <div className="pt-12">
       <HeroSection 
         heroImage={heroImage}
         heroTitle={heroTitle}
         onBookingClick={openBooking}
         currentPage={currentPage}
+        galleryImages={galleryImages}
       />
 
         <DescriptionSection description={description} />

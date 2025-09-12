@@ -39,7 +39,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
 
   return (
     <div className="max-w-4xl mx-auto px-4 pb-8" style={{ paddingTop: '10px', paddingBottom: '24px' }}>
-      <h2 className="manor-heading text-3xl mb-6" style={{ color: '#D04E2B' }}>DETAILS</h2>
+      <h2 className="font-blur font-medium text-3xl mb-6 uppercase tracking-wider" style={{ color: '#D04E2B' }}>DETAILS</h2>
       <div className="space-y-4">
         {accordionItems.map((item, index) => (
           <div key={index} className="border-b" style={{ borderColor: '#E59D50' }}>

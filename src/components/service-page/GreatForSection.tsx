@@ -16,7 +16,7 @@ const GreatForSection: React.FC<GreatForSectionProps> = ({
 }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-16">
-      <h2 className="manor-heading text-3xl text-manor-black mb-12">GREAT FOR</h2>
+      <h2 className="font-blur font-medium text-3xl text-manor-black mb-12 uppercase tracking-wider">GREAT FOR</h2>
       <div className="grid md:grid-cols-3 gap-8">
         {greatForCards.map((card, index) => (
           <div key={index} className="group">
@@ -28,7 +28,7 @@ const GreatForSection: React.FC<GreatForSectionProps> = ({
               />
               <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition-all duration-300" />
             </div>
-            <h3 className="manor-heading text-xl text-manor-black mb-2">
+            <h3 className="font-blur font-medium text-xl text-manor-black mb-2 uppercase tracking-wider">
               {card.title}
             </h3>
             <p className="text-manor-black mb-4 leading-relaxed">

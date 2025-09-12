@@ -14,21 +14,21 @@ const UpstairsDescriptionSection: React.FC<DescriptionSectionProps> = ({
     }}>
       <div className="space-y-6">
         <div className="flex flex-wrap justify-center gap-3">
-          <Badge className="px-4 py-2 text-sm font-semibold" style={{
+          <Badge className="px-4 py-2 text-sm font-medium" style={{
             backgroundColor: '#D04E2B',
             color: '#060201',
             border: '1px solid #060201'
           }}>
             Lounge Bar
           </Badge>
-          <Badge className="px-4 py-2 text-sm font-semibold" style={{
+          <Badge className="px-4 py-2 text-sm font-medium" style={{
             backgroundColor: '#D04E2B',
             color: '#060201',
             border: '1px solid #060201'
           }}>
             Karaoke Booth
           </Badge>
-          <Badge className="px-4 py-2 text-sm font-semibold" style={{
+          <Badge className="px-4 py-2 text-sm font-medium" style={{
             backgroundColor: '#D04E2B',
             color: '#060201',
             border: '1px solid #060201'
@@ -38,11 +38,13 @@ const UpstairsDescriptionSection: React.FC<DescriptionSectionProps> = ({
         </div>
         
         <div className="flex flex-wrap justify-center gap-3">
-          <Badge className="px-4 py-2 text-lg" style={{
-            backgroundColor: '#D04E2B',
-            color: '#271308',
-            border: '1px solid #6A2A00'
-          }}>Great for cocktail parties, celebrations, events and corporate functions up to 70 people.</Badge>
+          <div className="rounded-2xl px-6 py-4 border-2" style={{
+            backgroundColor: '#271308',
+            color: '#E59D50',
+            borderColor: '#E59D50'
+          }}>
+            <p className="text-base md:text-lg font-medium">Great for cocktail parties, celebrations, events and corporate functions up to 70 people.</p>
+          </div>
         </div>
       </div>
     </div>

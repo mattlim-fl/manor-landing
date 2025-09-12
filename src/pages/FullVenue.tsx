@@ -22,14 +22,21 @@ const FullVenue = () => {
     }
   ];
 
+  const galleryImages = [
+    "/full-venue-1.jpg",
+    "/full-venue-2.jpg", 
+    "/full-venue-3.jpg"
+  ];
+
   return (
     <FullVenueServicePageTemplate
-      heroImage="https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
+      heroImage="/full-venue-1.jpg"
       heroTitle="FULL VENUE"
       description="Complete exclusive hire of the entire Manor including both upstairs and downstairs areas. Perfect for product launches, wedding receptions, and major corporate events up to 150 people."
       accordionItems={accordionItems}
       greatForCards={[]}
       showSectionsAfterOverview={false}
+      galleryImages={galleryImages}
     />
   );
 };

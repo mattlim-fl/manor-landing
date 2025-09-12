@@ -109,8 +109,11 @@ export default {
 				'fade-in': 'fade-in 0.6s ease-out'
 			},
 			fontFamily: {
-				'display': ['Inter', 'sans-serif'],
-				'body': ['Inter', 'sans-serif']
+				'sans': ['FF Blur', 'Inter', 'sans-serif'],
+				'display': ['FF Blur', 'Inter', 'sans-serif'],
+				'body': ['FF Blur', 'Inter', 'sans-serif'],
+				'blur': ['FF Blur', 'Inter', 'sans-serif'],
+				'blur-display': ['FF Blur', 'Inter', 'sans-serif']
 			}
 		}
 	},

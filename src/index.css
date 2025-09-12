@@ -1,5 +1,31 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* FF Blur Font Face Declarations */
+@font-face {
+  font-family: 'FF Blur';
+  src: url('/fonts/BlurWeb-Medium W03 Regular.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FF Blur';
+  src: url('/fonts/BlurWeb-Bold W03 Regular.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FF Blur';
+  src: url('/fonts/BlurWeb-Light W03 Regular.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -112,18 +138,47 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body;
+    @apply bg-background text-foreground font-blur;
   }
 
   .manor-btn-primary {
-    @apply bg-manor-gold text-manor-black font-bold px-8 py-4 uppercase tracking-wider transition-all duration-300 hover:bg-yellow-400 hover:scale-105 active:scale-95;
+    @apply bg-manor-gold text-manor-black font-blur font-bold px-8 py-4 uppercase tracking-wider transition-all duration-300 hover:bg-yellow-400 hover:scale-105 active:scale-95;
   }
 
   .manor-btn-secondary {
-    @apply bg-transparent border-2 border-manor-white text-manor-white font-bold px-8 py-4 uppercase tracking-wider transition-all duration-300 hover:bg-manor-white hover:text-manor-black;
+    @apply bg-transparent border-2 border-manor-white text-manor-white font-blur font-bold px-8 py-4 uppercase tracking-wider transition-all duration-300 hover:bg-manor-white hover:text-manor-black;
   }
 
   .manor-heading {
-    @apply font-display font-black uppercase tracking-wider;
+    @apply font-blur font-bold uppercase tracking-wider;
+  }
+
+  /* FF Blur Utility Classes */
+  .font-blur {
+    font-family: 'FF Blur', 'Inter', sans-serif;
+    font-weight: 500; /* Medium weight */
+  }
+
+  .font-blur-light {
+    font-family: 'FF Blur', 'Inter', sans-serif;
+    font-weight: 300;
+  }
+
+  .font-blur-medium {
+    font-family: 'FF Blur', 'Inter', sans-serif;
+    font-weight: 500;
+  }
+
+  .font-blur-bold {
+    font-family: 'FF Blur', 'Inter', sans-serif;
+    font-weight: bold;
+  }
+
+  .manor-blur-heading {
+    @apply font-blur font-bold uppercase tracking-wider;
+  }
+
+  .manor-blur-display {
+    @apply font-blur font-bold text-4xl md:text-6xl lg:text-7xl uppercase tracking-wider;
   }
 }

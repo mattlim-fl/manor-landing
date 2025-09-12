@@ -22,14 +22,21 @@ const Upstairs = () => {
     }
   ];
 
+  const galleryImages = [
+    "/upstairs-1.jpg",
+    "/upstairs-2.jpg", 
+    "/upstairs-3.jpg"
+  ];
+
   return (
     <UpstairsServicePageTemplate
-      heroImage="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
+      heroImage="/upstairs-1.jpg"
       heroTitle="UPSTAIRS"
       description="Exclusive hire of our premium upstairs area with VIP seating, elevated views, and sophisticated atmosphere. Perfect for intimate celebrations and executive events up to 60 people."
       accordionItems={accordionItems}
       greatForCards={[]}
       showSectionsAfterOverview={false}
+      galleryImages={galleryImages}
     />
   );
 };

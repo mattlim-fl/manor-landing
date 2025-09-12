@@ -40,15 +40,23 @@ const Downstairs = () => {
     }
   ];
 
+  const galleryImages = [
+    "/downstairs-1.jpg",
+    "/downstairs-2.jpg", 
+    "/downstairs-3.jpg",
+    "/downstairs-4.jpg"
+  ];
+
   return (
     <ServicePageTemplate
-      heroImage="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
+      heroImage="/downstairs-1.jpg"
       heroTitle="DOWNSTAIRS"
       description="Featuring the main bar, dance floor and courtyard.\n\nGreat for cocktail parties, celebrations, events and corporate functions up to 150 people."
       accordionItems={accordionItems}
       greatForCards={greatForCards}
       showSectionsAfterOverview={false}
       currentPage="downstairs"
+      galleryImages={galleryImages}
     />
   );
 };

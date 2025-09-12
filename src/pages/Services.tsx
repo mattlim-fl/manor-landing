@@ -31,7 +31,7 @@ const Services = () => {
       }} />
         
         <div className="max-w-7xl mx-auto px-4 text-center relative z-10 pt-20 md:pt-0">
-          <h1 className="manor-heading text-6xl md:text-8xl mb-12 animate-fade-in" style={{
+          <h1 className="font-blur font-medium text-5xl md:text-7xl lg:text-8xl mb-12 animate-fade-in uppercase tracking-wider" style={{
           color: '#CD3E28'
         }}>
             VENUE HIRE
@@ -41,12 +41,12 @@ const Services = () => {
             {/* Downstairs */}
             <div className="relative group overflow-hidden rounded-lg min-h-[500px] min-w-[350px] flex flex-col">
               <div className="h-96 bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
+              backgroundImage: `url('/downstairs-1.jpg')`
             }} />
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
               <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-12 py-8">
                 <div className="flex-1 flex flex-col justify-center">
-                  <h2 className="manor-heading text-4xl mb-6" style={{
+                  <h2 className="font-blur font-medium text-3xl md:text-4xl lg:text-5xl mb-6 uppercase tracking-wider" style={{
                   color: '#CD3E28'
                 }}>
                     DOWNSTAIRS
@@ -58,7 +58,7 @@ const Services = () => {
                 </div>
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
                   
-                  <Link to="/downstairs" className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap" style={{
+                  <Link to="/downstairs" className="font-blur font-medium px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap" style={{
                   backgroundColor: '#D04E2B',
                   color: '#060201',
                   borderWidth: '2px',
@@ -80,12 +80,12 @@ const Services = () => {
             {/* Upstairs */}
             <div className="relative group overflow-hidden rounded-lg min-h-[500px] min-w-[350px] flex flex-col">
               <div className="h-96 bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
+              backgroundImage: `url('/upstairs-2.jpg')`
             }} />
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
               <div className="absolute inset-0 flex flex-col justify-between text-center px-12 py-8">
                 <div className="flex-1 flex flex-col justify-center">
-                  <h2 className="manor-heading text-4xl mb-6" style={{
+                  <h2 className="font-blur font-medium text-3xl md:text-4xl lg:text-5xl mb-6 uppercase tracking-wider" style={{
                   color: '#CD3E28'
                 }}>
                     UPSTAIRS
@@ -97,7 +97,7 @@ const Services = () => {
                 </div>
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
                   
-                  <Link to="/upstairs" className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap" style={{
+                  <Link to="/upstairs" className="font-blur font-medium px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap" style={{
                   backgroundColor: '#D04E2B',
                   color: '#060201',
                   borderWidth: '2px',
@@ -119,12 +119,12 @@ const Services = () => {
             {/* Full Venue */}
             <div className="relative group overflow-hidden rounded-lg min-h-[500px] min-w-[350px] lg:col-span-1 md:col-span-2 flex flex-col">
               <div className="h-96 bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')`
+              backgroundImage: `url('/full-venue-1.jpg')`
             }} />
               <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition-all duration-300" />
               <div className="absolute inset-0 flex flex-col justify-between text-center px-12 py-8">
                 <div className="flex-1 flex flex-col justify-center">
-                  <h2 className="manor-heading text-4xl mb-6" style={{
+                  <h2 className="font-blur font-medium text-3xl md:text-4xl lg:text-5xl mb-6 uppercase tracking-wider" style={{
                   color: '#CD3E28'
                 }}>
                     FULL VENUE
@@ -134,7 +134,7 @@ const Services = () => {
                 </div>
                 <div className="flex flex-col gap-3 w-full max-w-xs mx-auto">
                   
-                  <Link to="/full-venue" className="font-bold px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap" style={{
+                  <Link to="/full-venue" className="font-blur font-medium px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap" style={{
                   backgroundColor: '#D04E2B',
                   color: '#060201',
                   borderWidth: '2px',

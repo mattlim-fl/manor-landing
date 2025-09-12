@@ -5,7 +5,7 @@ const NewsletterSection: React.FC = () => {
   return (
     <div className="bg-manor-black py-16">
       <div className="max-w-4xl mx-auto px-4 text-center">
-        <h2 className="manor-heading text-3xl text-manor-white mb-8">
+        <h2 className="font-blur font-medium text-3xl text-manor-white mb-8 uppercase tracking-wider">
           STAY IN TOUCH
         </h2>
         <p className="text-manor-white mb-8">

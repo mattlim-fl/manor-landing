@@ -6,70 +6,102 @@ import TicketBookingModal from "../components/TicketBookingModal";
 const PriorityEntry = () => {
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
   const navigate = useNavigate();
-   return <div className="min-h-screen text-manor-white" style={{
-    backgroundColor: '#271308'
+   return <div className="h-screen flex flex-col" style={{
+    backgroundColor: '#271308',
+    color: '#FFFFFF'
   }}>
       <Header />
       
-      {/* Priority Entry Hero Section */}
-      <div className="relative min-h-screen flex flex-col justify-center">
-        {/* Background */}
-        <div className="absolute inset-0" style={{
-        backgroundColor: '#271308'
-      }} />
-        
-        <div className="max-w-7xl mx-auto px-4 text-center relative z-10 pt-20 md:pt-0">
-          <div className="flex items-center justify-center w-full max-w-7xl mx-auto mb-8">
-            <button
-              onClick={() => navigate('/birthdays-occasions')}
-              className="mr-4 p-2 transition-all duration-300 hover:scale-110"
-              style={{ color: '#CD3E28' }}
-            >
-              <ChevronLeft size={32} className="md:w-12 md:h-12" />
-            </button>
-            <h1 className="manor-heading text-5xl md:text-7xl lg:text-8xl animate-fade-in flex-1 text-center" style={{
-            color: '#E14116'
-          }}>
-              <div>25+</div>
-              <div>PRIORITY</div>
-              <div>ENTRY</div>
-            </h1>
-            <button
-              onClick={() => navigate('/birthdays-occasions')}
-              className="ml-4 p-2 transition-all duration-300 hover:scale-110"
-              style={{ color: '#CD3E28' }}
-            >
-              <ChevronRight size={32} className="md:w-12 md:h-12" />
-            </button>
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Top 50% - Dark Background */}
+        <div className="flex-1 flex flex-col justify-center items-center px-4" style={{ backgroundColor: '#271308' }}>
+          {/* Disco Ball with Stars */}
+          <div className="relative mb-6">
+            {/* Stars around disco ball */}
+            <div className="absolute -left-8 top-4 w-4 h-4" style={{ color: '#E59D50' }}>
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div className="absolute -right-8 top-4 w-4 h-4" style={{ color: '#E59D50' }}>
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div className="absolute -left-6 -top-2 w-3 h-3" style={{ color: '#E59D50' }}>
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div className="absolute -right-6 -top-2 w-3 h-3" style={{ color: '#E59D50' }}>
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            
+            {/* Disco Ball */}
+            <img
+              src="/leopard-mirrorball.png"
+              alt="Disco Ball"
+              className="w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 object-contain"
+            />
           </div>
           
-          <div className="mb-12 animate-fade-in">
-            <a href="https://megatix.com.au/white-label/manor-leederville-priority-entry" className="font-bold px-8 py-4 rounded-full uppercase tracking-wider transition-all duration-300 text-sm inline-block cursor-pointer" style={{
-            backgroundColor: '#D04E2B',
-            color: '#FFFFFF',
-            borderWidth: '2px',
-            borderStyle: 'solid',
-            borderColor: '#271308'
-          }} onMouseEnter={e => {
-            e.currentTarget.style.backgroundColor = '#FFFFFF';
-            (e.currentTarget as HTMLAnchorElement).style.color = '#D04E2B';
-          }} onMouseLeave={e => {
-            e.currentTarget.style.backgroundColor = '#D04E2B';
-            (e.currentTarget as HTMLAnchorElement).style.color = '#FFFFFF';
+          {/* 25+ PRIORITY ENTRY Heading */}
+          <h1 className="font-blur font-medium text-4xl md:text-6xl lg:text-7xl animate-fade-in uppercase tracking-wider text-center" style={{
+            color: '#CD3E28'
           }}>
-              BOOK NOW
-            </a>
-          </div>
+            <div style={{ color: '#CD3E28' }}>25+</div>
+            <div>PRIORITY</div>
+            <div>ENTRY</div>
+          </h1>
+        </div>
+
+        {/* Bottom 50% - Leopard Pattern Background */}
+        <div className="flex-1 flex flex-col justify-center items-center px-4 relative">
+          {/* Leopard Pattern Background */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ 
+              backgroundImage: 'url(/leopard-pattern-bg.png)',
+              backgroundSize: 'cover'
+            }}
+          />
           
-          <div className="max-w-2xl mx-auto text-center animate-fade-in">
-            <div className="text-lg leading-relaxed space-y-4 text-manor-white">
-              <p>Leederville's late night lounge returns.</p>
-              <p>Disco from 11 'til late.</p>
-              <p>Enter via Hippie Club and take the tunnel.</p>
-              <br />
-              <p>Skip the queue with Priority Entry and head straight to the front.</p>
-              <br />
-              <p>Curated for a 25+ crowd.</p>
+          {/* Book Now Button */}
+          <a 
+            href="https://megatix.com.au/white-label/manor-leederville-priority-entry"
+            className="relative z-10 inline-block font-blur font-medium px-8 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300 hover:scale-105 border-2 mb-8"
+            style={{
+              backgroundColor: '#D04E2B',
+              color: '#FFFFFF',
+              borderColor: '#271308'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#FFFFFF';
+              e.currentTarget.style.color = '#D04E2B';
+              e.currentTarget.style.borderColor = '#D04E2B';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#D04E2B';
+              e.currentTarget.style.color = '#FFFFFF';
+              e.currentTarget.style.borderColor = '#271308';
+            }}
+          >
+            BOOK NOW
+          </a>
+
+          {/* Information Container */}
+          <div className="relative z-10 text-center max-w-2xl">
+            <div className="rounded-2xl px-6 py-4 border-2" style={{
+              backgroundColor: '#271308',
+              color: '#E59D50',
+              borderColor: '#E59D50'
+            }}>
+              <p className="text-base md:text-lg mb-1">Disco from 11 'til late.</p>
+              <p className="text-sm md:text-base mb-1">Skip the queue with Priority Entry and head straight inside.</p>
+              <p className="text-sm md:text-base">Curated for a 25+ crowd.</p>
             </div>
           </div>
         </div>
