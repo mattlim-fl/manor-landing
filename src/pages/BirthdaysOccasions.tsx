@@ -2,7 +2,7 @@
 import ServicePageTemplate from '../components/ServicePageTemplate';
 
 const BirthdaysOccasions = () => {
-  const heroImage = 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+  const heroImage = '/full-venue-1.jpg';
   const heroTitle = 'BIRTHDAYS & OCCASIONS';
   const description = 'Celebrate your special moments at Manor with our customized party packages. From intimate gatherings to larger celebrations, we create unforgettable experiences tailored to your occasion.';
 
@@ -23,6 +23,12 @@ const BirthdaysOccasions = () => {
 
   const greatForCards = [];
 
+  const galleryImages = [
+    "/full-venue-1.jpg",
+    "/full-venue-2.jpg", 
+    "/full-venue-3.jpg"
+  ];
+
   // WhatsApp config is handled globally; no per-page constants are needed here.
 
   return (
@@ -34,6 +40,7 @@ const BirthdaysOccasions = () => {
       greatForCards={greatForCards}
       showNewsletterSection={false}
       currentPage="birthdays-occasions"
+      galleryImages={galleryImages}
     />
   );
 };

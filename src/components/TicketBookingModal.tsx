@@ -114,7 +114,7 @@ export default function TicketBookingModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(v) => { if (!v) onClose() }}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="w-full max-w-[90vw] sm:max-w-2xl">
         {!successBooking && (
           <DialogHeader>
             <DialogTitle className="font-medium">{getModalTitle()}</DialogTitle>

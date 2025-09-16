@@ -19,35 +19,35 @@ const SocialEnquiryModal: React.FC<SocialEnquiryModalProps> = ({ isOpen, onClose
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
-      <DialogContent className="w-full max-w-[80vw] sm:max-w-md mx-auto p-6 sm:p-8">
+      <DialogContent className="w-full max-w-[90vw] sm:max-w-md mx-auto p-6 sm:p-8 font-blur" style={{ backgroundColor: '#271308', color: '#FFFFFF', border: '2px solid #D04E2B' }}>
         <div className="flex flex-col items-center justify-center text-center space-y-6">
           <DialogHeader className="space-y-3">
-            <DialogTitle className="text-2xl font-medium">Enquire with us</DialogTitle>
-            <DialogDescription className="text-base text-gray-600">
+            <DialogTitle className="text-2xl font-medium" style={{ color: '#E59D50' }}>Enquire with us</DialogTitle>
+            <DialogDescription className="text-base" style={{ color: '#E59D50' }}>
               Message our team to plan your birthday or special occasion. Choose your preferred platform below.
             </DialogDescription>
           </DialogHeader>
 
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full justify-center items-center">
             {instagramDmUrl && (
-              <Button asChild style={{ backgroundColor: '#E1306C' }} className="rounded-full px-6 py-3 w-full sm:w-auto">
+              <Button asChild style={{ backgroundColor: '#E1306C' }} className="rounded-full px-6 py-3 w-full sm:w-auto hover:opacity-90 transition-opacity duration-200 font-medium">
                 <a href={instagramDmUrl} target="_blank" rel="noopener noreferrer" className="text-white inline-flex items-center justify-center">
-                  <Instagram className="mr-2" /> Instagram
+                  <Instagram className="mr-2 h-5 w-5" /> Instagram
                 </a>
               </Button>
             )}
             {!instagramDmUrl && instagramProfileUrl && (
-              <Button asChild style={{ backgroundColor: '#E1306C' }} className="rounded-full px-6 py-3 w-full sm:w-auto">
+              <Button asChild style={{ backgroundColor: '#E1306C' }} className="rounded-full px-6 py-3 w-full sm:w-auto hover:opacity-90 transition-opacity duration-200 font-medium">
                 <a href={instagramProfileUrl} target="_blank" rel="noopener noreferrer" className="text-white inline-flex items-center justify-center">
-                  <Instagram className="mr-2" /> Instagram
+                  <Instagram className="mr-2 h-5 w-5" /> Instagram
                 </a>
               </Button>
             )}
 
             {messengerUrl && (
-              <Button asChild style={{ backgroundColor: '#0084FF' }} className="rounded-full px-6 py-3 w-full sm:w-auto">
+              <Button asChild style={{ backgroundColor: '#0084FF' }} className="rounded-full px-6 py-3 w-full sm:w-auto hover:opacity-90 transition-opacity duration-200 font-medium">
                 <a href={messengerUrl} target="_blank" rel="noopener noreferrer" className="text-white inline-flex items-center justify-center">
-                  <Facebook className="mr-2" /> Messenger
+                  <Facebook className="mr-2 h-5 w-5" /> Messenger
                 </a>
               </Button>
             )}

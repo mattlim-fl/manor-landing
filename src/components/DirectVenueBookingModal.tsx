@@ -193,7 +193,7 @@ export default function DirectVenueBookingModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(v) => { if (!v) onClose() }}>
-      <DialogContent className="sm:max-w-[640px]">
+      <DialogContent className="w-full max-w-[90vw] sm:max-w-[640px]">
         {!successBooking && (
           <DialogHeader>
             <DialogTitle className="font-medium">{getModalTitle()}</DialogTitle>
