@@ -28,7 +28,7 @@ interface Props {
 export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'manor' }: Props) {
   const [venue] = useState<Venue>(defaultVenue)
   const [date, setDate] = useState<Date | undefined>(undefined)
-  const [partySize, setPartySize] = useState<number>(2)
+  const [groupSize, setGroupSize] = useState<number>(2)
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(null)
   const [loadingAvail, setLoadingAvail] = useState(false)
   const [selectedBoothId, setSelectedBoothId] = useState<string>('')
@@ -53,7 +53,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   const selectedBooth = useMemo(() => slotBooths.find(b => b.id === selectedBoothId) || null, [slotBooths, selectedBoothId])
   const boothUnitPrice = selectedBooth?.hourly_rate ?? undefined
   const ticketUnitPrice = 10
-  const ticketsQty = partySize
+  const ticketsQty = groupSize
   const ticketsTotal = useMemo(() => ticketsQty * ticketUnitPrice, [ticketsQty])
   const boothTotal = useMemo(() => (boothUnitPrice ? Number(boothUnitPrice) : 0), [boothUnitPrice])
   const grandTotal = useMemo(() => boothTotal + ticketsTotal, [boothTotal, ticketsTotal])
@@ -76,11 +76,11 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
     setSelectedSlot(null)
     setHold(null)
     setLoadingAvail(true)
-    fetchKaraokeAvailability({ venue, date: dateStr, partySize }).then(setAvailability).catch((e) => {
+    fetchKaraokeAvailability({ venue, date: dateStr, partySize: groupSize }).then(setAvailability).catch((e) => {
       console.error(e)
       setError(e.message || 'Failed to load availability')
     }).finally(() => setLoadingAvail(false))
-  }, [isOpen, venue, dateStr, partySize])
+  }, [isOpen, venue, dateStr, groupSize])
 
   const createHold = async (boothId: string, start: string, end: string) => {
     setError(null)
@@ -192,8 +192,9 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   const handlePayAndBook = async () => {
     if (!hold || !selectedSlot || !selectedBoothId || !dateStr) { setError('Missing selection details'); return }
     if (!name.trim()) { setError('Please enter your name'); return }
-    if (!email && !phone) { setError('Provide an email or phone'); return }
-    if (!partySize || partySize < 1) { setError('Please select tickets required'); return }
+    if (!email.trim()) { setError('Please provide your email'); return }
+    if (!phone.trim()) { setError('Please provide your phone number'); return }
+    if (!groupSize || groupSize < 1) { setError('Please select group size'); return }
     if (!squareCard) { setError('Payment form not ready'); return }
     setSubmitting(true)
     setError(null)
@@ -207,13 +208,13 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
         customer_name: name,
         customer_email: email || undefined,
         customer_phone: phone || undefined,
-        party_size: partySize,
+        party_size: groupSize,
         venue,
         booking_date: dateStr,
         start_time: selectedSlot.start,
         end_time: selectedSlot.end,
         booth_id: selectedBoothId,
-        ticket_quantity: partySize,
+        ticket_quantity: groupSize,
         payment_token: result.token
       })
       console.log('PayAndBook response:', res)
@@ -241,20 +242,25 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   }
 
   const canPay = useMemo(() => {
-    const hasContact = Boolean(name.trim() && (email || phone))
-    const ticketsOk = partySize >= 1
+    const hasContact = Boolean(name.trim() && email.trim() && phone.trim())
+    const ticketsOk = groupSize >= 1
     const selectionOk = Boolean(hold && selectedSlot && selectedBoothId && dateStr)
     const paymentReady = Boolean(squareCard)
     return hasContact && ticketsOk && selectionOk && paymentReady && !submitting
-  }, [name, email, phone, partySize, hold, selectedSlot, selectedBoothId, dateStr, squareCard, submitting])
+  }, [name, email, phone, groupSize, hold, selectedSlot, selectedBoothId, dateStr, squareCard, submitting])
 
   return (
     <>
     <Dialog open={isOpen} onOpenChange={(v) => { if (!v) handleClose() }}>
-      <DialogContent className="max-w-3xl">
+      <DialogContent className="max-w-3xl font-blur" style={{ backgroundColor: '#271308', color: '#FFFFFF', border: '2px solid #D04E2B' }}>
         {!success && (
           <DialogHeader>
-            <DialogTitle className="font-medium">Book Karaoke Booth</DialogTitle>
+            <DialogTitle className="font-medium" style={{ color: '#E59D50' }}>Book Karaoke Booth</DialogTitle>
+            <div className="mt-2 p-3 rounded-lg" style={{ backgroundColor: '#D04E2B', color: '#FFFFFF' }}>
+              <p className="text-sm text-center">
+                <span className="font-medium">50-minute sessions</span> • Bookings available on the hour
+              </p>
+            </div>
           </DialogHeader>
         )}
 
@@ -297,60 +303,256 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
               {/* Left column: Contact information */}
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Full Name *</label>
-                  <input className="w-full border rounded-md p-2" value={name} onChange={(e) => setName(e.target.value)} />
+                  <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Full Name *</label>
+                  <input className="w-full border rounded-md p-2" style={{ backgroundColor: '#FFFFFF', color: '#000000', borderColor: '#D04E2B' }} value={name} onChange={(e) => setName(e.target.value)} required />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Email</label>
-                  <input className="w-full border rounded-md p-2" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Email *</label>
+                  <input className="w-full border rounded-md p-2" style={{ backgroundColor: '#FFFFFF', color: '#000000', borderColor: '#D04E2B' }} value={email} onChange={(e) => setEmail(e.target.value)} required />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Phone</label>
-                  <input className="w-full border rounded-md p-2" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                  <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Phone *</label>
+                  <input className="w-full border rounded-md p-2" style={{ backgroundColor: '#FFFFFF', color: '#000000', borderColor: '#D04E2B' }} value={phone} onChange={(e) => setPhone(e.target.value)} required />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Tickets Required</label>
-                  <Select value={String(partySize)} onValueChange={(v) => setPartySize(Number(v))}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {[...Array(10)].map((_, i) => (
-                        <SelectItem key={i+1} value={String(i+1)}>{i+1}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Group Size</label>
+                  <div className="flex items-center gap-3">
+                    <button 
+                      type="button"
+                      onClick={() => setGroupSize(Math.max(1, groupSize - 1))}
+                      disabled={groupSize <= 1}
+                      className="w-10 h-10 rounded-full border-2 flex items-center justify-center font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                      style={{
+                        backgroundColor: groupSize <= 1 ? '#f5f5f5' : '#D04E2B',
+                        color: groupSize <= 1 ? '#999' : '#FFFFFF',
+                        borderColor: groupSize <= 1 ? '#ddd' : '#D04E2B'
+                      }}
+                    >
+                      -
+                    </button>
+                    <div className="min-w-[60px] text-center">
+                      <span className="text-lg font-medium">{groupSize}</span>
+                    </div>
+                    <button 
+                      type="button"
+                      onClick={() => setGroupSize(Math.min(10, groupSize + 1))}
+                      disabled={groupSize >= 10}
+                      className="w-10 h-10 rounded-full border-2 flex items-center justify-center font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                      style={{
+                        backgroundColor: groupSize >= 10 ? '#f5f5f5' : '#D04E2B',
+                        color: groupSize >= 10 ? '#999' : '#FFFFFF',
+                        borderColor: groupSize >= 10 ? '#ddd' : '#D04E2B'
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               </div>
 
               {/* Right column: Date picker */}
               <div className="space-y-2">
-                <label className="text-sm font-medium">Date</label>
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  className="rounded-md border"
-                  disabled={(d) => {
-                    const today = new Date()
-                    today.setHours(0,0,0,0)
-                    const dd = new Date(d)
-                    dd.setHours(0,0,0,0)
-                    return dd < today
-                  }}
-                />
+                <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Date</label>
+                <div style={{ backgroundColor: '#FFFFFF', borderRadius: '6px', padding: '8px', border: '2px solid #D04E2B' }}>
+                  <style>
+                    {`
+                      .rdp-day_disabled:not(.rdp-day_today) {
+                        color: #CCCCCC !important;
+                        opacity: 0.5 !important;
+                        font-weight: 300 !important;
+                        cursor: not-allowed !important;
+                        background-color: transparent !important;
+                      }
+                      .rdp-day_disabled:not(.rdp-day_today):hover {
+                        color: #CCCCCC !important;
+                        opacity: 0.5 !important;
+                        background-color: transparent !important;
+                      }
+                      .rdp-button[disabled]:not(.rdp-day_today) {
+                        color: #CCCCCC !important;
+                        opacity: 0.5 !important;
+                        font-weight: 300 !important;
+                        cursor: not-allowed !important;
+                        background-color: transparent !important;
+                      }
+                      .rdp-button[disabled]:not(.rdp-day_today):hover {
+                        color: #CCCCCC !important;
+                        opacity: 0.5 !important;
+                        background-color: transparent !important;
+                      }
+                      .rdp-day:not([disabled]) {
+                        color: #271308 !important;
+                        font-weight: 500 !important;
+                      }
+                      .rdp-day_today,
+                      .rdp-button[aria-current="date"],
+                      button[aria-current="date"],
+                      .rdp-day[aria-current="date"],
+                      .rdp-day_disabled.rdp-day_today {
+                        background-color: #808080 !important;
+                        color: #FFFFFF !important;
+                        font-weight: 500 !important;
+                        border-radius: 6px !important;
+                        border: 1px solid #666666 !important;
+                        opacity: 1 !important;
+                        cursor: pointer !important;
+                      }
+                      .rdp-day_today:not([disabled]):not(.rdp-day_selected):hover,
+                      .rdp-day_today:hover,
+                      .rdp-button[aria-current="date"]:hover,
+                      button[aria-current="date"]:hover,
+                      .rdp-day[aria-current="date"]:hover {
+                        background-color: #666666 !important;
+                        color: #FFFFFF !important;
+                      }
+                      .rdp-nav_button,
+                      .rdp-nav button,
+                      .rdp-button_previous,
+                      .rdp-button_next,
+                      button[name="previous-month"],
+                      button[name="next-month"] {
+                        color: #271308 !important;
+                        background-color: transparent !important;
+                        border: 2px solid #D04E2B !important;
+                        border-radius: 6px !important;
+                        width: 32px !important;
+                        height: 32px !important;
+                        font-weight: bold !important;
+                        font-size: 16px !important;
+                      }
+                      .rdp-nav_button:hover,
+                      .rdp-nav button:hover,
+                      .rdp-button_previous:hover,
+                      .rdp-button_next:hover,
+                      button[name="previous-month"]:hover,
+                      button[name="next-month"]:hover {
+                        background-color: #D04E2B !important;
+                        color: #FFFFFF !important;
+                      }
+                      .rdp-nav_button:disabled,
+                      .rdp-nav button:disabled,
+                      .rdp-button_previous:disabled,
+                      .rdp-button_next:disabled,
+                      button[name="previous-month"]:disabled,
+                      button[name="next-month"]:disabled {
+                        color: #CCCCCC !important;
+                        border-color: #CCCCCC !important;
+                        cursor: not-allowed !important;
+                      }
+                      .rdp-nav_button:disabled:hover,
+                      .rdp-nav button:disabled:hover,
+                      .rdp-button_previous:disabled:hover,
+                      .rdp-button_next:disabled:hover,
+                      button[name="previous-month"]:disabled:hover,
+                      button[name="next-month"]:disabled:hover {
+                        background-color: transparent !important;
+                        color: #CCCCCC !important;
+                      }
+                      .rdp-caption_label,
+                      .rdp-head_cell,
+                      .rdp-caption,
+                      .rdp-head {
+                        color: #271308 !important;
+                        font-weight: 600 !important;
+                      }
+                      /* More specific today selector */
+                      .rdp .rdp-day_today {
+                        background-color: #808080 !important;
+                        color: #FFFFFF !important;
+                        font-weight: 500 !important;
+                        border-radius: 6px !important;
+                        border: 1px solid #666666 !important;
+                        opacity: 1 !important;
+                      }
+                    `}
+                  </style>
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    className="rounded-md"
+                    classNames={{
+                      caption: "flex justify-center pt-1 relative items-center",
+                      caption_label: "text-[#271308] font-medium",
+                      head_cell: "text-[#271308] font-medium rounded-md w-9 font-normal text-[0.8rem]",
+                      nav: "space-x-1 flex items-center",
+                      nav_button: "h-7 w-7 bg-transparent p-0 border-2 border-[#D04E2B] rounded-md text-[#271308] hover:bg-[#D04E2B] hover:text-white flex items-center justify-center",
+                      nav_button_previous: "absolute left-1",
+                      nav_button_next: "absolute right-1",
+                      day: "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+                      day_selected: "bg-[#271308] text-white hover:bg-[#271308] hover:text-white focus:bg-[#271308] focus:text-white border-2 border-[#D04E2B] font-medium",
+                      day_today: "bg-[#808080] text-white font-medium rounded-md border border-[#666666]",
+                      day_disabled: "opacity-50 pointer-events-none",
+                    }}
+                    disabled={(d) => {
+                      const today = new Date()
+                      today.setHours(0,0,0,0)
+                      const dd = new Date(d)
+                      dd.setHours(0,0,0,0)
+                      const dayOfWeek = dd.getDay()
+                      // Only allow Saturdays (day 6) and dates not in the past
+                      return dd < today || dayOfWeek !== 6
+                    }}
+                    modifiers={{
+                      selected: date ? [date] : []
+                    }}
+                    modifiersStyles={{
+                      selected: {
+                        backgroundColor: '#271308',
+                        color: '#FFFFFF',
+                        fontWeight: 'bold',
+                        border: '2px solid #D04E2B',
+                        borderRadius: '6px'
+                      }
+                    }}
+                    styles={{
+                      day_selected: {
+                        backgroundColor: '#271308 !important',
+                        color: '#FFFFFF !important',
+                        fontWeight: 'bold !important',
+                        border: '2px solid #D04E2B !important',
+                        borderRadius: '6px !important',
+                        opacity: '1 !important'
+                      },
+                      day_today: {
+                        backgroundColor: '#808080 !important',
+                        color: '#FFFFFF !important',
+                        fontWeight: '500 !important',
+                        border: '1px solid #666666 !important',
+                        borderRadius: '6px !important'
+                      },
+                      day_disabled: {
+                        color: '#F0F0F0 !important',
+                        backgroundColor: 'transparent !important',
+                        opacity: '0.2 !important',
+                        cursor: 'not-allowed !important',
+                        fontWeight: '300 !important'
+                      },
+                      day: {
+                        borderRadius: '4px',
+                        transition: 'all 0.2s ease',
+                        opacity: '1',
+                        color: '#271308',
+                        fontWeight: '500',
+                        cursor: 'pointer'
+                      }
+                    }}
+                  />
+                </div>
               </div>
             </div>
 
             {/* Booth and slots */}
             {loadingAvail && (
-              <div className="text-sm text-gray-500">Loading availability…</div>
+              <div className="text-sm" style={{ color: '#E59D50' }}>Loading availability…</div>
             )}
             {availability && !loadingAvail && (
               <div className="space-y-4">
-                <label className="text-sm font-medium">Select Booth & Time</label>
+                <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Select Time</label>
                 <div className="space-y-6">
                   {availability.booths.map((b) => (
                     <div key={b.booth.id} className="space-y-3">
-                      <p className="font-medium">Time Slots</p>
+                      <p className="font-medium" style={{ color: '#FFFFFF' }}>Time Slots</p>
                       <div className="flex flex-wrap gap-2">
                         {b.slots.map((s, idx) => {
                           const isSelected = selectedSlot && selectedSlot.start === s.start_time && selectedSlot.end === s.end_time
@@ -365,7 +567,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                                 setHold(null)
                                 setLoadingBooths(true)
                                 try {
-                                  const booths = await fetchBoothsForSlot({ venue, bookingDate: dateStr, startTime: s.start_time, endTime: s.end_time, minCapacity: partySize })
+                                  const booths = await fetchBoothsForSlot({ venue, bookingDate: dateStr, startTime: s.start_time, endTime: s.end_time, minCapacity: groupSize })
                                   setSlotBooths(booths)
                                 } catch (e) {
                                   const msg = e instanceof Error ? e.message : String(e)
@@ -374,7 +576,12 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                                   setLoadingBooths(false)
                                 }
                               }}
-                              className={`px-3 py-2 rounded-md text-sm border ${isSelected ? 'bg-black text-white' : 'bg-white'} disabled:opacity-50`}
+                              className="px-3 py-2 rounded-md text-sm border disabled:opacity-50 font-medium"
+                              style={{
+                                backgroundColor: isSelected ? '#D04E2B' : '#FFFFFF',
+                                color: isSelected ? '#FFFFFF' : '#000000',
+                                borderColor: isSelected ? '#D04E2B' : '#CCCCCC'
+                              }}
                             >
                               {s.start_time}–{s.end_time} {s.status !== 'available' ? `· ${s.status}` : ''}
                             </button>
@@ -398,14 +605,14 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                       {/* Booth selector appears after slot selection */}
                       {selectedSlot && (
                         <div className="space-y-2">
-                          <label className="text-sm font-medium">Select Booth</label>
+                          <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Select Booth</label>
                           {loadingBooths ? (
-                            <div className="flex items-center space-x-2 text-sm text-gray-500">
-                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900"></div>
+                            <div className="flex items-center space-x-2 text-sm" style={{ color: '#E59D50' }}>
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2" style={{ borderColor: '#E59D50' }}></div>
                               <span>Loading booths...</span>
                             </div>
                           ) : slotBooths.length === 0 ? (
-                            <div className="text-sm text-gray-500">No booths available for this slot</div>
+                            <div className="text-sm" style={{ color: '#CCCCCC' }}>No booths available for this slot</div>
                           ) : (
                             <Select value={selectedBoothId} onValueChange={(v) => {
                               setSelectedBoothId(v)
@@ -413,10 +620,39 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                                 createHold(v, selectedSlot.start, selectedSlot.end)
                               }
                             }}>
-                              <SelectTrigger><SelectValue placeholder="Choose a booth" /></SelectTrigger>
-                              <SelectContent>
+                              <SelectTrigger 
+                                className="font-medium" 
+                                style={{ 
+                                  backgroundColor: '#FFFFFF', 
+                                  color: '#000000', 
+                                  borderColor: '#D04E2B',
+                                  borderWidth: '2px'
+                                }}
+                              >
+                                <SelectValue 
+                                  placeholder="Choose a booth" 
+                                  style={{ color: '#666666' }}
+                                />
+                              </SelectTrigger>
+                              <SelectContent 
+                                style={{ 
+                                  backgroundColor: '#FFFFFF', 
+                                  border: '2px solid #D04E2B',
+                                  borderRadius: '6px'
+                                }}
+                              >
                                 {slotBooths.map((booth) => (
-                                  <SelectItem key={booth.id} value={booth.id}>{booth.name} · up to {booth.capacity}</SelectItem>
+                                  <SelectItem 
+                                    key={booth.id} 
+                                    value={booth.id}
+                                    className="font-medium hover:bg-red-50 focus:bg-red-50"
+                                    style={{ 
+                                      color: '#000000',
+                                      backgroundColor: 'transparent'
+                                    }}
+                                  >
+                                    {booth.name} · up to {booth.capacity}
+                                  </SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
@@ -430,15 +666,22 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
             )}
 
             {hold && (
-              <div className="flex items-center justify-between rounded-md border p-3">
-                <p className="text-sm">Slot reserved until {new Date(hold.expiresAt).toLocaleTimeString()}</p>
-                <Button variant="secondary" onClick={cancelHold}>Release hold</Button>
+              <div className="flex items-center justify-between rounded-md border p-3" style={{ borderColor: '#D04E2B', backgroundColor: 'rgba(208, 78, 43, 0.1)' }}>
+                <p className="text-sm" style={{ color: '#FFFFFF' }}>Slot reserved until {new Date(hold.expiresAt).toLocaleTimeString()}</p>
+                <Button 
+                  variant="secondary" 
+                  onClick={cancelHold}
+                  className="font-medium"
+                  style={{ backgroundColor: '#FFFFFF', color: '#D04E2B', border: '1px solid #D04E2B' }}
+                >
+                  Release hold
+                </Button>
               </div>
             )}
 
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-                <p className="text-sm text-red-600">{error}</p>
+              <div className="p-3 rounded-md" style={{ backgroundColor: 'rgba(220, 38, 127, 0.2)', border: '1px solid #DC2678' }}>
+                <p className="text-sm" style={{ color: '#FFB3D1' }}>{error}</p>
               </div>
             )}
 
@@ -446,42 +689,53 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
               {/* Show invoice + card only after a hold is created (we auto-open payment then) */}
               {showPayment && (
                 <>
-                <div className="rounded-md border p-3">
+                <div className="rounded-md border p-3" style={{ borderColor: '#D04E2B', backgroundColor: 'rgba(208, 78, 43, 0.1)' }}>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-sm font-medium">Order Summary</h4>
+                    <h4 className="text-sm font-medium" style={{ color: '#E59D50' }}>Order Summary</h4>
                   </div>
-                  <div className="divide-y">
+                  <div className="divide-y" style={{ borderColor: '#D04E2B' }}>
                     <div className="py-2 flex text-sm">
                       <div className="flex-1">
-                        <div className="font-medium">Karaoke Booth</div>
-                        <div className="text-gray-500">Qty 1</div>
+                        <div className="font-medium" style={{ color: '#FFFFFF' }}>Karaoke Booth</div>
+                        <div style={{ color: '#CCCCCC' }}>Qty 1</div>
                       </div>
-                      <div className="w-28 text-right">{boothUnitPrice ? formatAUD(boothUnitPrice) : '—'}</div>
-                      <div className="w-32 text-right font-medium">{boothUnitPrice ? formatAUD(boothTotal) : '—'}</div>
+                      <div className="w-28 text-right" style={{ color: '#FFFFFF' }}>{boothUnitPrice ? formatAUD(boothUnitPrice) : '—'}</div>
+                      <div className="w-32 text-right font-medium" style={{ color: '#FFFFFF' }}>{boothUnitPrice ? formatAUD(boothTotal) : '—'}</div>
                     </div>
                     <div className="py-2 flex text-sm">
                       <div className="flex-1">
-                        <div className="font-medium">Venue Tickets</div>
-                        <div className="text-gray-500">Qty {ticketsQty}</div>
+                        <div className="font-medium" style={{ color: '#FFFFFF' }}>Venue Tickets</div>
+                        <div style={{ color: '#CCCCCC' }}>Qty {ticketsQty}</div>
                       </div>
-                      <div className="w-28 text-right">{formatAUD(ticketUnitPrice)}</div>
-                      <div className="w-32 text-right font-medium">{formatAUD(ticketsTotal)}</div>
+                      <div className="w-28 text-right" style={{ color: '#FFFFFF' }}>{formatAUD(ticketUnitPrice)}</div>
+                      <div className="w-32 text-right font-medium" style={{ color: '#FFFFFF' }}>{formatAUD(ticketsTotal)}</div>
                     </div>
                     <div className="py-2 flex text-sm">
                       <div className="flex-1" />
-                      <div className="w-28 text-right font-medium">Total</div>
-                      <div className="w-32 text-right font-medium">{formatAUD(grandTotal)}</div>
+                      <div className="w-28 text-right font-medium" style={{ color: '#E59D50' }}>Total</div>
+                      <div className="w-32 text-right font-medium" style={{ color: '#E59D50' }}>{formatAUD(grandTotal)}</div>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm font-medium">Payment</label>
-                  <div id="card-container" className="border rounded-md p-3" />
+                  <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Payment</label>
+                  <div id="card-container" className="border rounded-md p-3" style={{ borderColor: '#D04E2B', backgroundColor: '#FFFFFF' }} />
                 </div>
                 </>
               )}
               <div className="flex justify-end gap-2">
-                <Button onClick={handlePayAndBook} disabled={!canPay}>{submitting ? 'Processing...' : 'Pay & Book'}</Button>
+                <Button 
+                  onClick={handlePayAndBook} 
+                  disabled={!canPay}
+                  className="font-blur font-medium px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 disabled:opacity-50"
+                  style={{
+                    backgroundColor: canPay ? '#D04E2B' : '#666666',
+                    color: '#FFFFFF',
+                    border: 'none'
+                  }}
+                >
+                  {submitting ? 'Processing...' : 'Pay & Book'}
+                </Button>
               </div>
             </div>
           </div>
