@@ -208,8 +208,11 @@ function renderKaraokeConfirmationHTML(data: Record<string, unknown>): string {
         </div>
 
         <p>10 minutes before your booking, head to the bar upstairs at Manor to check in and receive your wristbands.</p>
+
         <p>If you have purchased Guest List entries for your group, you will receive them via email the day before your booking.</p>
-        <p>If you haven’t purchased any Guest List entries and don’t want to miss your booking by getting stuck in line outside, message us on IG or WhatsApp.</p>
+
+        <p>If you haven't purchased any Guest List entries and don't want to miss your booking by getting stuck in line outside, message us on IG or WhatsApp.</p>
+
         <p>IG: @manorleederville<br />FB: @manorleederville</p>
 
         <div class="footer">

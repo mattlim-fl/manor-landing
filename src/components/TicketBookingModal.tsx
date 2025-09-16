@@ -117,7 +117,7 @@ export default function TicketBookingModal({
       <DialogContent className="max-w-2xl">
         {!successBooking && (
           <DialogHeader>
-            <DialogTitle>{getModalTitle()}</DialogTitle>
+            <DialogTitle className="font-medium">{getModalTitle()}</DialogTitle>
           </DialogHeader>
         )}
 
@@ -126,7 +126,7 @@ export default function TicketBookingModal({
             <div className="flex justify-center">
               <svg className="h-16 w-16 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </div>
-            <h3 className="text-2xl font-semibold text-center">25+ Priority Ticket Booked!</h3>
+            <h3 className="text-2xl font-medium text-center">25+ Priority Ticket Booked!</h3>
             <p className="text-center text-gray-600">Your VIP ticket has been booked. Make sure that you and all of your guests bring your ID on the day. Below is your reference code, but we've sent that to you separately.</p>
             <ReferenceCodeDisplay referenceCode={successBooking.reference_code} />
             <div className="flex justify-center">

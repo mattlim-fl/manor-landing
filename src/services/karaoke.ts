@@ -329,11 +329,18 @@ export async function payAndBookKaraoke(input: PayAndBookInput): Promise<{ booki
     throw new Error(`Pay and book error: ${error.message}${details ? ` | ${JSON.stringify(details)}` : ''}`)
   }
   const raw: any = (data as any)?.data ?? data
+  console.log('Raw edge function response:', raw)
+  console.log('Raw response keys:', Object.keys(raw || {}))
   if (!raw?.success) {
     throw new Error(String(raw?.error || 'Payment failed'))
   }
   const bookingId: string = String(raw.bookingId)
   const referenceCode: string = String(raw.referenceCode || '')
+  const karaokeBooking = raw.karaokeBooking
+  const ticketBooking = raw.ticketBooking
+  console.log('Parsed bookingId:', bookingId, 'referenceCode:', referenceCode)
+  console.log('Karaoke booking:', karaokeBooking)
+  console.log('Ticket booking:', ticketBooking)
 
   // Fire-and-forget: send customer confirmation email for karaoke (tickets handled separately)
   try {
@@ -387,15 +394,24 @@ export async function payAndBookKaraoke(input: PayAndBookInput): Promise<{ booki
     // non-blocking
   }
 
-  return { booking_id: bookingId, reference_code: referenceCode, payment_id: String(raw.paymentId) }
+  return { 
+    booking_id: bookingId, 
+    reference_code: referenceCode, 
+    payment_id: String(raw.paymentId),
+    karaoke_booking: karaokeBooking,
+    ticket_booking: ticketBooking
+  }
 }
 
 export async function fetchBookingReferenceCode(bookingId: string): Promise<string | null> {
   const supabase = getSupabase()
   try {
-    const { data } = await supabase.from('bookings').select('reference_code').eq('id', bookingId).single()
+    console.log('Fetching reference code for bookingId:', bookingId)
+    const { data, error } = await supabase.from('bookings').select('reference_code').eq('id', bookingId).single()
+    console.log('Fetch result - data:', data, 'error:', error)
     return (data as any)?.reference_code || null
-  } catch {
+  } catch (err) {
+    console.log('Fetch error:', err)
     return null
   }
 }

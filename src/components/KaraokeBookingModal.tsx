@@ -41,7 +41,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   const [phone, setPhone] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<{ id: string; ref: string } | null>(null)
+  const [success, setSuccess] = useState<{ id: string; ref: string; karaokeRef?: string; ticketRef?: string } | null>(null)
   const [showPayment, setShowPayment] = useState(false)
   const [squareLoaded, setSquareLoaded] = useState(false)
   const [squarePayments, setSquarePayments] = useState<{ card: () => Promise<{ attach: (sel: string) => Promise<void>; tokenize: () => Promise<{ status: string; token: string; errors?: Array<{ message?: string }> }> }> } | null>(null)
@@ -216,16 +216,21 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
         ticket_quantity: partySize,
         payment_token: result.token
       })
-      let ref = res.reference_code
-      if (!ref && res.booking_id) {
-        try {
-          const { fetchBookingReferenceCode } = await import('../services/karaoke')
-          ref = (await fetchBookingReferenceCode(res.booking_id)) || ''
-        } catch (err) {
-          console.debug('Failed to fetch reference code', err)
-        }
-      }
-      setSuccess({ id: res.booking_id, ref: ref || '' })
+      console.log('PayAndBook response:', res)
+      const karaokeRef = res.karaoke_booking?.referenceCode || res.reference_code || ''
+      const ticketRef = res.ticket_booking?.referenceCode || ''
+      console.log('Karaoke reference code:', karaokeRef)
+      console.log('Ticket reference code:', ticketRef)
+      
+      // Use karaoke reference code as primary, but show both if ticket booking exists
+      const primaryRef = karaokeRef || ticketRef
+      console.log('Primary reference code being set:', primaryRef)
+      setSuccess({ 
+        id: res.booking_id, 
+        ref: primaryRef,
+        karaokeRef: karaokeRef,
+        ticketRef: ticketRef
+      })
       setShowPayment(false)
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e)
@@ -249,7 +254,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
       <DialogContent className="max-w-3xl">
         {!success && (
           <DialogHeader>
-            <DialogTitle>Book Karaoke Booth</DialogTitle>
+            <DialogTitle className="font-medium">Book Karaoke Booth</DialogTitle>
           </DialogHeader>
         )}
 
@@ -258,7 +263,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
             <div className="flex justify-center">
               <svg className="h-16 w-16 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </div>
-            <h3 className="text-2xl font-semibold text-center">Karaoke Booking Confirmed!</h3>
+            <h3 className="text-2xl font-medium text-center">Karaoke Booking Confirmed!</h3>
             <p className="text-center text-gray-600">Your karaoke booking has been received, and you're booked in.</p>
             <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
               <h4 className="font-medium text-blue-900 mb-2">Important Information:</h4>
@@ -267,7 +272,20 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                 <li>• You will need to leave 5 minutes before the end of your time to allow us to clean between sessions</li>
               </ul>
             </div>
-            <ReferenceCodeDisplay referenceCode={success.ref} />
+            {success.karaokeRef && success.ticketRef ? (
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">Karaoke Booth Reference</h4>
+                  <ReferenceCodeDisplay referenceCode={success.karaokeRef} />
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">VIP Tickets Reference</h4>
+                  <ReferenceCodeDisplay referenceCode={success.ticketRef} />
+                </div>
+              </div>
+            ) : (
+              <ReferenceCodeDisplay referenceCode={success.ref} />
+            )}
             <div className="flex justify-center">
               <Button onClick={onClose}>Close</Button>
             </div>
@@ -452,7 +470,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                     <div className="py-2 flex text-sm">
                       <div className="flex-1" />
                       <div className="w-28 text-right font-medium">Total</div>
-                      <div className="w-32 text-right font-semibold">{formatAUD(grandTotal)}</div>
+                      <div className="w-32 text-right font-medium">{formatAUD(grandTotal)}</div>
                     </div>
                   </div>
                 </div>
