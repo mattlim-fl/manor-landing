@@ -14,6 +14,7 @@ import Karaoke from "./pages/Karaoke";
 import PriorityEntry from "./pages/PriorityEntry";
 import BirthdaysOccasions from "./pages/BirthdaysOccasions";
 import NotFound from "./pages/NotFound";
+import GuestListPage from "./pages/GuestList";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/karaoke" element={<Karaoke />} />
           <Route path="/priority-entry" element={<PriorityEntry />} />
           <Route path="/birthdays-occasions" element={<BirthdaysOccasions />} />
+          <Route path="/guest-list" element={<GuestListPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

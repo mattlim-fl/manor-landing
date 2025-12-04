@@ -52,6 +52,7 @@ export interface ConfirmBookingInput {
 export interface ConfirmBookingResult {
   booking_id: string
   reference_code?: string
+  guest_list_token?: string
 }
 
 export function getSessionId(): string {
@@ -235,6 +236,7 @@ export async function confirmKaraokeBooking(input: ConfirmBookingInput): Promise
   const raw: Record<string, unknown> = ((data as unknown as { data?: unknown })?.data ?? data) as Record<string, unknown>
   const bookingId: string = String((raw as any).bookingId || (raw as any).booking_id)
   const referenceCode: string | undefined = (raw as any).reference_code || (raw as any).referenceCode
+  const guestListToken: string | undefined = (raw as any).guestListToken || (raw as any).guest_list_token
 
   // Fetch booking details to populate email (edge function may not return all fields)
   let bookingRow: any | null = null
@@ -280,14 +282,17 @@ export async function confirmKaraokeBooking(input: ConfirmBookingInput): Promise
           bookingDate: String((bookingRow as any)?.booking_date || ''),
           startTime: String((bookingRow as any)?.start_time || ''),
           endTime: String((bookingRow as any)?.end_time || ''),
-          guestCount: Number((bookingRow as any)?.guest_count || input.party_size || 0)
+          guestCount: Number((bookingRow as any)?.guest_count || input.party_size || 0),
+          guestListToken: guestListToken,
+          bookingId,
+          siteOrigin: typeof window !== 'undefined' ? window.location.origin : undefined,
         }
       }
     })
   } catch (e) {
     console.warn('Non-blocking: failed to send karaoke confirmation email', e)
   }
-  return { booking_id: bookingId, reference_code: referenceCode }
+  return { booking_id: bookingId, reference_code: referenceCode, guest_list_token: guestListToken }
 }
 
 export interface PayAndBookInput {
@@ -305,7 +310,7 @@ export interface PayAndBookInput {
   ticket_quantity?: number
 }
 
-export async function payAndBookKaraoke(input: PayAndBookInput): Promise<{ booking_id: string; reference_code?: string; payment_id: string }> {
+export async function payAndBookKaraoke(input: PayAndBookInput): Promise<{ booking_id: string; reference_code?: string; payment_id: string; guest_list_token?: string }> {
   const supabase = getSupabase()
   const sessionId = getSessionId()
   const body = {
@@ -338,6 +343,7 @@ export async function payAndBookKaraoke(input: PayAndBookInput): Promise<{ booki
   const referenceCode: string = String(raw.referenceCode || '')
   const karaokeBooking = raw.karaokeBooking
   const ticketBooking = raw.ticketBooking
+  const guestListToken: string | undefined = raw.guestListToken || raw.guest_list_token
   console.log('Parsed bookingId:', bookingId, 'referenceCode:', referenceCode)
   console.log('Karaoke booking:', karaokeBooking)
   console.log('Ticket booking:', ticketBooking)
@@ -386,7 +392,10 @@ export async function payAndBookKaraoke(input: PayAndBookInput): Promise<{ booki
           bookingDate: String((bookingRow as any)?.booking_date || input.booking_date || ''),
           startTime: String((bookingRow as any)?.start_time || input.start_time || ''),
           endTime: String((bookingRow as any)?.end_time || input.end_time || ''),
-          guestCount: Number((bookingRow as any)?.guest_count || input.party_size || 0)
+          guestCount: Number((bookingRow as any)?.guest_count || input.party_size || 0),
+          guestListToken: guestListToken,
+          bookingId,
+          siteOrigin: typeof window !== 'undefined' ? window.location.origin : undefined,
         }
       }
     })
@@ -398,6 +407,7 @@ export async function payAndBookKaraoke(input: PayAndBookInput): Promise<{ booki
     booking_id: bookingId, 
     reference_code: referenceCode, 
     payment_id: String(raw.paymentId),
+    guest_list_token: guestListToken,
     karaoke_booking: karaokeBooking,
     ticket_booking: ticketBooking
   }

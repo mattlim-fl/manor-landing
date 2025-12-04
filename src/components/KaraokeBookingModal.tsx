@@ -18,6 +18,7 @@ import {
   releaseKaraokeHold,
   payAndBookKaraoke
 } from '../services/karaoke'
+import GuestListEditor from './GuestListEditor'
 
 interface Props {
   isOpen: boolean
@@ -29,6 +30,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   const [venue] = useState<Venue>(defaultVenue)
   const [date, setDate] = useState<Date | undefined>(undefined)
   const [groupSize, setGroupSize] = useState<number>(2)
+  const [sessionLengthHours, setSessionLengthHours] = useState<1 | 2>(1)
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(null)
   const [loadingAvail, setLoadingAvail] = useState(false)
   const [selectedBoothId, setSelectedBoothId] = useState<string>('')
@@ -41,7 +43,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   const [phone, setPhone] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<{ id: string; ref: string; karaokeRef?: string; ticketRef?: string } | null>(null)
+  const [success, setSuccess] = useState<{ id: string; ref: string; karaokeRef?: string; ticketRef?: string; guestListToken?: string } | null>(null)
   const [showPayment, setShowPayment] = useState(false)
   const [squareLoaded, setSquareLoaded] = useState(false)
   const [squarePayments, setSquarePayments] = useState<{ card: () => Promise<{ attach: (sel: string) => Promise<void>; tokenize: () => Promise<{ status: string; token: string; errors?: Array<{ message?: string }> }> }> } | null>(null)
@@ -55,7 +57,11 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   const ticketUnitPrice = 10
   const ticketsQty = groupSize
   const ticketsTotal = useMemo(() => ticketsQty * ticketUnitPrice, [ticketsQty])
-  const boothTotal = useMemo(() => (boothUnitPrice ? Number(boothUnitPrice) : 0), [boothUnitPrice])
+  const boothTotal = useMemo(() => {
+    if (!boothUnitPrice) return 0
+    const durationMultiplier = sessionLengthHours === 2 ? 2 : 1
+    return Number(boothUnitPrice) * durationMultiplier
+  }, [boothUnitPrice, sessionLengthHours])
   const grandTotal = useMemo(() => boothTotal + ticketsTotal, [boothTotal, ticketsTotal])
   const formatAUD = (n: number) => n.toLocaleString('en-AU', { style: 'currency', currency: 'AUD' })
 
@@ -119,6 +125,14 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   }, [name, email, phone, date, selectedBoothId, hold])
 
   const handleClose = () => {
+    // If the booking has already been confirmed, just close without warning
+    if (success) {
+      if (hold) {
+        releaseKaraokeHold(hold.id).catch((err) => { console.debug('Failed to release hold on close after success', err) })
+      }
+      onClose()
+      return
+    }
     if (hasAnyInput) {
       setConfirmCloseOpen(true)
       return
@@ -230,7 +244,8 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
         id: res.booking_id, 
         ref: primaryRef,
         karaokeRef: karaokeRef,
-        ticketRef: ticketRef
+        ticketRef: ticketRef,
+        guestListToken: res.guest_list_token
       })
       setShowPayment(false)
     } catch (e) {
@@ -246,7 +261,18 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
     const ticketsOk = groupSize >= 1
     const selectionOk = Boolean(hold && selectedSlot && selectedBoothId && dateStr)
     const paymentReady = Boolean(squareCard)
-    return hasContact && ticketsOk && selectionOk && paymentReady && !submitting
+    // Extra safeguard: ensure client-side duration does not exceed 2 hours
+    let durationOk = true
+    if (selectedSlot) {
+      const toMinutes = (t: string) => {
+        const [h, m] = t.slice(0, 5).split(':').map((v) => Number(v) || 0)
+        return h * 60 + m
+      }
+      const minutes = Math.max(0, toMinutes(selectedSlot.end) - toMinutes(selectedSlot.start))
+      const hours = minutes / 60
+      durationOk = hours > 0 && hours <= 2
+    }
+    return hasContact && ticketsOk && selectionOk && paymentReady && durationOk && !submitting
   }, [name, email, phone, groupSize, hold, selectedSlot, selectedBoothId, dateStr, squareCard, submitting])
 
   return (
@@ -258,7 +284,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
             <DialogTitle className="font-medium" style={{ color: '#E59D50' }}>Book Karaoke Booth</DialogTitle>
             <div className="mt-2 p-3 rounded-lg" style={{ backgroundColor: '#D04E2B', color: '#FFFFFF' }}>
               <p className="text-sm text-center">
-                <span className="font-medium">50-minute sessions</span> • Bookings available on the hour
+                <span className="font-medium">50-minute sessions</span> • Bookings available on the hour • Up to 2 consecutive sessions (max 2 hours)
               </p>
             </div>
           </DialogHeader>
@@ -292,6 +318,16 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
             ) : (
               <ReferenceCodeDisplay referenceCode={success.ref} />
             )}
+
+            {success.id && success.guestListToken && (
+              <GuestListEditor
+                bookingId={success.id}
+                token={success.guestListToken}
+                heading="Add your guest names"
+                subheading="Add the names of the people who will be using your tickets so they are on the door when they arrive at different times."
+              />
+            )}
+
             <div className="flex justify-center">
               <Button onClick={onClose}>Close</Button>
             </div>
@@ -548,26 +584,77 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
             )}
             {availability && !loadingAvail && (
               <div className="space-y-4">
-                <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Select Time</label>
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                  <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Select Time</label>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs md:text-sm" style={{ color: '#E59D50' }}>Session length</span>
+                    <div className="inline-flex rounded-full border" style={{ borderColor: '#D04E2B' }}>
+                      <button
+                        type="button"
+                        onClick={() => setSessionLengthHours(1)}
+                        className="px-3 py-1 text-xs md:text-sm font-medium rounded-full"
+                        style={{
+                          backgroundColor: sessionLengthHours === 1 ? '#D04E2B' : 'transparent',
+                          color: sessionLengthHours === 1 ? '#FFFFFF' : '#E59D50',
+                          borderRight: '1px solid #D04E2B'
+                        }}
+                      >
+                        1 hour
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSessionLengthHours(2)}
+                        className="px-3 py-1 text-xs md:text-sm font-medium rounded-full"
+                        style={{
+                          backgroundColor: sessionLengthHours === 2 ? '#D04E2B' : 'transparent',
+                          color: sessionLengthHours === 2 ? '#FFFFFF' : '#E59D50'
+                        }}
+                      >
+                        2 hours
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <div className="space-y-6">
                   {availability.booths.map((b) => (
                     <div key={b.booth.id} className="space-y-3">
                       <p className="font-medium" style={{ color: '#FFFFFF' }}>Time Slots</p>
                       <div className="flex flex-wrap gap-2">
                         {b.slots.map((s, idx) => {
-                          const isSelected = selectedSlot && selectedSlot.start === s.start_time && selectedSlot.end === s.end_time
-                          const disabled = s.status !== 'available' || !!hold
+                          const isTwoHour = sessionLengthHours === 2
+                          const nextSlot = isTwoHour ? b.slots[idx + 1] : undefined
+                          const canStartTwoHour =
+                            isTwoHour &&
+                            nextSlot &&
+                            s.status === 'available' &&
+                            nextSlot.status === 'available'
+                          const slotStart = s.start_time
+                          const slotEnd = isTwoHour && canStartTwoHour ? nextSlot!.end_time : s.end_time
+                          const isSelected =
+                            selectedSlot &&
+                            selectedSlot.start === slotStart &&
+                            selectedSlot.end === slotEnd
+                          const baseDisabled = s.status !== 'available' || !!hold
+                          const disabled = baseDisabled || (isTwoHour && !canStartTwoHour)
                           const btn = (
                             <button
                               key={idx}
                               disabled={disabled}
                               onClick={async () => {
-                                setSelectedSlot({ start: s.start_time, end: s.end_time })
+                                const combinedStart = slotStart
+                                const combinedEnd = slotEnd
+                                setSelectedSlot({ start: combinedStart, end: combinedEnd })
                                 setSelectedBoothId('')
                                 setHold(null)
                                 setLoadingBooths(true)
                                 try {
-                                  const booths = await fetchBoothsForSlot({ venue, bookingDate: dateStr, startTime: s.start_time, endTime: s.end_time, minCapacity: groupSize })
+                                  const booths = await fetchBoothsForSlot({
+                                    venue,
+                                    bookingDate: dateStr,
+                                    startTime: combinedStart,
+                                    endTime: combinedEnd,
+                                    minCapacity: groupSize
+                                  })
                                   setSlotBooths(booths)
                                 } catch (e) {
                                   const msg = e instanceof Error ? e.message : String(e)
@@ -583,7 +670,9 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                                 borderColor: isSelected ? '#D04E2B' : '#CCCCCC'
                               }}
                             >
-                              {s.start_time}–{s.end_time} {s.status !== 'available' ? `· ${s.status}` : ''}
+                              {s.start_time}–{s.end_time}
+                              {isTwoHour && canStartTwoHour ? ' (2 hours)' : ''}
+                              {s.status !== 'available' ? ` · ${s.status}` : ''}
                             </button>
                           )
                           if (disabled && !!hold) {
