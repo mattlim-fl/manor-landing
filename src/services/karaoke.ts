@@ -132,6 +132,8 @@ async function normalizeAvailability(raw: any, meta: { date: string; venue: Venu
       end_time: s.endTime || s.end_time || '',
       status: s.available ? 'available' : 'booked'
     }))
+    // Sort in nightlife order: evening first, then early morning
+    slots.sort((a: TimeSlot, b: TimeSlot) => nightlifeMinutes(a.start_time) - nightlifeMinutes(b.start_time))
     const defaultBooth: BoothSummary = {
       id: 'default',
       name: 'Karaoke Booth',
@@ -168,12 +170,26 @@ function normalizeBooth(src: any): BoothSummary {
   }
 }
 
+/**
+ * Convert HH:MM to minutes, treating early morning hours (before 06:00) as
+ * belonging to the previous night for sorting purposes.
+ * This makes 23:00 < 00:00 < 01:00 in sort order.
+ */
+function nightlifeMinutes(hhmm: string): number {
+  const [h, m] = hhmm.split(':').map(Number)
+  const mins = h * 60 + m
+  // Treat 00:00-05:59 as 24:00-29:59 so they sort after 23:xx
+  return mins < 6 * 60 ? mins + 24 * 60 : mins
+}
+
 function normalizeSlots(slots: any[]): TimeSlot[] {
-  return (slots || []).map((s: any) => ({
+  const mapped = (slots || []).map((s: any) => ({
     start_time: s.start_time || s.startTime || s.start || '',
     end_time: s.end_time || s.endTime || s.end || '',
     status: (s.status as SlotStatus) || (s.available ? 'available' : 'booked') || 'available'
   }))
+  // Sort in nightlife order: evening first, then early morning
+  return mapped.sort((a, b) => nightlifeMinutes(a.start_time) - nightlifeMinutes(b.start_time))
 }
 
 export async function createKaraokeHold(input: CreateHoldInput): Promise<CreateHoldResult> {
