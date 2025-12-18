@@ -1,7 +1,7 @@
-import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 import GuestListEditor from '../components/GuestListEditor'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 export default function GuestListPage() {
   const [params] = useSearchParams()
@@ -13,11 +13,19 @@ export default function GuestListPage() {
   const valid = Boolean(bookingId && token.split('.').length >= 3)
 
   return (
-    <div className="min-h-screen bg-[#120706] text-white">
+    <div className="min-h-screen flex flex-col leopard-bg text-white">
       <Header />
-      <main className="mx-auto flex max-w-3xl flex-col px-4 py-10">
-        <h1 className="text-2xl font-semibold tracking-tight">Curate your guest list</h1>
-        <p className="mt-2 text-sm text-gray-300">
+      <main className="flex-1 mx-auto flex max-w-3xl w-full flex-col px-4 pt-32 pb-12">
+        <h1 
+          className="font-blur font-bold text-2xl md:text-3xl tracking-wider uppercase"
+          style={{ color: '#E59D50' }}
+        >
+          Curate your guest list
+        </h1>
+        <p 
+          className="mt-2 text-sm font-acumin"
+          style={{ color: '#E59D50' }}
+        >
           Use this page to add or update the names of the guests who will be using your karaoke tickets.
         </p>
 
@@ -36,12 +44,11 @@ export default function GuestListPage() {
             bookingId={bookingId}
             token={token}
             heading="Your guests"
-            subheading="Add the names of your guests so they’re on the door when they arrive. You can update this list any time before your booking."
+            subheading="Add the names of your guests so they're on the door when they arrive. You can update this list any time before your booking."
           />
         )}
       </main>
+      <Footer />
     </div>
   )
 }
-
-

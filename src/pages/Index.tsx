@@ -1,162 +1,150 @@
 import { Link } from "react-router-dom";
-
-// Declare global functions for VIP booking
-declare global {
-  interface Window {
-    openVIPModal: () => void;
-    openManorVIPModal: () => void;
-    openHippieVIPModal: () => void;
-  }
-}
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 const Index = () => {
-
   return (
-    <div className="min-h-screen text-manor-white">
-      {/* Top Section - Dark Background with Leopard and Manor Logo */}
-      <div className="relative h-screen flex flex-col">
-        {/* Top 50% - Dark Background */}
-        <div className="flex-1 relative" style={{ backgroundColor: '#271308' }}>
-          {/* Leopard Image (simple PNG, no filters) */}
-          <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10">
-            <img
-              src="/leopard-silhouette.png"
-              alt="Leopard"
-              className="w-40 h-40 md:w-48 md:h-48 object-contain"
-            />
-          </div>
-          
-          {/* Manor Logo and Leederville Subheader */}
-          <div className="absolute top-56 left-0 right-0 bottom-0 flex flex-col justify-center items-center text-center px-4 z-10">
-            <div className="space-y-4">
-              {/* Manor Logo */}
-              <div className="flex justify-center">
-                <img 
-                  src="/manor-logo.png"
-                  alt="Manor"
-                  className="h-16 md:h-20 lg:h-24"
-                />
-              </div>
-              
-              {/* Leederville Subheader */}
-              <div className="flex justify-center">
-                <img 
-                  src="/leederville-subheader.png"
-                  alt="Leederville"
-                  className="h-8 md:h-10"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="min-h-screen leopard-bg text-white overflow-hidden">
+      <Header showLogo={true} showFollowLabel="always" />
 
-        {/* Bottom 50% - Leopard Pattern Background */}
-        <div className="flex-1 relative">
-          {/* Leopard Pattern Background */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ 
-              backgroundImage: 'url(/leopard-pattern-bg.png)',
-              backgroundSize: 'cover'
-            }}
-          />
+      {/* Main Content */}
+      <main className="relative z-10 px-4 pb-8 pt-24">
+        <div className="max-w-5xl mx-auto">
           
-          {/* Button Container - Centered */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-black rounded-2xl p-4 mx-4 max-w-64 w-full">
-              <div className="flex flex-col space-y-3">
+          {/* Photo and Content Layout */}
+          <div className="relative" style={{ minHeight: '85vh' }}>
+            
+            {/* Top Left - Disco Balls Photo */}
+            <div 
+              className="absolute z-10"
+              style={{ 
+                top: '0', 
+                left: '0',
+                width: 'clamp(180px, 35vw, 320px)'
+              }}
+            >
+              <img 
+                src="/venue-disco-balls.png" 
+                alt="Disco balls" 
+                className="w-full h-auto rounded-lg shadow-2xl"
+              />
+            </div>
+
+            {/* Top Right - Bar Crowd Photo */}
+            <div 
+              className="absolute z-10"
+              style={{ 
+                top: '20px', 
+                right: '0',
+                width: 'clamp(180px, 35vw, 320px)'
+              }}
+            >
+              <img 
+                src="/venue-bar-crowd.png" 
+                alt="Bar and crowd" 
+                className="w-full h-auto rounded-lg shadow-2xl"
+              />
+            </div>
+
+            {/* Center Content */}
+            <div 
+              className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center z-20"
+              style={{ top: 'clamp(200px, 30vh, 280px)' }}
+            >
+              {/* Opening Hours */}
+              <p 
+                className="font-blur text-lg md:text-xl tracking-wider mb-6 text-center"
+                style={{ color: '#E59D50' }}
+              >
+                Saturdays
+                <br />
+                9pm - 5am
+              </p>
+
+              {/* Navigation Buttons */}
+              <div className="flex flex-col gap-3 w-full" style={{ minWidth: '200px', maxWidth: '280px' }}>
                 <Link 
                   to="/karaoke"
-                  className="font-blur font-medium px-3 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
-                  style={{ 
-                    backgroundColor: '#D04E2B', 
-                    color: '#271308',
-                    borderWidth: '2px',
-                    borderStyle: 'solid',
-                    borderColor: '#D04E2B'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#FFFFFF';
-                    e.currentTarget.style.color = '#D04E2B';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#D04E2B';
-                    e.currentTarget.style.color = '#271308';
-                  }}
+                  className="nav-btn font-blur font-bold px-8 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-center text-base"
                 >
-                  KARAOKE
+                  Karaoke
                 </Link>
                 
                 <Link 
                   to="/services"
-                  className="font-blur font-medium px-3 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
-                  style={{ 
-                    backgroundColor: '#D04E2B', 
-                    color: '#271308',
-                    borderWidth: '2px',
-                    borderStyle: 'solid',
-                    borderColor: '#D04E2B'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#FFFFFF';
-                    e.currentTarget.style.color = '#D04E2B';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#D04E2B';
-                    e.currentTarget.style.color = '#271308';
-                  }}
+                  className="nav-btn font-blur font-bold px-8 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-center text-base"
                 >
-                  VENUE HIRE
+                  Venue Hire
                 </Link>
                 
                 <Link 
                   to="/priority-entry"
-                  className="font-blur font-medium px-3 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
-                  style={{ 
-                    backgroundColor: '#D04E2B', 
-                    color: '#271308',
-                    borderWidth: '2px',
-                    borderStyle: 'solid',
-                    borderColor: '#D04E2B'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#FFFFFF';
-                    e.currentTarget.style.color = '#D04E2B';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#D04E2B';
-                    e.currentTarget.style.color = '#271308';
-                  }}
+                  className="nav-btn font-blur font-bold px-8 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-center text-base"
                 >
-                  25+ PRIORITY
+                  25+ Priority
                 </Link>
                 
                 <Link 
                   to="/birthdays-occasions"
-                  className="font-blur font-medium px-3 py-2 rounded-full uppercase tracking-wider transition-all duration-300 text-sm text-center whitespace-nowrap"
-                  style={{ 
-                    backgroundColor: '#D04E2B', 
-                    color: '#271308',
-                    borderWidth: '2px',
-                    borderStyle: 'solid',
-                    borderColor: '#D04E2B'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#FFFFFF';
-                    e.currentTarget.style.color = '#D04E2B';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#D04E2B';
-                    e.currentTarget.style.color = '#271308';
-                  }}
+                  className="nav-btn font-blur font-bold px-8 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-center text-base"
                 >
-                  GUEST LIST
+                  Guest List
                 </Link>
               </div>
             </div>
+
+            {/* Leopard Disco Ball (Right of buttons) - Using designer asset */}
+            <div 
+              className="absolute z-30"
+              style={{ 
+                top: 'clamp(220px, 32vh, 300px)', 
+                right: 'clamp(20px, 15vw, 180px)'
+              }}
+            >
+              <img 
+                src="/leopard-mirrorball.png" 
+                alt="Leopard disco ball" 
+                className="w-24 h-24 md:w-32 md:h-32 object-contain"
+              />
+            </div>
+
+            {/* Bottom Left - Dancefloor Photo */}
+            <div 
+              className="absolute z-10"
+              style={{ 
+                bottom: '80px', 
+                left: '0',
+                width: 'clamp(180px, 35vw, 320px)'
+              }}
+            >
+              <img 
+                src="/venue-dancefloor.png" 
+                alt="Dance floor" 
+                className="w-full h-auto rounded-lg shadow-2xl"
+              />
+            </div>
+
+            {/* Bottom Right - Shots Photo */}
+            <div 
+              className="absolute z-10"
+              style={{ 
+                bottom: '40px', 
+                right: '0',
+                width: 'clamp(180px, 35vw, 320px)'
+              }}
+            >
+              <img 
+                src="/venue-shots.png" 
+                alt="Shots" 
+                className="w-full h-auto rounded-lg shadow-2xl"
+              />
+            </div>
+
           </div>
         </div>
-      </div>
+      </main>
+
+      <Footer />
     </div>
   );
 };

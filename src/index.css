@@ -26,6 +26,15 @@
   font-display: swap;
 }
 
+/* Acumin Variable Concept Font */
+@font-face {
+  font-family: 'Acumin Variable';
+  src: url('/fonts/AcuminVariableConcept.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -70,6 +79,13 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Manor Brand Colors */
+    --manor-coral: #D04E2B;
+    --manor-gold: #E59D50;
+    --manor-brown: #271308;
+    --manor-white: #FFFFFF;
+    --manor-black: #000000;
   }
 
   .dark {
@@ -174,11 +190,104 @@
     font-weight: bold;
   }
 
+  /* Acumin Variable Utility Classes */
+  .font-acumin {
+    font-family: 'Acumin Variable', 'Inter', sans-serif;
+    font-weight: 600;
+  }
+
+  .font-acumin-light {
+    font-family: 'Acumin Variable', 'Inter', sans-serif;
+    font-weight: 300;
+  }
+
+  .font-acumin-semibold {
+    font-family: 'Acumin Variable', 'Inter', sans-serif;
+    font-weight: 600;
+  }
+
   .manor-blur-heading {
     @apply font-blur font-bold uppercase tracking-wider;
   }
 
   .manor-blur-display {
     @apply font-blur font-bold text-4xl md:text-6xl lg:text-7xl uppercase tracking-wider;
+  }
+
+  /* Leopard Background Pattern - Dark version (default) */
+  .leopard-bg {
+    position: relative;
+    background-color: var(--manor-brown);
+  }
+
+  .leopard-bg::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image: url('/leopard-pattern-bg.png');
+    background-size: 400px;
+    background-repeat: repeat;
+    filter: brightness(0.3) saturate(0.8);
+    pointer-events: none;
+  }
+
+  .leopard-bg::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-color: rgba(39, 19, 8, 0.7);
+    pointer-events: none;
+  }
+
+  .leopard-bg > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Manor Button Styles */
+  .manor-pill-btn {
+    @apply font-blur font-medium px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-center whitespace-nowrap;
+  }
+
+  .manor-pill-btn-coral {
+    background-color: var(--manor-coral);
+    color: var(--manor-brown);
+    border: 2px solid var(--manor-coral);
+  }
+
+  .manor-pill-btn-coral:hover {
+    background-color: transparent;
+    color: var(--manor-coral);
+  }
+
+  .manor-pill-btn-gold {
+    background-color: var(--manor-gold);
+    color: var(--manor-brown);
+    border: 2px solid var(--manor-gold);
+  }
+
+  .manor-pill-btn-gold:hover {
+    background-color: transparent;
+    color: var(--manor-gold);
+  }
+
+  /* Homepage Navigation Buttons */
+  .nav-btn {
+    background-color: var(--manor-coral);
+    color: var(--manor-brown);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 300ms ease, transform 300ms ease, color 300ms ease, opacity 300ms ease;
+  }
+
+  .nav-btn:hover {
+    background-color: var(--manor-gold);
+    color: var(--manor-brown);
+    transform: scale(1.05);
   }
 }

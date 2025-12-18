@@ -1,43 +1,119 @@
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import ImageCarousel from '../components/ImageCarousel';
+import AccordionSection from '../components/AccordionSection';
 
-import React from 'react';
-import UpstairsServicePageTemplate from '../components/UpstairsServicePageTemplate';
+const galleryImages = [
+  '/upstairs-1.jpg',
+  '/upstairs-2.jpg', 
+  '/upstairs-3.jpg'
+];
 
 const Upstairs = () => {
   const accordionItems = [
     {
-      title: "Features",
-      content: "• Lounge Bar with cocktail service\n• DJ equipment & sound system\n• Karaoke Booth\n• Variety of lounge furniture"
+      title: 'Features',
+      content: (
+        <ul className="list-disc list-inside space-y-1">
+          <li>Lounge Bar with cocktail service</li>
+          <li>DJ equipment & sound system</li>
+          <li>Karaoke Booth</li>
+          <li>Variety of lounge furniture</li>
+        </ul>
+      ),
+      defaultOpen: true
     },
     {
-      title: "Capacity",
-      content: "• Suitable for 20 to 70 guests\n• Flexible layout options to suit your event"
+      title: 'Capacity',
+      content: (
+        <div>
+          <p>Suitable for 20 to 70 guests</p>
+          <p>Flexible layout options to suit your event</p>
+        </div>
+      )
     },
     {
-      title: "Availability & Pricing", 
-      content: "Sunday to Friday\n• 6pm to 5am\n• Venue hire fees available upon request\n\nSaturday\n• 6pm to 11pm*\n• Venue hire fees available upon request\n\n*At 11pm the venue opens to the public. Your guests are welcome to stay as long as they like."
+      title: 'Availability & Pricing',
+      content: (
+        <div className="space-y-3">
+          <div>
+            <p className="font-medium">Sunday to Friday</p>
+            <p>6pm to 5am</p>
+            <p>Venue hire fees available upon request</p>
+          </div>
+          <div>
+            <p className="font-medium">Saturday</p>
+            <p>6pm to 11pm*</p>
+            <p>Venue hire fees available upon request</p>
+          </div>
+          <p className="text-xs italic">*At 11pm the venue opens to the public. Your guests are welcome to stay as long as they like.</p>
+        </div>
+      )
     },
     {
-      title: "Access",
-      content: "Private staircase access to upstairs area."
+      title: 'Access',
+      content: <p>Private staircase access to upstairs area.</p>
     }
   ];
 
-  const galleryImages = [
-    "/upstairs-1.jpg",
-    "/upstairs-2.jpg", 
-    "/upstairs-3.jpg"
-  ];
-
   return (
-    <UpstairsServicePageTemplate
-      heroImage="/upstairs-1.jpg"
-      heroTitle="UPSTAIRS"
-      description="Exclusive hire of our premium upstairs area with VIP seating, elevated views, and sophisticated atmosphere. Perfect for intimate celebrations and executive events up to 60 people."
-      accordionItems={accordionItems}
-      greatForCards={[]}
-      showSectionsAfterOverview={false}
-      galleryImages={galleryImages}
-    />
+    <div className="min-h-screen flex flex-col leopard-bg text-white">
+      <Header showLogo={true} />
+      
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col pt-32 pb-12 px-4">
+        <div className="max-w-3xl mx-auto w-full">
+          
+          {/* Page Title */}
+          <h1 
+            className="font-blur font-bold text-4xl md:text-5xl lg:text-6xl text-center mb-8 uppercase tracking-wider"
+            style={{ color: '#E59D50' }}
+          >
+            Upstairs
+          </h1>
+
+          {/* Image Carousel */}
+          <div className="mb-8">
+            <ImageCarousel 
+              images={galleryImages} 
+              alt="Upstairs venue"
+            />
+          </div>
+
+          {/* Description */}
+          <div className="text-center mb-8">
+            <p 
+              className="text-lg md:text-xl font-acumin mb-2"
+              style={{ color: '#D04E2B' }}
+            >
+              Featuring the karaoke booth, lounge bar and dance floor views.
+            </p>
+            <p 
+              className="text-base md:text-lg font-acumin"
+              style={{ color: '#E59D50' }}
+            >
+              Perfect for intimate celebrations and executive events up to 70 people.
+            </p>
+          </div>
+
+          {/* Enquire Button */}
+          <div className="flex justify-center mb-12">
+            <a 
+              href="mailto:afterdark@manorleederville.com.au?subject=Upstairs%20Venue%20Hire%20Enquiry"
+              className="nav-btn inline-block font-blur font-bold px-10 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300"
+            >
+              ENQUIRE
+            </a>
+          </div>
+
+          {/* Accordion Sections */}
+          <AccordionSection items={accordionItems} />
+
+        </div>
+      </div>
+
+      <Footer />
+    </div>
   );
 };
 

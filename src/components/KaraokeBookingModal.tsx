@@ -278,53 +278,39 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   return (
     <>
     <Dialog open={isOpen} onOpenChange={(v) => { if (!v) handleClose() }}>
-      <DialogContent className="max-w-3xl font-blur" style={{ backgroundColor: '#271308', color: '#FFFFFF', border: '2px solid #D04E2B' }}>
+      <DialogContent className="max-w-3xl font-blur" style={{ backgroundColor: '#D04E2B', color: '#271308', border: 'none', borderRadius: '12px' }}>
         {!success && (
           <DialogHeader>
-            <DialogTitle className="font-medium" style={{ color: '#E59D50' }}>Book Karaoke Booth</DialogTitle>
-            <div className="mt-2 p-3 rounded-lg" style={{ backgroundColor: '#D04E2B', color: '#FFFFFF' }}>
-              <p className="text-sm text-center">
-                <span className="font-medium">50-minute sessions</span> • Bookings available on the hour • Up to 2 consecutive sessions (max 2 hours)
-              </p>
-            </div>
+            <DialogTitle className="font-bold text-xl uppercase tracking-wider" style={{ color: '#271308' }}>Book Karaoke Booth</DialogTitle>
+            <p className="text-sm" style={{ color: '#271308' }}>
+              50-minute sessions • Bookings available on the hour
+            </p>
           </DialogHeader>
         )}
 
         {success ? (
-          <div className="space-y-8">
-            <div className="flex justify-center">
-              <svg className="h-16 w-16 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            </div>
-            <h3 className="text-2xl font-medium text-center">Karaoke Booking Confirmed!</h3>
-            <p className="text-center text-gray-600">Your karaoke booking has been received, and you're booked in.</p>
-            <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
-              <h4 className="font-medium text-blue-900 mb-2">Important Information:</h4>
-              <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Please arrive 5 minutes before your session to get ready</li>
-                <li>• You will need to leave 5 minutes before the end of your time to allow us to clean between sessions</li>
-              </ul>
-            </div>
-            {success.karaokeRef && success.ticketRef ? (
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">Karaoke Booth Reference</h4>
-                  <ReferenceCodeDisplay referenceCode={success.karaokeRef} />
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">VIP Tickets Reference</h4>
-                  <ReferenceCodeDisplay referenceCode={success.ticketRef} />
-                </div>
+          <div className="space-y-6">
+            {/* Compact success header */}
+            <div className="text-center space-y-2">
+              <div className="flex items-center justify-center gap-2">
+                <svg className="h-6 w-6 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <h3 className="text-xl font-medium">Booking Confirmed!</h3>
               </div>
-            ) : (
-              <ReferenceCodeDisplay referenceCode={success.ref} />
-            )}
+              <p className="text-sm text-gray-600">
+                Reference: <span className="font-mono font-medium">{success.karaokeRef || success.ref}</span>
+              </p>
+              <p className="text-sm text-gray-500">
+                Arrive 5 mins early. Full details have been sent to your email.
+              </p>
+            </div>
 
+            {/* Guest list editor - prominent */}
             {success.id && success.guestListToken && (
               <GuestListEditor
                 bookingId={success.id}
                 token={success.guestListToken}
-                heading="Add your guest names"
-                subheading="Add the names of the people who will be using your tickets so they are on the door when they arrive at different times."
+                heading="Add your guests to the door list"
+                subheading="Enter the names of everyone in your group so they're on the door when they arrive."
               />
             )}
 
@@ -339,45 +325,43 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
               {/* Left column: Contact information */}
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Full Name *</label>
-                  <input className="w-full border rounded-md p-2" style={{ backgroundColor: '#FFFFFF', color: '#000000', borderColor: '#D04E2B' }} value={name} onChange={(e) => setName(e.target.value)} required />
+                  <label className="text-sm font-medium" style={{ color: '#271308' }}>Full Name</label>
+                  <input className="w-full border-none rounded-full p-3" style={{ backgroundColor: '#271308', color: '#FFFFFF' }} value={name} onChange={(e) => setName(e.target.value)} required placeholder="Enter your name" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Email *</label>
-                  <input className="w-full border rounded-md p-2" style={{ backgroundColor: '#FFFFFF', color: '#000000', borderColor: '#D04E2B' }} value={email} onChange={(e) => setEmail(e.target.value)} required />
+                  <label className="text-sm font-medium" style={{ color: '#271308' }}>Email *</label>
+                  <input className="w-full border-none rounded-full p-3" style={{ backgroundColor: '#271308', color: '#FFFFFF' }} value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Enter your email" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Phone *</label>
-                  <input className="w-full border rounded-md p-2" style={{ backgroundColor: '#FFFFFF', color: '#000000', borderColor: '#D04E2B' }} value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                  <label className="text-sm font-medium" style={{ color: '#271308' }}>Phone *</label>
+                  <input className="w-full border-none rounded-full p-3" style={{ backgroundColor: '#271308', color: '#FFFFFF' }} value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="Enter your phone" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Group Size</label>
+                  <label className="text-sm font-medium" style={{ color: '#271308' }}>Group Size</label>
                   <div className="flex items-center gap-3">
                     <button 
                       type="button"
                       onClick={() => setGroupSize(Math.max(1, groupSize - 1))}
                       disabled={groupSize <= 1}
-                      className="w-10 h-10 rounded-full border-2 flex items-center justify-center font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                      className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                       style={{
-                        backgroundColor: groupSize <= 1 ? '#f5f5f5' : '#D04E2B',
-                        color: groupSize <= 1 ? '#999' : '#FFFFFF',
-                        borderColor: groupSize <= 1 ? '#ddd' : '#D04E2B'
+                        backgroundColor: '#271308',
+                        color: '#FFFFFF'
                       }}
                     >
                       -
                     </button>
                     <div className="min-w-[60px] text-center">
-                      <span className="text-lg font-medium">{groupSize}</span>
+                      <span className="text-xl font-bold" style={{ color: '#271308' }}>{groupSize}</span>
                     </div>
                     <button 
                       type="button"
                       onClick={() => setGroupSize(Math.min(10, groupSize + 1))}
                       disabled={groupSize >= 10}
-                      className="w-10 h-10 rounded-full border-2 flex items-center justify-center font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                      className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                       style={{
-                        backgroundColor: groupSize >= 10 ? '#f5f5f5' : '#D04E2B',
-                        color: groupSize >= 10 ? '#999' : '#FFFFFF',
-                        borderColor: groupSize >= 10 ? '#ddd' : '#D04E2B'
+                        backgroundColor: '#271308',
+                        color: '#FFFFFF'
                       }}
                     >
                       +
@@ -388,7 +372,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
 
               {/* Right column: Date picker */}
               <div className="space-y-2">
-                <label className="text-sm font-medium" style={{ color: '#E59D50' }}>Date</label>
+                <label className="text-sm font-medium" style={{ color: '#271308' }}>Date</label>
                 <div style={{ backgroundColor: '#FFFFFF', borderRadius: '6px', padding: '8px', border: '2px solid #D04E2B' }}>
                   <style>
                     {`
@@ -816,14 +800,14 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
                 <Button 
                   onClick={handlePayAndBook} 
                   disabled={!canPay}
-                  className="font-blur font-medium px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 disabled:opacity-50"
+                  className="font-blur font-bold px-8 py-3 rounded-full uppercase tracking-wider transition-all duration-300 disabled:opacity-50 hover:scale-105"
                   style={{
-                    backgroundColor: canPay ? '#D04E2B' : '#666666',
-                    color: '#FFFFFF',
+                    backgroundColor: '#271308',
+                    color: '#D04E2B',
                     border: 'none'
                   }}
                 >
-                  {submitting ? 'Processing...' : 'Pay & Book'}
+                  {submitting ? 'Processing...' : 'PAY & BOOK'}
                 </Button>
               </div>
             </div>

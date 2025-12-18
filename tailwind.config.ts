@@ -67,7 +67,9 @@ export default {
 					black: '#000000',
 					white: '#FFFFFF',
 					gray: '#CCCCCC',
-					gold: '#FFD700'
+					gold: '#E59D50',
+					coral: '#D04E2B',
+					brown: '#271308'
 				}
 			},
 			borderRadius: {
@@ -113,7 +115,8 @@ export default {
 				'display': ['FF Blur', 'Inter', 'sans-serif'],
 				'body': ['FF Blur', 'Inter', 'sans-serif'],
 				'blur': ['FF Blur', 'Inter', 'sans-serif'],
-				'blur-display': ['FF Blur', 'Inter', 'sans-serif']
+				'blur-display': ['FF Blur', 'Inter', 'sans-serif'],
+				'acumin': ['Acumin Variable', 'Inter', 'sans-serif']
 			}
 		}
 	},

@@ -1,6 +1,6 @@
-
-import React from 'react';
-import ServicePageTemplate from '../components/ServicePageTemplate';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import AccordionSection from '../components/AccordionSection';
 
 // Declare global functions for VIP booking
 declare global {
@@ -15,80 +15,92 @@ const VipTables = () => {
   const accordionItems = [
     {
       title: "Features",
-      content: "Dedicated waitstaff providing premium service throughout the night. Prime dancefloor location with the best views of the DJ and entertainment. Bottle service options with premium spirits and champagne. Reserved seating area exclusively for your party."
+      content: (
+        <ul className="list-disc list-inside space-y-1">
+          <li>Dedicated waitstaff providing premium service throughout the night</li>
+          <li>Prime dancefloor location with the best views of the DJ and entertainment</li>
+          <li>Bottle service options with premium spirits and champagne</li>
+          <li>Reserved seating area exclusively for your party</li>
+        </ul>
+      ),
+      defaultOpen: true
     },
     {
       title: "Capacity", 
-      content: "Tables accommodate groups of 2-12 people with various table sizes available. Intimate tables for couples, medium tables for small groups, and large tables for celebrations. All tables positioned for optimal viewing and atmosphere."
+      content: (
+        <p>Tables accommodate groups of 2-12 people with various table sizes available. Intimate tables for couples, medium tables for small groups, and large tables for celebrations.</p>
+      )
     },
     {
       title: "Pricing",
-      content: "VIP table service starting from $200, with pricing varying by table size, location, and night of the week. Special rates available for recurring bookings and large groups. All packages include dedicated service and reserved seating."
+      content: (
+        <p>VIP table service starting from $200, with pricing varying by table size, location, and night of the week. Special rates available for recurring bookings and large groups.</p>
+      )
     },
     {
       title: "Access",
-      content: "Priority entry bypassing general admission lines. Access to dedicated VIP seating area with premium views. Table service throughout the night with dedicated waitstaff. Exclusive VIP restroom facilities."
-    }
-  ];
-
-  const greatForCards = [
-    {
-      title: "CORPORATE ENTERTAINMENT",
-      description: "Impress clients and colleagues with premium table service in Perth's most sophisticated nightclub. Professional networking in an unforgettable setting.",
-      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      title: "BIRTHDAY CELEBRATIONS", 
-      description: "Make your special day truly unforgettable with VIP treatment, bottle service, and the best seats in the house for you and your friends.",
-      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      title: "DATE NIGHTS",
-      description: "Create an intimate and luxurious evening with premium table service, perfect for romantic celebrations and special occasions.",
-      image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      content: (
+        <p>Priority entry bypassing general admission lines. Access to dedicated VIP seating area with premium views. Table service throughout the night with dedicated waitstaff.</p>
+      )
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <ServicePageTemplate
-        heroImage="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80"
-        heroTitle="VIP TABLES"
-        description="Premium table service with dedicated waitstaff and prime location on the dancefloor. Includes reserved seating and bottle service options for groups of 2-12 people."
-        accordionItems={accordionItems}
-        greatForCards={greatForCards}
-      />
+    <div className="min-h-screen flex flex-col leopard-bg text-white">
+      <Header showLogo={true} />
       
-      {/* VIP Booking Buttons Section */}
-      <div className="bg-gray-800 py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-8 text-orange-400">Book VIP Tickets</h2>
-          <p className="text-gray-300 mb-8">Experience our exclusive VIP Saturday nights with premium service!</p>
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col pt-32 pb-12 px-4">
+        <div className="max-w-3xl mx-auto w-full">
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* Page Title */}
+          <h1 
+            className="font-blur font-bold text-4xl md:text-5xl lg:text-6xl text-center mb-8 uppercase tracking-wider"
+            style={{ color: '#E59D50' }}
+          >
+            VIP Tables
+          </h1>
+
+          {/* Description */}
+          <div className="text-center mb-8">
+            <p 
+              className="text-lg md:text-xl font-acumin mb-2"
+              style={{ color: '#D04E2B' }}
+            >
+              Premium table service with dedicated waitstaff.
+            </p>
+            <p 
+              className="text-base md:text-lg font-acumin"
+              style={{ color: '#E59D50' }}
+            >
+              Includes reserved seating and bottle service options for groups of 2-12 people.
+            </p>
+          </div>
+
+          {/* Booking Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <button 
               onClick={() => window.openVIPModal?.()}
-              className="vip-button px-8 py-4 text-lg font-semibold"
+              className="nav-btn font-blur font-bold px-8 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300"
             >
-              Book VIP Tickets (Choose Venue)
+              Book VIP Tickets
             </button>
             
             <button 
               onClick={() => window.openManorVIPModal?.()}
-              className="vip-button px-8 py-4 text-lg font-semibold"
+              className="nav-btn font-blur font-bold px-8 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300"
             >
               Book Manor VIP
             </button>
-            
-            <button 
-              onClick={() => window.openHippieVIPModal?.()}
-              className="vip-button px-8 py-4 text-lg font-semibold"
-            >
-              Book Hippie VIP
-            </button>
           </div>
+
+          {/* Accordion Sections */}
+          <AccordionSection items={accordionItems} />
+
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };

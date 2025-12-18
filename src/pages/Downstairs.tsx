@@ -1,63 +1,121 @@
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import ImageCarousel from '../components/ImageCarousel';
+import AccordionSection from '../components/AccordionSection';
 
-import React from 'react';
-import ServicePageTemplate from '../components/ServicePageTemplate';
+const galleryImages = [
+  '/downstairs-1.jpg',
+  '/downstairs-2.jpg', 
+  '/downstairs-3.jpg',
+  '/downstairs-4.jpg'
+];
 
 const Downstairs = () => {
   const accordionItems = [
     {
-      title: "Features",
-      content: "• Main Bar area with cocktail service\n• Dance floor with professional sound system\n• DJ equipment & lighting\n• Direct access to courtyard\n• Ample male & female bathrooms"
+      title: 'Features',
+      content: (
+        <ul className="list-disc list-inside space-y-1">
+          <li>Main Bar area with cocktail service</li>
+          <li>Dance floor with professional sound system</li>
+          <li>DJ equipment & lighting</li>
+          <li>Direct access to courtyard</li>
+          <li>Ample male & female bathrooms</li>
+        </ul>
+      ),
+      defaultOpen: true
     },
     {
-      title: "Capacity",
-      content: "• Suitable for 50 to 150 guests\n• Flexible layout options to suit your event"
+      title: 'Capacity',
+      content: (
+        <div>
+          <p>Suitable for 50 to 150 guests</p>
+          <p>Flexible layout options to suit your event</p>
+        </div>
+      )
     },
     {
-      title: "Availability & Pricing", 
-      content: "Sunday to Friday\n• 6pm to 5am\n• Venue hire fees available upon request\n\nSaturday\n• 6pm to 11pm*\n• Venue hire fees available upon request\n\n*At 11pm the venue opens to the public. Your guests are welcome to stay as long as they like."
+      title: 'Availability & Pricing',
+      content: (
+        <div className="space-y-3">
+          <div>
+            <p className="font-medium">Sunday to Friday</p>
+            <p>6pm to 5am</p>
+            <p>Venue hire fees available upon request</p>
+          </div>
+          <div>
+            <p className="font-medium">Saturday</p>
+            <p>6pm to 11pm*</p>
+            <p>Venue hire fees available upon request</p>
+          </div>
+          <p className="text-xs italic">*At 11pm the venue opens to the public. Your guests are welcome to stay as long as they like.</p>
+        </div>
+      )
     },
     {
-      title: "Access",
-      content: "Private entrance available down the Manor laneway."
+      title: 'Access',
+      content: <p>Private entrance available down the Manor laneway.</p>
     }
-  ];
-
-  const greatForCards = [
-    {
-      title: "BIRTHDAY PARTIES",
-      description: "Celebrate in style with your closest friends in our intimate downstairs space, complete with dancefloor and full bar service.",
-      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      title: "CORPORATE MIXERS",
-      description: "Host networking events and team celebrations in a sophisticated setting with professional bar service and atmosphere.",
-      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      title: "COCKTAIL PARTIES",
-      description: "Perfect for intimate gatherings with premium cocktail service, atmospheric lighting, and our signature industrial design.",
-      image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    }
-  ];
-
-  const galleryImages = [
-    "/downstairs-1.jpg",
-    "/downstairs-2.jpg", 
-    "/downstairs-3.jpg",
-    "/downstairs-4.jpg"
   ];
 
   return (
-    <ServicePageTemplate
-      heroImage="/downstairs-1.jpg"
-      heroTitle="DOWNSTAIRS"
-      description="Featuring the main bar, dance floor and courtyard.\n\nGreat for cocktail parties, celebrations, events and corporate functions up to 150 people."
-      accordionItems={accordionItems}
-      greatForCards={greatForCards}
-      showSectionsAfterOverview={false}
-      currentPage="downstairs"
-      galleryImages={galleryImages}
-    />
+    <div className="min-h-screen flex flex-col leopard-bg text-white">
+      <Header showLogo={true} />
+      
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col pt-32 pb-12 px-4">
+        <div className="max-w-3xl mx-auto w-full">
+          
+          {/* Page Title */}
+          <h1 
+            className="font-blur font-bold text-4xl md:text-5xl lg:text-6xl text-center mb-8 uppercase tracking-wider"
+            style={{ color: '#E59D50' }}
+          >
+            Downstairs
+          </h1>
+
+          {/* Image Carousel */}
+          <div className="mb-8">
+            <ImageCarousel 
+              images={galleryImages} 
+              alt="Downstairs venue"
+            />
+          </div>
+
+          {/* Description */}
+          <div className="text-center mb-8">
+            <p 
+              className="text-lg md:text-xl font-acumin mb-2"
+              style={{ color: '#D04E2B' }}
+            >
+              Featuring the main bar, dance floor and courtyard.
+            </p>
+            <p 
+              className="text-base md:text-lg font-acumin"
+              style={{ color: '#E59D50' }}
+            >
+              Great for cocktail parties, celebrations, events and corporate functions up to 150 people.
+            </p>
+          </div>
+
+          {/* Enquire Button */}
+          <div className="flex justify-center mb-12">
+            <a 
+              href="mailto:afterdark@manorleederville.com.au?subject=Downstairs%20Venue%20Hire%20Enquiry"
+              className="nav-btn inline-block font-blur font-bold px-10 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300"
+            >
+              ENQUIRE
+            </a>
+          </div>
+
+          {/* Accordion Sections */}
+          <AccordionSection items={accordionItems} />
+
+        </div>
+      </div>
+
+      <Footer />
+    </div>
   );
 };
 
