@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
+import MobileNav from "./MobileNav";
 
 interface HeaderProps {
   showLogo?: boolean;
-  showFollowLabel?: 'always' | 'smUp';
 }
 
-const Header = ({ showLogo = true, showFollowLabel = 'smUp' }: HeaderProps) => {
+const Header = ({ showLogo = true }: HeaderProps) => {
   // Social icons component for reuse
   const SocialIcons = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
     <div className={`flex items-center gap-2 ${className}`}>
@@ -35,31 +35,40 @@ const Header = ({ showLogo = true, showFollowLabel = 'smUp' }: HeaderProps) => {
   );
 
   return (
-    <header className="w-full absolute top-0 left-0 right-0 z-50 pt-4 px-4">
+    <header className="w-full absolute top-0 left-0 right-0 z-50 pt-6 md:pt-8 px-4">
       {/* ========== MOBILE HEADER (< md) ========== */}
-      <div className="md:hidden flex flex-col items-center pt-2">
-        {/* Manor Script Logo - Centered, smaller on mobile */}
-        {showLogo && (
-          <Link to="/" className="flex flex-col items-center">
-            <img 
-              src="/manor-logo.png" 
-              alt="Manor" 
-              className="h-8 w-auto"
-            />
-            <img 
-              src="/leederville-subheader.svg" 
-              alt="Leederville" 
-              className="h-2.5 w-auto mt-0.5"
-            />
-          </Link>
-        )}
+      <div className="md:hidden flex flex-col items-center pt-4">
+        {/* Top row with logo and hamburger */}
+        <div className="flex items-center justify-between w-full">
+          {/* Empty spacer for balance */}
+          <div className="w-8" />
+          
+          {/* Manor Script Logo - Centered, smaller on mobile */}
+          {showLogo && (
+            <Link to="/" className="flex flex-col items-center">
+              <img 
+                src="/manor-logo.png" 
+                alt="Manor" 
+                className="h-8 w-auto"
+              />
+              <img 
+                src="/leederville-subheader.svg" 
+                alt="Leederville" 
+                className="h-2.5 w-auto mt-2"
+              />
+            </Link>
+          )}
+          
+          {/* Hamburger Menu - Right side on mobile */}
+          <MobileNav />
+        </div>
         
         {/* Social Icons - Below logo on mobile */}
         <SocialIcons size={18} className="mt-3" />
       </div>
 
       {/* ========== DESKTOP HEADER (md+) ========== */}
-      <div className="hidden md:flex max-w-6xl mx-auto justify-between items-start">
+      <div className="hidden md:flex max-w-6xl mx-auto justify-between items-center relative">
         {/* Manor Script Logo - Centered */}
         {showLogo && (
           <Link to="/" className="flex-1 flex flex-col items-center">
@@ -71,20 +80,23 @@ const Header = ({ showLogo = true, showFollowLabel = 'smUp' }: HeaderProps) => {
             <img 
               src="/leederville-subheader.svg" 
               alt="Leederville" 
-              className="h-4 w-auto mt-0.5"
+              className="h-4 w-auto mt-2"
             />
           </Link>
         )}
 
-        {/* Follow Us with Social Icons - Top right on desktop */}
-        <div className="flex items-center gap-1.5 absolute right-4 top-4">
+        {/* Follow Us with Social Icons + Hamburger - Right side, centered with logo */}
+        <div className="flex items-center gap-3 absolute right-4">
           <span 
-            className="text-xs font-blur tracking-wide mr-1"
+            className="text-xs font-blur tracking-wide"
             style={{ color: '#E59D50' }}
           >
             Follow Us
           </span>
           <SocialIcons size={16} />
+          <div className="ml-2">
+            <MobileNav />
+          </div>
         </div>
       </div>
     </header>

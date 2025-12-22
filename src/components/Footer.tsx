@@ -14,15 +14,15 @@ const Footer = () => {
         </div>
 
         {/* Contact Information */}
-        <div className="space-y-2 mb-6">
+        <div className="space-y-1 mb-6">
           <p 
-            className="text-sm font-acumin tracking-wide"
+            className="text-xs font-acumin tracking-wide"
             style={{ color: '#E59D50' }}
           >
             663 Newcastle St, Leederville WA 6060
           </p>
           <p 
-            className="text-sm font-acumin tracking-wide"
+            className="text-xs font-acumin tracking-wide"
             style={{ color: '#E59D50' }}
           >
             P{' '}
@@ -34,7 +34,7 @@ const Footer = () => {
             </a>
           </p>
           <p 
-            className="text-sm font-acumin tracking-wide"
+            className="text-xs font-acumin tracking-wide"
             style={{ color: '#E59D50' }}
           >
             E{' '}
@@ -48,7 +48,7 @@ const Footer = () => {
         </div>
 
         {/* Social Icons */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <a 
             href="https://instagram.com/manorleederville" 
             target="_blank" 
