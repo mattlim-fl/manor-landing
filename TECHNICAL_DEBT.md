@@ -76,3 +76,4 @@ Several color values are hardcoded throughout components instead of using CSS va
 - `src/components/Footer.tsx` - Footer spacing
 - `src/index.css` - Global styles and animations
 
+

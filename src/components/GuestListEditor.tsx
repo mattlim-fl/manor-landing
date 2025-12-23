@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import getSupabase from '../lib/supabaseClient'
 import { Button } from './ui/button'
+import { Users, Share2, Check, Calendar, Clock } from 'lucide-react'
 
 interface BookingDetails {
   referenceCode: string
@@ -17,6 +18,13 @@ interface GuestEntry {
   isOrganiser: boolean
 }
 
+interface LinkedBooking {
+  id: string
+  customerName: string
+  ticketQuantity: number
+  guests: { name: string; isOrganiser: boolean }[]
+}
+
 interface GuestListEditorProps {
   bookingId: string
   token?: string
@@ -24,6 +32,7 @@ interface GuestListEditorProps {
   heading?: string
   subheading?: string
   showBookingDetails?: boolean
+  showLinkedBookings?: boolean // Show guests from linked bookings (shared link purchases)
 }
 
 function formatDateAU(iso?: string): string {
@@ -56,6 +65,7 @@ export default function GuestListEditor({
   heading = 'Guest list',
   subheading = 'Add the names of the guests who will be using your tickets so they are on the door when they arrive.',
   showBookingDetails = true,
+  showLinkedBookings = true,
 }: GuestListEditorProps) {
   const [maxGuests, setMaxGuests] = useState<number | null>(null)
   const [guests, setGuests] = useState<GuestEntry[]>([])
@@ -64,8 +74,28 @@ export default function GuestListEditor({
   const [error, setError] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
   const [bookingDetails, setBookingDetails] = useState<BookingDetails | null>(null)
+  const [linkedBookings, setLinkedBookings] = useState<LinkedBooking[]>([])
+  const [hasShareToken, setHasShareToken] = useState(false)
+  const [shareToken, setShareToken] = useState<string | null>(null)
+  const [linkCopied, setLinkCopied] = useState(false)
 
   const supabase = useMemo(() => getSupabase(), [])
+
+  // Build share URL from current origin
+  const shareUrl = useMemo(() => {
+    if (!shareToken) return null
+    const origin = window.location.origin
+    return `${origin}/tickets/${shareToken}`
+  }, [shareToken])
+
+  // Calculate total guests across all bookings
+  const totalGuestCount = useMemo(() => {
+    // Count guests with names in this booking
+    const ownGuests = guests.filter(g => g.name.trim()).length
+    // Count all guests from linked bookings
+    const linkedGuests = linkedBookings.reduce((sum, lb) => sum + lb.guests.length, 0)
+    return ownGuests + linkedGuests
+  }, [guests, linkedBookings])
 
   useEffect(() => {
     let cancelled = false
@@ -79,7 +109,7 @@ export default function GuestListEditor({
         // Fetch booking to get max guests and booking details
         const { data: booking, error: bookingError } = await supabase
           .from('bookings')
-          .select('ticket_quantity, guest_count, reference_code, booking_date, start_time, end_time, karaoke_booth_id')
+          .select('ticket_quantity, guest_count, reference_code, booking_date, start_time, end_time, karaoke_booth_id, share_token')
           .eq('id', bookingId)
           .single()
 
@@ -88,6 +118,8 @@ export default function GuestListEditor({
         }
 
         const ticketQty = booking?.ticket_quantity || booking?.guest_count || 0
+        const hasToken = Boolean(booking?.share_token)
+        const tokenValue = booking?.share_token || null
 
         // Fetch booth name if available
         let boothName = ''
@@ -124,8 +156,51 @@ export default function GuestListEditor({
         const hasOrganiser = existingGuests.some((g) => g.isOrganiser)
         const max = hasOrganiser ? ticketQty + 1 : ticketQty
 
+        // Fetch linked bookings (guests who used the share link)
+        let linked: LinkedBooking[] = []
+        if (showLinkedBookings && hasToken) {
+          const { data: linkedRows, error: linkedError } = await supabase
+            .from('bookings')
+            .select('id, customer_name, ticket_quantity')
+            .eq('parent_booking_id', bookingId)
+            .order('created_at', { ascending: true })
+
+          if (!linkedError && linkedRows && linkedRows.length > 0) {
+            // Fetch guests for all linked bookings
+            const linkedIds = linkedRows.map((r: { id: string }) => r.id)
+            const { data: linkedGuestRows } = await supabase
+              .from('booking_guests')
+              .select('booking_id, guest_name, is_organiser')
+              .in('booking_id', linkedIds)
+              .order('is_organiser', { ascending: false })
+              .order('created_at', { ascending: true })
+
+            // Group guests by booking_id
+            const guestsByBooking: Record<string, { name: string; isOrganiser: boolean }[]> = {}
+            for (const g of (linkedGuestRows || [])) {
+              if (!guestsByBooking[g.booking_id]) {
+                guestsByBooking[g.booking_id] = []
+              }
+              guestsByBooking[g.booking_id].push({
+                name: g.guest_name,
+                isOrganiser: g.is_organiser || false,
+              })
+            }
+
+            linked = linkedRows.map((r: { id: string; customer_name: string; ticket_quantity: number }) => ({
+              id: r.id,
+              customerName: r.customer_name,
+              ticketQuantity: r.ticket_quantity || 1,
+              guests: guestsByBooking[r.id] || [],
+            }))
+          }
+        }
+
         if (!cancelled) {
           setMaxGuests(max)
+          setHasShareToken(hasToken)
+          setShareToken(tokenValue)
+          setLinkedBookings(linked)
           setBookingDetails({
             referenceCode: booking?.reference_code || '',
             bookingDate: booking?.booking_date || '',
@@ -162,7 +237,7 @@ export default function GuestListEditor({
       cancelled = true
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingId, token])
+  }, [bookingId, token, showLinkedBookings])
 
   const handleChangeName = (index: number, value: string) => {
     setGuests((prev) => {
@@ -172,6 +247,31 @@ export default function GuestListEditor({
     })
     setSaved(false)
     setError(null)
+  }
+
+  const copyShareLink = async () => {
+    if (!shareUrl) return
+    try {
+      // Use native share sheet on mobile if available
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Join me for 25+ Priority Entry',
+          text: 'Join me for 25+ Priority Entry at Manor',
+          url: shareUrl,
+        })
+        return
+      }
+      
+      // Fallback to clipboard copy on desktop
+      await navigator.clipboard.writeText(shareUrl)
+      setLinkCopied(true)
+      setTimeout(() => setLinkCopied(false), 2000)
+    } catch (err) {
+      // User cancelled share or clipboard failed - silently handle
+      if (err instanceof Error && err.name !== 'AbortError') {
+        console.error('Failed to share/copy link:', err)
+      }
+    }
   }
 
   const handleSave = async () => {
@@ -258,34 +358,56 @@ export default function GuestListEditor({
     : ''
 
   return (
-    <div className="mt-4 space-y-5">
+    <div className="mt-4 space-y-6">
       {/* Booking Details Card */}
       {showBookingDetails && bookingDetails && (
-        <div className="rounded-xl border border-orange-500/30 bg-gradient-to-br from-orange-500/10 to-red-500/10 p-5">
+        <div className="rounded-xl border border-orange-300 bg-white p-5">
           <div className="mb-4 flex items-center justify-between">
-            <h4 className="text-lg font-semibold text-white">Your Booking</h4>
-            {bookingDetails.referenceCode && (
-              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-orange-300">
-                {bookingDetails.referenceCode}
-              </span>
+            <div className="flex items-center gap-2">
+              <h4 className="text-base font-semibold text-gray-900">Your Booking</h4>
+              {bookingDetails.referenceCode && (
+                <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-medium text-orange-700">
+                  {bookingDetails.referenceCode}
+                </span>
+              )}
+            </div>
+            {shareUrl && (
+              <Button
+                variant="default"
+                size="sm"
+                onClick={copyShareLink}
+                className="h-8 px-3 text-xs"
+              >
+                {linkCopied ? (
+                  <>
+                    <Check className="h-3 w-3 mr-1" />
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <Share2 className="h-3 w-3 mr-1" />
+                    Share
+                  </>
+                )}
+              </Button>
             )}
           </div>
           <div className="grid gap-3 text-sm">
             {formattedDate && (
               <div className="flex items-center gap-3">
-                <span className="text-lg">📅</span>
+                <Calendar className="h-5 w-5 text-gray-500" />
                 <div>
-                  <p className="text-xs text-gray-400">Date</p>
-                  <p className="font-medium text-white">{formattedDate}</p>
+                  <p className="text-xs text-gray-500">Date</p>
+                  <p className="font-medium text-gray-900">{formattedDate}</p>
                 </div>
               </div>
             )}
             {formattedTime && (
               <div className="flex items-center gap-3">
-                <span className="text-lg">🕐</span>
+                <Clock className="h-5 w-5 text-gray-500" />
                 <div>
-                  <p className="text-xs text-gray-400">Time</p>
-                  <p className="font-medium text-white">{formattedTime}</p>
+                  <p className="text-xs text-gray-500">Time</p>
+                  <p className="font-medium text-gray-900">{formattedTime}</p>
                 </div>
               </div>
             )}
@@ -293,17 +415,24 @@ export default function GuestListEditor({
               <div className="flex items-center gap-3">
                 <span className="text-lg">🎤</span>
                 <div>
-                  <p className="text-xs text-gray-400">Booth</p>
-                  <p className="font-medium text-white">{bookingDetails.boothName}</p>
+                  <p className="text-xs text-gray-500">Booth</p>
+                  <p className="font-medium text-gray-900">{bookingDetails.boothName}</p>
                 </div>
               </div>
             )}
-            {bookingDetails.guestCount > 0 && (
+            {(totalGuestCount > 0 || linkedBookings.length > 0) && (
               <div className="flex items-center gap-3">
-                <span className="text-lg">👥</span>
-                <div>
-                  <p className="text-xs text-gray-400">Guests</p>
-                  <p className="font-medium text-white">{bookingDetails.guestCount} {bookingDetails.guestCount === 1 ? 'person' : 'people'}</p>
+                <Users className="h-5 w-5 text-gray-500" />
+                <div className="flex-1">
+                  <p className="text-xs text-gray-500">Total group size</p>
+                  <p className="font-medium text-gray-900">
+                    {totalGuestCount} {totalGuestCount === 1 ? 'person' : 'people'}
+                  </p>
+                  {linkedBookings.length > 0 && (
+                    <p className="text-xs text-gray-400 mt-0.5">
+                      {linkedBookings.length} {linkedBookings.length === 1 ? 'friend' : 'friends'} purchased via invite link
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -311,16 +440,10 @@ export default function GuestListEditor({
         </div>
       )}
 
-      {/* Guest List Form */}
-      <div className="rounded-lg border border-gray-200 bg-white/60 p-5 space-y-4">
+      {/* Unified Guest List Table */}
+      <div className="rounded-xl border border-gray-200 bg-white p-5 space-y-4">
         <div>
           <h4 className="text-base font-semibold text-gray-900">{heading}</h4>
-          {subheading && <p className="mt-1 text-sm text-gray-600">{subheading}</p>}
-          {maxGuests && maxGuests > 0 && (
-            <p className="mt-2 text-xs text-gray-500">
-              You can add up to <span className="font-medium">{maxGuests}</span> guests.
-            </p>
-          )}
         </div>
 
         {error && (
@@ -329,33 +452,104 @@ export default function GuestListEditor({
           </p>
         )}
 
-        <div className="space-y-2">
-          {(guests || []).map((guest, idx) => (
-            <div key={idx} className="flex items-center gap-2">
-              <span className="w-6 text-xs font-medium text-gray-500">{idx + 1}.</span>
-              <div className="flex-1 relative">
-                <input
-                  type="text"
-                  value={guest.name}
-                  onChange={(e) => handleChangeName(idx, e.target.value)}
-                  placeholder={guest.isOrganiser ? 'Your name (Organiser)' : `Guest ${idx + 1} full name`}
-                  disabled={readOnly}
-                  className={`w-full rounded-md border bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 ${
-                    guest.isOrganiser ? 'border-orange-400 pr-24' : 'border-gray-300'
-                  }`}
-                />
-                {guest.isOrganiser && (
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-orange-100 px-2 py-0.5 text-[10px] font-medium text-orange-700">
-                    Organiser
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
+        {/* Table */}
+        <div className="overflow-x-auto -mx-5 px-5">
+          <table className="w-full min-w-[600px]">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500 w-12">#</th>
+                <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500 min-w-[200px]">Guest Name</th>
+                <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500 min-w-[150px]">Invited By</th>
+                <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500 w-24">Tags</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(() => {
+                let rowNumber = 1
+                const rows: JSX.Element[] = []
+
+                // Add organiser's guests with names (or organiser)
+                guests.forEach((guest, idx) => {
+                  if (guest.name.trim() || guest.isOrganiser) {
+                    rows.push(
+                      <tr key={`own-${idx}`} className="border-b border-gray-100">
+                        <td className="py-3 px-3 text-sm text-gray-500 align-middle">{rowNumber++}</td>
+                        <td className="py-3 px-3 align-middle">
+                          <input
+                            type="text"
+                            value={guest.name}
+                            onChange={(e) => handleChangeName(idx, e.target.value)}
+                            placeholder={guest.isOrganiser ? 'Your name (Organiser)' : `Guest ${idx + 1} full name`}
+                            disabled={readOnly}
+                            className={`w-full rounded-md border bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 h-9 ${
+                              guest.isOrganiser ? 'border-orange-400' : 'border-gray-300'
+                            }`}
+                          />
+                        </td>
+                        <td className="py-3 px-3 text-sm text-gray-600 align-middle" style={{ height: '36px' }}>You</td>
+                        <td className="py-3 px-3 align-middle" style={{ height: '36px' }}>
+                          {guest.isOrganiser && (
+                            <span className="inline-flex rounded-full bg-orange-100 px-2 py-0.5 text-[10px] font-medium text-orange-700">
+                              Organiser
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    )
+                  }
+                })
+
+                // Add empty slots for organiser to add more guests
+                guests.forEach((guest, idx) => {
+                  if (!guest.name.trim() && !guest.isOrganiser) {
+                    rows.push(
+                      <tr key={`empty-${idx}`} className="border-b border-gray-100">
+                        <td className="py-3 px-3 text-sm text-gray-400 align-middle">{rowNumber++}</td>
+                        <td className="py-3 px-3 align-middle">
+                          <input
+                            type="text"
+                            value={guest.name}
+                            onChange={(e) => handleChangeName(idx, e.target.value)}
+                            placeholder={`Guest ${idx + 1} full name`}
+                            disabled={readOnly}
+                            className="w-full rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 h-9"
+                          />
+                        </td>
+                        <td className="py-3 px-3 text-sm text-gray-600 align-middle" style={{ height: '36px' }}>You</td>
+                        <td className="py-3 px-3 align-middle" style={{ height: '36px' }}></td>
+                      </tr>
+                    )
+                  }
+                })
+
+                // Add linked booking guests (read-only)
+                linkedBookings.forEach((lb) => {
+                  lb.guests.forEach((g, gIdx) => {
+                    rows.push(
+                      <tr key={`linked-${lb.id}-${gIdx}`} className="border-b border-gray-100 bg-gray-50/50">
+                        <td className="py-3 px-3 text-sm text-gray-500 align-middle">{rowNumber++}</td>
+                        <td className="py-3 px-3 text-sm text-gray-900 align-middle" style={{ height: '36px' }}>{g.name}</td>
+                        <td className="py-3 px-3 text-sm text-gray-600 align-middle" style={{ height: '36px' }}>{lb.customerName}</td>
+                        <td className="py-3 px-3 align-middle" style={{ height: '36px' }}>
+                          {g.isOrganiser && (
+                            <span className="inline-flex rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-medium text-blue-700">
+                              Purchaser
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    )
+                  })
+                })
+
+                return rows
+              })()}
+            </tbody>
+          </table>
         </div>
 
         {!readOnly && (
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-3 pt-2">
             <p className="text-[11px] text-gray-500">
               You can update this list any time using the link in your confirmation email.
             </p>
@@ -379,5 +573,3 @@ export default function GuestListEditor({
     </div>
   )
 }
-
-
