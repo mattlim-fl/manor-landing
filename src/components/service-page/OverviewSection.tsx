@@ -1,0 +1,72 @@
+
+import React, { useState } from 'react';
+import { Plus, Minus } from 'lucide-react';
+
+interface AccordionItem {
+  title: string;
+  content: string;
+}
+
+interface OverviewSectionProps {
+  accordionItems: AccordionItem[];
+}
+
+const OverviewSection: React.FC<OverviewSectionProps> = ({
+  accordionItems
+}) => {
+  const [expandedAccordion, setExpandedAccordion] = useState<number | null>(null);
+
+  const toggleAccordion = (index: number) => {
+    setExpandedAccordion(expandedAccordion === index ? null : index);
+  };
+
+  const renderContent = (content: string) => {
+    // Split content by newlines and render each line
+    const lines = content.split('\n');
+    return lines.map((line, index) => (
+      <div key={index} className="mb-1">
+        {line.startsWith('•') ? (
+          <span>
+            <span style={{ color: '#D04E2B' }}>•</span>
+            <span style={{ color: '#E59D50', fontWeight: 500 }}>{line.substring(1)}</span>
+          </span>
+        ) : (
+          <span style={{ color: '#E59D50', fontWeight: 500 }}>{line}</span>
+        )}
+      </div>
+    ));
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 pb-8" style={{ paddingTop: '10px', paddingBottom: '24px' }}>
+      <h2 className="font-blur font-medium text-3xl mb-6 uppercase tracking-wider" style={{ color: '#D04E2B' }}>DETAILS</h2>
+      <div className="space-y-4">
+        {accordionItems.map((item, index) => (
+          <div key={index} className="border-b" style={{ borderColor: '#E59D50' }}>
+            <button
+              onClick={() => toggleAccordion(index)}
+              className="w-full flex justify-between items-center py-4 text-left transition-colors"
+              style={{ color: '#D04E2B' }}
+            >
+              <span className="text-xl font-medium">
+                {item.title}
+              </span>
+              {expandedAccordion === index ? (
+                <Minus size={24} style={{ color: '#D04E2B' }} />
+              ) : (
+                <Plus size={24} style={{ color: '#D04E2B' }} />
+              )}
+            </button>
+            {expandedAccordion === index && (
+              <div className="pb-4 leading-relaxed" style={{ color: '#D04E2B' }}>
+                {renderContent(item.content)}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default OverviewSection;

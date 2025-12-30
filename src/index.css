@@ -1,0 +1,360 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* FF Blur Font Face Declarations */
+@font-face {
+  font-family: 'FF Blur';
+  src: url('/fonts/BlurWeb-Medium W03 Regular.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FF Blur';
+  src: url('/fonts/BlurWeb-Bold W03 Regular.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FF Blur';
+  src: url('/fonts/BlurWeb-Light W03 Regular.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Acumin Variable Concept Font */
+@font-face {
+  font-family: 'Acumin Variable';
+  src: url('/fonts/AcuminVariableConcept.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Manor Brand Colors - Vibrant neon versions */
+    --manor-coral: #FF3B1F;
+    --manor-gold: #E59D50;
+    --manor-brown: #271308;
+    --manor-white: #FFFFFF;
+    --manor-black: #000000;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  /* Hide scrollbars globally while keeping scroll functionality */
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+
+  *::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  html,
+  body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-blur;
+  }
+
+  .manor-btn-primary {
+    @apply bg-manor-gold text-manor-black font-blur font-bold px-8 py-4 uppercase tracking-wider transition-all duration-300 hover:bg-yellow-400 hover:scale-105 active:scale-95;
+  }
+
+  .manor-btn-secondary {
+    @apply bg-transparent border-2 border-manor-white text-manor-white font-blur font-bold px-8 py-4 uppercase tracking-wider transition-all duration-300 hover:bg-manor-white hover:text-manor-black;
+  }
+
+  .manor-heading {
+    @apply font-blur font-bold uppercase tracking-wider;
+  }
+
+  /* FF Blur Utility Classes */
+  .font-blur {
+    font-family: 'FF Blur', 'Inter', sans-serif;
+    font-weight: 500; /* Medium weight */
+  }
+
+  .font-blur-light {
+    font-family: 'FF Blur', 'Inter', sans-serif;
+    font-weight: 300;
+  }
+
+  .font-blur-medium {
+    font-family: 'FF Blur', 'Inter', sans-serif;
+    font-weight: 500;
+  }
+
+  .font-blur-bold {
+    font-family: 'FF Blur', 'Inter', sans-serif;
+    font-weight: bold;
+  }
+
+  /* Acumin Variable Utility Classes */
+  .font-acumin {
+    font-family: 'Acumin Variable', 'Inter', sans-serif;
+    font-weight: 600;
+  }
+
+  .font-acumin-light {
+    font-family: 'Acumin Variable', 'Inter', sans-serif;
+    font-weight: 300;
+  }
+
+  .font-acumin-semibold {
+    font-family: 'Acumin Variable', 'Inter', sans-serif;
+    font-weight: 600;
+  }
+
+  .manor-blur-heading {
+    @apply font-blur font-bold uppercase tracking-wider;
+  }
+
+  .manor-blur-display {
+    @apply font-blur font-bold text-4xl md:text-6xl lg:text-7xl uppercase tracking-wider;
+  }
+
+  /* Leopard Background Pattern - Dark version (default) */
+  .leopard-bg {
+    position: relative;
+    background-color: var(--manor-brown);
+  }
+
+  .leopard-bg::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image: url('/leopard-pattern-bg.png');
+    background-size: 400px;
+    background-repeat: repeat;
+    filter: brightness(0.55) saturate(1.3);
+    pointer-events: none;
+  }
+
+  .leopard-bg::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-color: rgba(39, 19, 8, 0.35);
+    pointer-events: none;
+  }
+
+  .leopard-bg > * {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Manor Button Styles */
+  .manor-pill-btn {
+    @apply font-blur font-medium px-6 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-center whitespace-nowrap;
+  }
+
+  .manor-pill-btn-coral {
+    background-color: var(--manor-coral);
+    color: var(--manor-brown);
+    border: 2px solid var(--manor-coral);
+  }
+
+  .manor-pill-btn-coral:hover {
+    background-color: transparent;
+    color: var(--manor-coral);
+  }
+
+  .manor-pill-btn-gold {
+    background-color: var(--manor-gold);
+    color: var(--manor-brown);
+    border: 2px solid var(--manor-gold);
+  }
+
+  .manor-pill-btn-gold:hover {
+    background-color: transparent;
+    color: var(--manor-gold);
+  }
+
+  /* Homepage Navigation Buttons */
+  .nav-btn {
+    background-color: var(--manor-coral);
+    color: var(--manor-brown);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 300ms ease, transform 300ms ease, color 300ms ease, opacity 300ms ease;
+  }
+
+  .nav-btn:hover {
+    background-color: var(--manor-gold);
+    color: var(--manor-brown);
+    transform: scale(1.05);
+  }
+
+  /* Rotating Badge Animation */
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 12s linear infinite;
+    transform-origin: center center;
+  }
+
+  /* Sparkle Animation */
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(0.8);
+    }
+  }
+
+  .animate-sparkle {
+    animation: sparkle 2s ease-in-out infinite;
+  }
+
+  .animate-sparkle-delayed {
+    animation: sparkle 2s ease-in-out infinite;
+    animation-delay: 0.5s;
+  }
+
+  .animate-sparkle-delayed-2 {
+    animation: sparkle 2s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+
+  /* Full screen nav overlay */
+  .nav-overlay {
+    background-color: var(--manor-brown);
+  }
+
+  .nav-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url('/leopard-pattern-bg.png');
+    background-size: 400px;
+    background-repeat: repeat;
+    filter: brightness(0.55) saturate(1.3);
+    pointer-events: none;
+  }
+
+  .nav-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: rgba(39, 19, 8, 0.35);
+    pointer-events: none;
+  }
+}
