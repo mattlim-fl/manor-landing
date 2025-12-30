@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ImageCarousel from '../components/ImageCarousel';
 import SocialEnquiryModal from '../components/SocialEnquiryModal';
+import GuestListEditor from '../components/GuestListEditor';
 import { ENABLE_SOCIAL_ENQUIRY, INSTAGRAM_HANDLE, FACEBOOK_PAGE_URL } from '@/lib/config';
 
 const guestListImages = [
@@ -13,6 +15,12 @@ const guestListImages = [
 
 const BirthdaysOccasions = () => {
   const [showSocialEnquiry, setShowSocialEnquiry] = useState(false);
+  const [searchParams] = useSearchParams();
+  
+  // Check if this is a booking guest list management link (has token parameter)
+  const token = searchParams.get('token') || '';
+  const [bookingId] = token.split('.');
+  const hasValidToken = Boolean(bookingId && token.split('.').length >= 3);
 
   const handleEnquireClick = () => {
     if (ENABLE_SOCIAL_ENQUIRY) {
@@ -22,6 +30,70 @@ const BirthdaysOccasions = () => {
     }
   };
 
+  // If there's a valid token, show the guest list editor view
+  if (hasValidToken && bookingId) {
+    return (
+      <div className="min-h-screen flex flex-col leopard-bg text-white relative">
+        {/* Background overlay to reduce visual noise */}
+        <div className="absolute inset-0 bg-black/30" />
+        
+        <Header showLogo={true} />
+        <main className="relative z-10 flex-1 mx-auto flex max-w-3xl w-full flex-col px-4 pt-32 pb-12">
+          <h1 
+            className="font-blur font-bold text-2xl md:text-3xl tracking-wider uppercase text-center"
+            style={{ color: '#E59D50' }}
+          >
+            Curate your guest list
+          </h1>
+          <p 
+            className="mt-2 text-sm font-acumin text-center"
+            style={{ color: '#E59D50' }}
+          >
+            Use this page to add or update the names of the guests who will be using your karaoke tickets.
+          </p>
+
+          <GuestListEditor
+            bookingId={bookingId}
+            token={token}
+            heading="Your Guests"
+            subheading="Add the names of your guests so they're on the door when they arrive. You can update this list any time before your booking."
+          />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Show invalid token error if token is present but invalid
+  if (token && !hasValidToken) {
+    return (
+      <div className="min-h-screen flex flex-col leopard-bg text-white relative">
+        {/* Background overlay to reduce visual noise */}
+        <div className="absolute inset-0 bg-black/30" />
+        
+        <Header showLogo={true} />
+        <main className="relative z-10 flex-1 mx-auto flex max-w-3xl w-full flex-col px-4 pt-32 pb-12">
+          <h1 
+            className="font-blur font-bold text-2xl md:text-3xl tracking-wider uppercase text-center"
+            style={{ color: '#E59D50' }}
+          >
+            Curate your guest list
+          </h1>
+
+          <div className="mt-6 rounded-xl border border-red-300 bg-white p-4 text-sm">
+            <p className="font-medium text-red-900">This link is not valid.</p>
+            <p className="mt-1 text-xs text-red-700">
+              Please open the guest list link directly from your latest confirmation email, or contact the venue if you
+              need help updating your guests.
+            </p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Default: show the "Birthdays & Occasions" marketing page
   return (
     <div className="min-h-screen flex flex-col leopard-bg text-white">
       <Header showLogo={true} />
