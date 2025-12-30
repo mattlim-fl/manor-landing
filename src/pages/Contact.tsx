@@ -46,7 +46,7 @@ const Contact = () => {
                   style={{ color: '#E59D50' }}
                 >
                   Saturdays<br />
-                  9PM - 5AM
+                  11PM - 4AM
                 </p>
               </div>
             </div>

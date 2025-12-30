@@ -77,3 +77,5 @@ Several color values are hardcoded throughout components instead of using CSS va
 - `src/index.css` - Global styles and animations
 
 
+
+

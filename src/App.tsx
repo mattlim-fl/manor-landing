@@ -27,15 +27,15 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/services" element={<Services />} />
+          <Route path="/venue-hire" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/downstairs" element={<Downstairs />} />
           <Route path="/upstairs" element={<Upstairs />} />
           <Route path="/full-venue" element={<FullVenue />} />
           <Route path="/karaoke" element={<Karaoke />} />
           <Route path="/priority-entry" element={<PriorityEntry />} />
-          <Route path="/birthdays-occasions" element={<BirthdaysOccasions />} />
-          <Route path="/guest-list" element={<GuestListPage />} />
+          <Route path="/guest-list" element={<BirthdaysOccasions />} />
+          <Route path="/guest-list/edit" element={<GuestListPage />} />
           <Route path="/tickets/:token" element={<GroupTicketPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

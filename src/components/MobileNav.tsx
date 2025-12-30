@@ -11,9 +11,9 @@ const MobileNav = () => {
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/karaoke", label: "Karaoke" },
-    { to: "/services", label: "Venue Hire" },
+    { to: "/venue-hire", label: "Venue Hire" },
     { to: "/priority-entry", label: "25+ Priority" },
-    { to: "/birthdays-occasions", label: "Guest List" },
+    { to: "/guest-list", label: "Guest List" },
   ];
 
   return (
@@ -105,4 +105,7 @@ const MobileNav = () => {
 };
 
 export default MobileNav;
+
+
+
 

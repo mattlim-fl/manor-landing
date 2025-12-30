@@ -1,21 +1,21 @@
 import { useState } from "react";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import TicketBookingModal from "../components/TicketBookingModal";
 
 const PriorityEntry = () => {
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
-   return <div className="h-screen flex flex-col" style={{
-    backgroundColor: '#271308',
-    color: '#FFFFFF'
-  }}>
-      <Header />
+  
+  return (
+    <div className="min-h-screen flex flex-col leopard-bg text-white">
+      <Header showLogo={true} />
       
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Top 50% - Dark Background */}
-        <div className="flex-1 flex flex-col justify-center items-center px-4" style={{ backgroundColor: '#271308' }}>
+      <main className="flex-1 flex flex-col pt-32 pb-12 px-4">
+        <div className="max-w-3xl mx-auto w-full flex flex-col items-center">
+          
           {/* Disco Ball with Stars */}
-          <div className="relative mb-6">
+          <div className="relative mb-8">
             {/* Stars around disco ball */}
             <div className="absolute -left-8 top-4 w-4 h-4" style={{ color: '#E59D50' }}>
               <svg viewBox="0 0 24 24" fill="currentColor">
@@ -47,51 +47,23 @@ const PriorityEntry = () => {
           </div>
           
           {/* 25+ PRIORITY ENTRY Heading */}
-          <h1 className="font-blur font-medium text-4xl md:text-6xl lg:text-7xl animate-fade-in uppercase tracking-wider text-center" style={{
-            color: '#CD3E28'
-          }}>
-            <div style={{ color: '#CD3E28' }}>25+</div>
-            <div>PRIORITY</div>
-            <div>ENTRY</div>
+          <h1 
+            className="font-blur font-bold text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider text-center mb-12"
+            style={{ color: '#E59D50' }}
+          >
+            25+ Priority Entry
           </h1>
-        </div>
-
-        {/* Bottom 50% - Leopard Pattern Background */}
-        <div className="flex-1 flex flex-col justify-center items-center px-4 relative">
-          {/* Leopard Pattern Background */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ 
-              backgroundImage: 'url(/leopard-pattern-bg.png)',
-              backgroundSize: 'cover'
-            }}
-          />
           
           {/* Book Now Button */}
           <button 
             onClick={() => setIsTicketModalOpen(true)}
-            className="relative z-10 inline-block font-blur font-medium px-8 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300 hover:scale-105 border-2 mb-8 cursor-pointer"
-            style={{
-              backgroundColor: '#D04E2B',
-              color: '#FFFFFF',
-              borderColor: '#271308'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#FFFFFF';
-              e.currentTarget.style.color = '#D04E2B';
-              e.currentTarget.style.borderColor = '#D04E2B';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#D04E2B';
-              e.currentTarget.style.color = '#FFFFFF';
-              e.currentTarget.style.borderColor = '#271308';
-            }}
+            className="nav-btn font-blur font-bold px-10 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300 mb-8"
           >
             BOOK NOW
           </button>
 
           {/* Information Container */}
-          <div className="relative z-10 text-center max-w-2xl">
+          <div className="text-center max-w-2xl">
             <div className="rounded-2xl px-6 py-4 border-2" style={{
               backgroundColor: '#271308',
               color: '#E59D50',
@@ -103,10 +75,14 @@ const PriorityEntry = () => {
             </div>
           </div>
         </div>
-      </div>
+      </main>
+
+      <Footer />
 
       {/* Ticket Booking Modal */}
       <TicketBookingModal isOpen={isTicketModalOpen} onClose={() => setIsTicketModalOpen(false)} defaultVenue="manor" />
-    </div>;
+    </div>
+  );
 };
+
 export default PriorityEntry;

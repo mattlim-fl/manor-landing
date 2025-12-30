@@ -278,7 +278,7 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   return (
     <>
     <Dialog open={isOpen} onOpenChange={(v) => { if (!v) handleClose() }}>
-      <DialogContent className="max-w-3xl font-blur" style={{ backgroundColor: '#D04E2B', color: '#271308', border: 'none', borderRadius: '12px' }}>
+      <DialogContent className="max-w-[90vw] font-blur" style={{ backgroundColor: '#D04E2B', color: '#271308', border: 'none', borderRadius: '12px' }}>
         {!success && (
           <DialogHeader>
             <DialogTitle className="font-bold text-xl uppercase tracking-wider" style={{ color: '#271308' }}>Book Karaoke Booth</DialogTitle>

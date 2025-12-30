@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ImageCarousel from '../components/ImageCarousel';
-import AccordionSection from '../components/AccordionSection';
 import SocialEnquiryModal from '../components/SocialEnquiryModal';
 import { ENABLE_SOCIAL_ENQUIRY, INSTAGRAM_HANDLE, FACEBOOK_PAGE_URL } from '@/lib/config';
 
@@ -14,35 +13,6 @@ const guestListImages = [
 
 const BirthdaysOccasions = () => {
   const [showSocialEnquiry, setShowSocialEnquiry] = useState(false);
-
-  const accordionItems = [
-    {
-      title: 'Package Options',
-      content: (
-        <p>
-          Choose from intimate packages for 10-15 guests or larger celebrations for up to 50 people.
-          All packages include dedicated service and customizable amenities.
-        </p>
-      ),
-      defaultOpen: true
-    },
-    {
-      title: 'Customisation',
-      content: (
-        <p>
-          Personalized decorations, custom music playlists, specialty cocktails, and birthday cake arrangements available.
-        </p>
-      )
-    },
-    {
-      title: 'Advance Bookings',
-      content: (
-        <p>
-          Recommend booking 2-4 weeks in advance. Special occasion packages require 48-hour advance notice minimum.
-        </p>
-      )
-    }
-  ];
 
   const handleEnquireClick = () => {
     if (ENABLE_SOCIAL_ENQUIRY) {
@@ -85,12 +55,20 @@ const BirthdaysOccasions = () => {
           </h2>
 
           {/* Description */}
-          <p 
-            className="text-center text-base md:text-lg font-acumin mb-8"
-            style={{ color: '#E59D50' }}
-          >
-            Great for cocktail parties, celebrations, events and corporate functions up to 150 people.
-          </p>
+          <div className="text-center mb-8">
+            <p 
+              className="text-base md:text-lg font-acumin mb-2"
+              style={{ color: '#E59D50' }}
+            >
+              Message our team to organise a birthday or special occasion.
+            </p>
+            <p 
+              className="text-base md:text-lg font-acumin"
+              style={{ color: '#E59D50' }}
+            >
+              Guest List entry and reserved areas available.
+            </p>
+          </div>
 
           {/* Enquire Button */}
           <div className="flex justify-center mb-12">
@@ -100,11 +78,6 @@ const BirthdaysOccasions = () => {
             >
               ENQUIRE
             </button>
-          </div>
-
-          {/* Accordion Sections */}
-          <div className="max-w-xl mx-auto">
-            <AccordionSection items={accordionItems} />
           </div>
 
         </div>

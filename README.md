@@ -1,5 +1,5 @@
 
-# Manor - Nightclub Website
+# Manor Landing
 
 A modern, responsive website for Manor nightclub built with React, TypeScript, and Tailwind CSS.
 

@@ -25,24 +25,12 @@ const Footer = () => {
             className="text-xs font-acumin tracking-wide"
             style={{ color: '#E59D50' }}
           >
-            P{' '}
-            <a 
-              href="tel:+61892278349" 
-              className="hover:underline"
-            >
-              (08) 9227 8349
-            </a>
-          </p>
-          <p 
-            className="text-xs font-acumin tracking-wide"
-            style={{ color: '#E59D50' }}
-          >
             E{' '}
             <a 
-              href="mailto:afterdark@manorleederville.com.au" 
+              href="mailto:hello@manorleederville.com" 
               className="hover:underline"
             >
-              afterdark@manorleederville.com.au
+              hello@manorleederville.com
             </a>
           </p>
         </div>

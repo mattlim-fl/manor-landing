@@ -40,19 +40,19 @@ const ImageCarousel = ({ images, alt = "Venue image", className = "" }: ImageCar
         <>
           <button
             onClick={goToPrevious}
-            className="absolute left-2 md:-left-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
+            className="absolute left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
             style={{ backgroundColor: '#D04E2B' }}
             aria-label="Previous image"
           >
-            <ChevronLeft size={24} style={{ color: '#271308' }} />
+            <ChevronLeft size={20} style={{ color: '#271308' }} />
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-2 md:-right-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
+            className="absolute right-2 md:-right-12 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
             style={{ backgroundColor: '#D04E2B' }}
             aria-label="Next image"
           >
-            <ChevronRight size={24} style={{ color: '#271308' }} />
+            <ChevronRight size={20} style={{ color: '#271308' }} />
           </button>
         </>
       )}
@@ -81,4 +81,10 @@ const ImageCarousel = ({ images, alt = "Venue image", className = "" }: ImageCar
 };
 
 export default ImageCarousel;
+
+
+
+
+
+
 

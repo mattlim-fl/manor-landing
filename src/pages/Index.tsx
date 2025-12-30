@@ -17,7 +17,7 @@ const Index = () => {
       </Link>
       
       <Link 
-        to="/services"
+        to="/venue-hire"
         className="nav-btn font-blur font-bold px-8 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-center text-base"
       >
         Venue Hire
@@ -31,7 +31,7 @@ const Index = () => {
       </Link>
       
       <Link 
-        to="/birthdays-occasions"
+        to="/guest-list"
         className="nav-btn font-blur font-bold px-8 py-3 rounded-full uppercase tracking-wider transition-all duration-300 text-center text-base"
       >
         Guest List
@@ -47,14 +47,14 @@ const Index = () => {
     >
       Saturdays
       <br />
-      9pm - 5am
+      11pm - 4am
     </p>
   );
 
   // Rotating "Give Me The Night" Badge SVG
   const RotatingBadge = ({ className = "" }: { className?: string }) => (
-    <div className={className}>
-      <svg width="120" height="120" viewBox="0 0 120 120">
+    <div className={className} style={{ animation: 'none' }}>
+      <svg width="120" height="120" viewBox="0 0 120 120" style={{ animation: 'none' }}>
         <defs>
           <path
             id="circlePath"

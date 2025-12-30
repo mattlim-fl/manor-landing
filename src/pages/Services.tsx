@@ -2,15 +2,20 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import AccordionSection from "../components/AccordionSection";
 import DirectVenueBookingModal from "../components/DirectVenueBookingModal";
+import ImageCarousel from "../components/ImageCarousel";
 
 const venueData = {
   downstairs: {
-    image: '/venue-disco-balls.png',
+    images: [
+      '/downstairs-1.jpg',
+      '/downstairs-2.jpg',
+      '/downstairs-3.jpg',
+      '/downstairs-4.jpg'
+    ],
     title: 'DOWNSTAIRS',
     description: 'Featuring the main bar, dance floor and courtyard.',
-    capacity: 'For 50 to 150 guests.',
+    useCase: 'Great for cocktail parties, celebrations, events and corporate functions up to 150 people.',
     features: [
       'Main Bar area with cocktail service',
       'Dance floor with professional sound system',
@@ -20,10 +25,14 @@ const venueData = {
     ]
   },
   upstairs: {
-    image: '/venue-shots.png',
+    images: [
+      '/upstairs-1.jpg',
+      '/upstairs-2.jpg',
+      '/upstairs-3.jpg'
+    ],
     title: 'UPSTAIRS',
     description: 'Featuring the karaoke booth, lounge bar and dance floor views.',
-    capacity: 'For 20 to 70 guests.',
+    useCase: 'Perfect for intimate celebrations and executive events up to 70 people.',
     features: [
       'Private karaoke booth',
       'Lounge bar area',
@@ -33,10 +42,14 @@ const venueData = {
     ]
   },
   fullVenue: {
-    image: '/venue-bar-crowd.png',
+    images: [
+      '/full-venue-1.jpg',
+      '/full-venue-2.jpg',
+      '/full-venue-3.jpg'
+    ],
     title: 'FULL VENUE',
     description: 'Exclusive hire of Manor for events, celebrations and corporate functions.',
-    capacity: 'For 150 to 250 guests.',
+    useCase: 'Perfect for product launches, wedding receptions, and major corporate events up to 250 people.',
     features: [
       'Complete venue exclusivity',
       'Both bars and all spaces',
@@ -72,60 +85,36 @@ const Services = () => {
     data: typeof venueData.downstairs; 
     venueKey: 'downstairs' | 'upstairs' | 'full_venue';
   }) => {
-    const accordionItems = [
-      {
-        title: 'Features',
-        content: (
-          <ul className="list-disc list-inside space-y-1">
-            {data.features.map((feature, idx) => (
-              <li key={idx}>{feature}</li>
-            ))}
-          </ul>
-        ),
-        defaultOpen: venueKey === 'downstairs'
-      },
-      {
-        title: 'Capacity',
-        content: <p>{data.capacity}</p>
-      },
-      {
-        title: 'Availability & Pricing',
-        content: <p>Contact us for availability and custom pricing options.</p>
-      },
-      {
-        title: 'Access',
-        content: <p>Accessible via main entrance on Newcastle Street.</p>
-      }
-    ];
-
     return (
       <div className="flex flex-col">
-        {/* Image with title overlay */}
-        <div className="relative mb-4">
-          <img 
-            src={data.image} 
+        {/* Venue Title Header */}
+        <h2 
+          className="font-blur font-bold text-2xl md:text-3xl mb-4 uppercase tracking-wider text-center"
+          style={{ color: '#E59D50' }}
+        >
+          {data.title}
+        </h2>
+        
+        {/* Image Carousel */}
+        <div className="mb-4">
+          <ImageCarousel 
+            images={data.images} 
             alt={data.title}
-            className="w-full h-64 md:h-72 object-cover rounded-lg"
           />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="nav-btn font-blur font-bold px-6 py-2 rounded-full uppercase tracking-wider text-sm">
-              {data.title}
-            </span>
-          </div>
         </div>
 
         {/* Description */}
         <p 
-          className="text-sm mb-1 font-acumin"
-          style={{ color: '#E59D50' }}
+          className="text-base md:text-lg mb-2 font-acumin text-center"
+          style={{ color: '#D04E2B' }}
         >
           {data.description}
         </p>
         <p 
-          className="text-sm mb-4 font-acumin"
+          className="text-sm md:text-base mb-4 font-acumin text-center"
           style={{ color: '#E59D50' }}
         >
-          {data.capacity}
+          {data.useCase}
         </p>
 
         {/* Actions */}
@@ -142,17 +131,7 @@ const Services = () => {
           >
             INFO
           </Link>
-          <button
-            type="button"
-            onClick={() => openBookingModal(venueKey)}
-            className="manor-pill-btn manor-pill-btn-gold"
-          >
-            BOOK NOW
-          </button>
         </div>
-
-        {/* Accordion */}
-        <AccordionSection items={accordionItems} />
       </div>
     );
   };
