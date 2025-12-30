@@ -5,14 +5,13 @@ import { Loader2, AlertCircle, Calendar, Users, Copy, Check, Share2 } from 'luci
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import GuestListEditor from '../components/GuestListEditor'
-import { fetchOccasionByOrganiserToken, fetchOrganiserBooking, OccasionWithStats } from '../services/occasion'
+import { fetchOccasionByOrganiserToken, OccasionWithStats } from '../services/occasion'
 
 export default function OccasionPage() {
   const { token } = useParams<{ token: string }>()
 
   const [loading, setLoading] = useState(true)
   const [occasion, setOccasion] = useState<OccasionWithStats | null>(null)
-  const [organiserBooking, setOrganiserBooking] = useState<any | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [copiedShare, setCopiedShare] = useState(false)
 
@@ -35,12 +34,6 @@ export default function OccasionPage() {
         setError('This link is invalid or has expired')
       } else {
         setOccasion(occasionData)
-        
-        // Try to fetch organiser's booking if they have an email
-        if (occasionData.customer_email) {
-          const booking = await fetchOrganiserBooking(occasionData.id, occasionData.customer_email)
-          setOrganiserBooking(booking)
-        }
       }
     } catch (err) {
       setError('Failed to load occasion details')
@@ -106,7 +99,7 @@ export default function OccasionPage() {
           {/* Header Card */}
           <div className="bg-white text-gray-900 rounded-xl p-6">
             <div className="text-center space-y-4">
-              <h1 className="text-3xl font-bold" style={{ color: '#CD3E28' }}>{occasion.name}</h1>
+              <h1 className="text-3xl font-bold" style={{ color: '#CD3E28' }}>{occasion.occasion_name}</h1>
               
               <div className="flex flex-wrap justify-center gap-4 text-sm">
                 <div className="flex items-center gap-2">
@@ -147,23 +140,23 @@ export default function OccasionPage() {
           {/* Share Link Card */}
           <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-6 space-y-4">
             <div className="flex items-center gap-2">
-              <Share2 className="h-5 w-5 text-amber-600" />
+              <Share2 className="h-5 w-5 text-amber-700" />
               <h2 className="font-semibold text-amber-900">Invite Your Friends</h2>
             </div>
-            <p className="text-sm text-amber-800">
+            <p className="text-sm text-amber-900">
               Share this link so your friends can buy their own tickets for this occasion:
             </p>
             <div className="flex gap-2">
               <Input 
                 value={shareUrl} 
                 readOnly 
-                className="flex-1 bg-white text-sm font-mono"
+                className="flex-1 bg-white text-gray-900 text-sm font-mono border-gray-300"
               />
               <Button 
                 variant="outline" 
                 size="sm" 
                 onClick={copyShareLink}
-                className="shrink-0"
+                className="shrink-0 bg-white text-gray-900 border-gray-300 hover:bg-gray-50 hover:text-gray-900"
               >
                 {copiedShare ? (
                   <>
@@ -181,13 +174,13 @@ export default function OccasionPage() {
           </div>
 
           {/* Guest List Editor */}
-          {organiserBooking && organiserBooking.guest_list_token && (
+          {occasion && occasion.guest_list_token && (
             <div className="bg-white text-gray-900 rounded-xl p-6">
               <GuestListEditor
-                bookingId={organiserBooking.id}
-                token={organiserBooking.guest_list_token}
+                bookingId={occasion.id}
+                token={occasion.guest_list_token}
                 heading="Your Guest List"
-                subheading="Add the names of your guests so they're on the door when they arrive."
+                subheading="Manage your guest list and see who has purchased tickets. Add complimentary guests or view guests from purchased tickets."
                 showLinkedBookings={true}
               />
             </div>
@@ -206,7 +199,7 @@ export default function OccasionPage() {
 
           <div className="text-center">
             <Link to="/">
-              <Button variant="outline">Back to Home</Button>
+              <Button variant="outline" className="bg-white text-gray-900 border-gray-300 hover:bg-gray-50 hover:text-gray-900">Back to Home</Button>
             </Link>
           </div>
         </div>
