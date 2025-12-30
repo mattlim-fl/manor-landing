@@ -277,8 +277,25 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
 
   return (
     <>
-    <Dialog open={isOpen} onOpenChange={(v) => { if (!v) handleClose() }}>
-      <DialogContent className="max-w-[90vw] font-blur" style={{ backgroundColor: '#D04E2B', color: '#271308', border: 'none', borderRadius: '12px' }}>
+    <Dialog open={isOpen} onOpenChange={(v) => { if (!v) handleClose() }} modal={true}>
+      <DialogContent 
+        className="max-w-[90vw] font-blur" 
+        style={{ backgroundColor: '#D04E2B', color: '#271308', border: 'none', borderRadius: '12px' }}
+        onPointerDownOutside={(e) => {
+          // Prevent closing when clicking on calendar or other interactive elements
+          const target = e.target as HTMLElement;
+          if (target.closest('.rdp, [role="dialog"]')) {
+            e.preventDefault();
+          }
+        }}
+        onInteractOutside={(e) => {
+          // Prevent closing when interacting with calendar
+          const target = e.target as HTMLElement;
+          if (target.closest('.rdp, [role="dialog"]')) {
+            e.preventDefault();
+          }
+        }}
+      >
         {!success && (
           <DialogHeader>
             <DialogTitle className="font-bold text-xl uppercase tracking-wider" style={{ color: '#271308' }}>Book Karaoke Booth</DialogTitle>
