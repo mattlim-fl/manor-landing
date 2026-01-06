@@ -124,9 +124,10 @@ export interface CreatePaidTicketBookingInput {
   venue: Venue
   bookingDate: string // YYYY-MM-DD (ignored if groupToken is provided)
   ticketQuantity: number
-  ticketType?: 'priority_25_plus' | 'general_admission'
+  ticketType?: 'priority_25_plus' | 'general_admission' | 'occasion'
   paymentToken: string // Square payment token
   groupToken?: string // Optional: for guest purchases via shared link
+  parentBookingId?: string // Optional: for occasion ticket purchases
 }
 
 export interface PaidTicketBookingResult {
@@ -160,6 +161,7 @@ export async function createPaidTicketBooking(input: CreatePaidTicketBookingInpu
       ticketType: input.ticketType || 'priority_25_plus',
       paymentToken: input.paymentToken,
       groupToken: input.groupToken,
+      parentBookingId: input.parentBookingId,
     }
   })
 

@@ -13,11 +13,9 @@ import FullVenue from "./pages/FullVenue";
 import Karaoke from "./pages/Karaoke";
 import PriorityEntry from "./pages/PriorityEntry";
 import BirthdaysOccasions from "./pages/BirthdaysOccasions";
+import OccasionBuyPage from "./pages/OccasionBuyPage";
+import OccasionOrganiserPage from "./pages/OccasionOrganiserPage";
 import NotFound from "./pages/NotFound";
-import GuestListPage from "./pages/GuestList";
-import GroupTicketPage from "./pages/GroupTicketPage";
-import OccasionPage from "./pages/OccasionPage";
-import OccasionTicketPage from "./pages/OccasionTicketPage";
 
 const queryClient = new QueryClient();
 
@@ -29,18 +27,16 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/venue-hire" element={<Services />} />
+          <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/downstairs" element={<Downstairs />} />
           <Route path="/upstairs" element={<Upstairs />} />
           <Route path="/full-venue" element={<FullVenue />} />
           <Route path="/karaoke" element={<Karaoke />} />
           <Route path="/priority-entry" element={<PriorityEntry />} />
-          <Route path="/guest-list" element={<BirthdaysOccasions />} />
-          <Route path="/guest-list/edit" element={<GuestListPage />} />
-          <Route path="/tickets/:token" element={<GroupTicketPage />} />
-          <Route path="/occasion/:token" element={<OccasionPage />} />
-          <Route path="/occasion/buy/:token" element={<OccasionTicketPage />} />
+          <Route path="/birthdays-occasions" element={<BirthdaysOccasions />} />
+          <Route path="/occasion/buy/:token" element={<OccasionBuyPage />} />
+          <Route path="/occasion/:token" element={<OccasionOrganiserPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
