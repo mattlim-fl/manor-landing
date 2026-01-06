@@ -1,3 +1,8 @@
+/**
+ * Venue hire booking service
+ * Handles downstairs, upstairs, and full venue enquiries
+ * Creates pending bookings and sends confirmation emails
+ */
 import getSupabase from '../lib/supabaseClient'
 import { sendVenueBookingConfirmation, type EmailTemplateData } from './email'
 

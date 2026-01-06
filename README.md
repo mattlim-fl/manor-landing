@@ -1,82 +1,63 @@
+# Manor Perth Nightlife UI
 
-# Manor Landing
+Booking and payment system for Manor nightclub in Perth, Australia.
 
-A modern, responsive website for Manor nightclub built with React, TypeScript, and Tailwind CSS.
-
-## Project Features
-
-- Modern React application with TypeScript
-- Responsive design with Tailwind CSS
-- Video background hero section
-- Multiple pages (Home, Services, Contact)
-- Component-based architecture using shadcn/ui
+## Features
+- Venue hire enquiries (downstairs, upstairs, full venue)
+- Karaoke booth bookings with real-time availability
+- VIP table ticket sales
+- Group occasion bookings with shareable links
+- Square payment processing
+- Email confirmations via Resend
 
 ## Tech Stack
+- **Frontend**: React 18 + TypeScript + Vite
+- **Backend**: Supabase (PostgreSQL + Edge Functions)
+- **Payments**: Square Web Payments SDK
+- **Email**: Resend
+- **UI**: Tailwind CSS + shadcn/ui
 
-- **Frontend**: React 18 with TypeScript
-- **Styling**: Tailwind CSS with shadcn/ui components
-- **Build Tool**: Vite
-- **State Management**: TanStack Query
-- **Routing**: React Router DOM
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (recommended: install with [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```sh
-git clone <YOUR_GIT_URL>
-```
-
-2. Navigate to the project directory:
-```sh
-cd <YOUR_PROJECT_NAME>
-```
-
-3. Install dependencies:
+## Quick Start
 ```sh
 npm install
+npm run dev  # http://localhost:8080
 ```
 
-4. Start the development server:
-```sh
-npm run dev
-```
+## Documentation
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - System overview and data flow
+- [DATA_MODEL.md](./DATA_MODEL.md) - Database schema reference
+- [docs/email-system.md](./docs/email-system.md) - Email system details
+- [docs/square-payments-go-live.md](./docs/square-payments-go-live.md) - Production deployment
+- [docs/square-orders-backfill.md](./docs/square-orders-backfill.md) - Revenue sync
+- [TECHNICAL_DEBT.md](./TECHNICAL_DEBT.md) - Known issues
 
-The application will be available at `http://localhost:8080`
+## Environment Setup
+See [ARCHITECTURE.md](./ARCHITECTURE.md#environment-variables) for required environment variables.
 
 ## Available Scripts
-
 - `npm run dev` - Start development server with hot reload
 - `npm run build` - Build for production
+- `npm run build:dev` - Build in development mode
 - `npm run preview` - Preview production build locally
 - `npm run lint` - Run ESLint
 
 ## Project Structure
-
 ```
 src/
 ├── components/          # Reusable UI components
-├── pages/              # Page components
+│   ├── ui/             # shadcn/ui components
+│   └── service-page/   # Service page components
+├── pages/              # Page components (routes)
+├── services/           # Business logic and API calls
 ├── hooks/              # Custom React hooks
-├── lib/                # Utility functions
-└── main.tsx           # Application entry point
+├── lib/                # Utility functions and config
+└── integrations/       # Third-party integrations (Supabase)
 ```
 
 ## Deployment
+This project is deployed to Netlify. Build with `npm run build` and deploy the `dist` folder.
 
-This project can be deployed to any static hosting service like:
-- Vercel
-- Netlify
-- GitHub Pages
-- AWS S3 + CloudFront
-
-Build the project with `npm run build` and deploy the `dist` folder.
+The `public/_redirects` file handles SPA routing.
 
 ## WhatsApp Enquiry (Birthdays & Occasions)
 

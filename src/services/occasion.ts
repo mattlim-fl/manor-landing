@@ -1,3 +1,8 @@
+/**
+ * Group occasion booking service
+ * Organiser creates occasion → generates share link → guests purchase tickets
+ * Uses parent/child booking pattern via parent_booking_id
+ */
 import { getSupabase } from '../lib/supabaseClient'
 
 export interface OccasionDetails {

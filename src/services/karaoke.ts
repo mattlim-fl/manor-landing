@@ -1,3 +1,8 @@
+/**
+ * Karaoke booth booking service
+ * Features: availability checking, temporary holds, Square payment integration
+ * Flow: fetchAvailability → createHold → confirmBooking (with payment)
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import getSupabase from '../lib/supabaseClient'
 

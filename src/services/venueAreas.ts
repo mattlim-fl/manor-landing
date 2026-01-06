@@ -1,3 +1,8 @@
+/**
+ * Venue area configuration service
+ * Defines available venue areas (downstairs, upstairs, full venue)
+ * Fetches area details from database for booking forms
+ */
 import getSupabase from '../lib/supabaseClient'
 
 export interface VenueAreaRecord {

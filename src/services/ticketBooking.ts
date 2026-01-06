@@ -1,3 +1,8 @@
+/**
+ * VIP table ticket booking service
+ * Handles direct ticket purchases with Square payment integration
+ * Supports both individual tickets and group ticket purchases
+ */
 import getSupabase from '../lib/supabaseClient'
 
 export type Venue = 'manor' | 'hippie'

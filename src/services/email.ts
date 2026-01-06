@@ -1,3 +1,8 @@
+/**
+ * Email notification service
+ * Sends confirmation emails via Supabase Edge Function (send-email)
+ * Templates stored in database, not bundled with code
+ */
 import { getSupabase } from '../lib/supabaseClient'
 import { format } from 'date-fns'
 
