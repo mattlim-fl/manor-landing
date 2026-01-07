@@ -108,9 +108,8 @@ export default function GuestListEditor({
     setError(null)
     setSaved(false)
     try {
-      const cleaned = (names || []).map((n) => n.trim()).filter((n) => n.length > 0)
+      const cleaned = (names || []).map((n) => n.trim())
 
-      // Delete existing guests for this booking
       const { error: deleteError } = await supabase
         .from('booking_guests')
         .delete()
@@ -120,7 +119,6 @@ export default function GuestListEditor({
         throw deleteError
       }
 
-      // Insert new guest names
       if (cleaned.length > 0) {
         const toInsert = cleaned.map((name) => ({
           booking_id: bookingId,
