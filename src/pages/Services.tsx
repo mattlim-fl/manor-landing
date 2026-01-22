@@ -125,7 +125,7 @@ const Services = () => {
                 ? '/downstairs'
                 : venueKey === 'upstairs'
                   ? '/upstairs'
-                  : '/full-venue'
+                  : '/venue-hire'
             }
             className="nav-btn font-blur font-bold px-6 py-3 rounded-full uppercase tracking-wider text-sm text-center"
           >

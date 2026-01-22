@@ -31,12 +31,13 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/downstairs" element={<Downstairs />} />
           <Route path="/upstairs" element={<Upstairs />} />
-          <Route path="/full-venue" element={<FullVenue />} />
+          <Route path="/venue-hire" element={<FullVenue />} />
           <Route path="/karaoke" element={<Karaoke />} />
           <Route path="/priority-entry" element={<PriorityEntry />} />
           <Route path="/birthdays-occasions" element={<BirthdaysOccasions />} />
           <Route path="/occasion/buy/:token" element={<OccasionBuyPage />} />
           <Route path="/occasion/:token" element={<OccasionOrganiserPage />} />
+          <Route path="/guest-list" element={<BirthdaysOccasions />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

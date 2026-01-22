@@ -27,10 +27,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const getNavigationPaths = () => {
     switch (currentPage) {
       case 'downstairs':
-        return { left: '/full-venue', right: '/upstairs' };
+        return { left: '/venue-hire', right: '/upstairs' };
       case 'upstairs':
-        return { left: '/downstairs', right: '/full-venue' };
-      case 'full-venue':
+        return { left: '/downstairs', right: '/venue-hire' };
+      case 'venue-hire':
         return { left: '/upstairs', right: '/downstairs' };
       case 'birthdays-occasions':
         return { left: null, right: null }; // No navigation for birthdays page

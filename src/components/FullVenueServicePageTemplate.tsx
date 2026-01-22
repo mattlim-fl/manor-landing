@@ -74,7 +74,7 @@ const FullVenueServicePageTemplate: React.FC<ServicePageProps> = ({
         heroImage={heroImage}
         heroTitle={heroTitle}
         onBookingClick={openBooking}
-        currentPage="full-venue"
+        currentPage="venue-hire"
         galleryImages={galleryImages}
       />
 

@@ -81,18 +81,18 @@ const FullVenue = () => {
         <div className="max-w-3xl mx-auto w-full">
           
           {/* Page Title */}
-          <h1 
+          <h1
             className="font-blur font-bold text-4xl md:text-5xl lg:text-6xl text-center mb-8 uppercase tracking-wider"
             style={{ color: '#E59D50' }}
           >
-            Full Venue
+            Venue Hire
           </h1>
 
           {/* Image Carousel */}
           <div className="mb-8">
             <ImageCarousel 
               images={galleryImages} 
-              alt="Full venue"
+              alt="Venue Hire"
             />
           </div>
 
