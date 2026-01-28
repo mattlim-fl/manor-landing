@@ -61,8 +61,8 @@ const AccordionSection = ({ items, className = "" }: AccordionSectionProps) => {
               openItems.has(index) ? 'max-h-96 pb-4' : 'max-h-0'
             }`}
           >
-            <div 
-              className="text-sm leading-relaxed font-acumin"
+            <div
+              className="text-base leading-relaxed font-acumin"
               style={{ color: '#E59D50' }}
             >
               {item.content}

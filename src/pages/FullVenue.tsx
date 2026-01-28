@@ -79,7 +79,7 @@ const FullVenue = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col pt-32 pb-12 px-4">
         <div className="max-w-3xl mx-auto w-full">
-          
+
           {/* Page Title */}
           <h1
             className="font-blur font-bold text-4xl md:text-5xl lg:text-6xl text-center mb-8 uppercase tracking-wider"
@@ -90,40 +90,43 @@ const FullVenue = () => {
 
           {/* Image Carousel */}
           <div className="mb-8">
-            <ImageCarousel 
-              images={galleryImages} 
+            <ImageCarousel
+              images={galleryImages}
               alt="Venue Hire"
             />
           </div>
 
-          {/* Description */}
-          <div className="text-center mb-8">
-            <p 
-              className="text-lg md:text-xl font-acumin mb-2"
-              style={{ color: '#D04E2B' }}
-            >
-              Exclusive hire of Manor for events, celebrations and corporate functions.
-            </p>
-            <p 
-              className="text-base md:text-lg font-acumin"
-              style={{ color: '#E59D50' }}
-            >
-              Perfect for product launches, wedding receptions, and major corporate events up to 250 people.
-            </p>
-          </div>
+          {/* Content with semi-transparent backdrop for readability */}
+          <div className="rounded-2xl px-6 py-8 md:px-10 md:py-10" style={{ backgroundColor: 'rgba(39, 19, 8, 0.65)' }}>
+            {/* Description */}
+            <div className="text-center mb-8">
+              <p
+                className="text-lg md:text-xl font-acumin mb-2"
+                style={{ color: '#D04E2B' }}
+              >
+                Exclusive hire of Manor for events, celebrations and corporate functions.
+              </p>
+              <p
+                className="text-base md:text-lg font-acumin"
+                style={{ color: '#E59D50' }}
+              >
+                Perfect for product launches, wedding receptions, and major corporate events up to 250 people.
+              </p>
+            </div>
 
-          {/* Enquire Button */}
-          <div className="flex justify-center mb-12">
-            <a 
-              href="mailto:afterdark@manorleederville.com.au?subject=Full%20Venue%20Hire%20Enquiry"
-              className="nav-btn inline-block font-blur font-bold px-10 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300"
-            >
-              ENQUIRE
-            </a>
-          </div>
+            {/* Enquire Button */}
+            <div className="flex justify-center mb-12">
+              <a
+                href="mailto:afterdark@manorleederville.com.au?subject=Full%20Venue%20Hire%20Enquiry"
+                className="nav-btn inline-block font-blur font-bold px-10 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300"
+              >
+                ENQUIRE
+              </a>
+            </div>
 
-          {/* Accordion Sections */}
-          <AccordionSection items={accordionItems} />
+            {/* Accordion Sections */}
+            <AccordionSection items={accordionItems} />
+          </div>
 
         </div>
       </div>

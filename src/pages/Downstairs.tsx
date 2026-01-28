@@ -95,34 +95,37 @@ const Downstairs = () => {
             />
           </div>
 
-          {/* Description */}
-          <div className="text-center mb-8">
-            <p 
-              className="text-lg md:text-xl font-acumin mb-2"
-              style={{ color: '#D04E2B' }}
-            >
-              Featuring the main bar, dance floor and courtyard.
-            </p>
-            <p 
-              className="text-base md:text-lg font-acumin"
-              style={{ color: '#E59D50' }}
-            >
-              Great for cocktail parties, celebrations, events and corporate functions up to 150 people.
-            </p>
-          </div>
+          {/* Content with semi-transparent backdrop for readability */}
+          <div className="rounded-2xl px-6 py-8 md:px-10 md:py-10" style={{ backgroundColor: 'rgba(39, 19, 8, 0.65)' }}>
+            {/* Description */}
+            <div className="text-center mb-8">
+              <p
+                className="text-lg md:text-xl font-acumin mb-2"
+                style={{ color: '#D04E2B' }}
+              >
+                Featuring the main bar, dance floor and courtyard.
+              </p>
+              <p
+                className="text-base md:text-lg font-acumin"
+                style={{ color: '#E59D50' }}
+              >
+                Great for cocktail parties, celebrations, events and corporate functions up to 150 people.
+              </p>
+            </div>
 
-          {/* Enquire Button */}
-          <div className="flex justify-center mb-12">
-            <a 
-              href="mailto:afterdark@manorleederville.com.au?subject=Downstairs%20Venue%20Hire%20Enquiry"
-              className="nav-btn inline-block font-blur font-bold px-10 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300"
-            >
-              ENQUIRE
-            </a>
-          </div>
+            {/* Enquire Button */}
+            <div className="flex justify-center mb-12">
+              <a
+                href="mailto:afterdark@manorleederville.com.au?subject=Downstairs%20Venue%20Hire%20Enquiry"
+                className="nav-btn inline-block font-blur font-bold px-10 py-3 rounded-full uppercase tracking-wider text-lg transition-all duration-300"
+              >
+                ENQUIRE
+              </a>
+            </div>
 
-          {/* Accordion Sections */}
-          <AccordionSection items={accordionItems} />
+            {/* Accordion Sections */}
+            <AccordionSection items={accordionItems} />
+          </div>
 
         </div>
       </div>

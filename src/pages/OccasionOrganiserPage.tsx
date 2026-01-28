@@ -8,6 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../com
 import { getSupabase } from '../lib/supabaseClient'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import GuestListGrouped from '../components/GuestListGrouped'
 
 interface OccasionDetails {
   id: string
@@ -328,14 +329,14 @@ export default function OccasionOrganiserPage() {
       
       <Header />
       <main className="relative z-10 flex-1 mx-auto flex max-w-3xl w-full flex-col px-4 pt-32 pb-12">
-        <h1 
-          className="font-blur font-bold text-2xl md:text-3xl tracking-wider uppercase text-center"
+        <h1
+          className="font-acumin text-2xl md:text-3xl uppercase text-center"
           style={{ color: '#E59D50' }}
         >
           {occasion.occasion_name}
         </h1>
-        <p 
-          className="mt-2 text-sm font-acumin text-center"
+        <p
+          className="mt-2 text-sm font-acumin-light text-center"
           style={{ color: '#E59D50' }}
         >
           Manage your occasion and view your guest list
@@ -426,69 +427,12 @@ export default function OccasionOrganiserPage() {
               <p className="text-xs text-gray-500 mt-1">Share the link above to invite guests</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 px-2 text-xs font-semibold text-gray-700">#</th>
-                    <th className="text-left py-3 px-2 text-xs font-semibold text-gray-700">Guest Name</th>
-                    <th className="text-left py-3 px-2 text-xs font-semibold text-gray-700">Invited By</th>
-                    <th className="text-left py-3 px-2 text-xs font-semibold text-gray-700">Tags</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {allGuests.map((guest, idx) => {
-                    const key = `${guest.bookingId}-${guest.index}`
-                    const currentValue = editingGuests[key] || ''
-                    
-                    return (
-                      <tr key={idx} className="border-b border-gray-100">
-                        <td className="py-3 px-2 text-sm text-gray-900">{idx + 1}</td>
-                        <td className="py-2 px-2">
-                          {guest.isEditable ? (
-                            <input
-                              type="text"
-                              value={currentValue}
-                              onChange={(e) => handleGuestNameChange(guest.bookingId, guest.index, e.target.value)}
-                              placeholder={`Guest ${idx + 1} full name`}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500"
-                            />
-                          ) : (
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <input
-                                    type="text"
-                                    value={currentValue}
-                                    disabled
-                                    placeholder={`Guest ${idx + 1} full name`}
-                                    className="w-full px-3 py-2 border border-gray-200 rounded-md bg-gray-100 text-sm text-gray-500 placeholder:text-gray-400 cursor-not-allowed"
-                                  />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  <p>Guest added via share link - contact them to update</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          )}
-                        </td>
-                        <td className="py-3 px-2 text-sm text-gray-600">{guest.invitedBy}</td>
-                        <td className="py-3 px-2">
-                          {guest.isOrganiser && (
-                            <Badge 
-                              variant="secondary" 
-                              className="bg-amber-100 text-amber-800 hover:bg-amber-100"
-                            >
-                              Organiser
-                            </Badge>
-                          )}
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
+            <GuestListGrouped
+              guests={allGuests}
+              editingGuests={editingGuests}
+              organiserName={occasion?.customer_name || 'Organiser'}
+              onGuestNameChange={handleGuestNameChange}
+            />
           )}
 
           {allGuests.length > 0 && (
