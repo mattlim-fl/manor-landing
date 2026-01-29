@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from './Header';
@@ -22,6 +21,8 @@ interface GreatForCard {
   image: string;
 }
 
+type VenueArea = 'downstairs' | 'upstairs' | 'full_venue';
+
 interface ServicePageProps {
   heroImage: string;
   heroTitle: string;
@@ -32,6 +33,12 @@ interface ServicePageProps {
   showNewsletterSection?: boolean;
   currentPage?: string;
   galleryImages?: string[];
+  // New unified props
+  venueArea?: VenueArea;
+  useLeopardBackground?: boolean;
+  enableSocialEnquiry?: boolean;
+  customBadges?: string[];
+  customCapacity?: number;
 }
 
 const ServicePageTemplate: React.FC<ServicePageProps> = ({
@@ -43,7 +50,13 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   showSectionsAfterOverview = true,
   showNewsletterSection = true,
   currentPage,
-  galleryImages
+  galleryImages,
+  // New props with defaults
+  venueArea = 'downstairs',
+  useLeopardBackground = true,
+  enableSocialEnquiry = true,
+  customBadges,
+  customCapacity,
 }) => {
   const [showBooking, setShowBooking] = useState(false);
   const [showSocialEnquiry, setShowSocialEnquiry] = useState(false);
@@ -53,49 +66,57 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
   useEffect(() => {
     if (location.hash === '#booking-container') {
       setShowBooking(true);
-      // Small delay to ensure the booking container is rendered before scrolling
       setTimeout(() => {
-        document.getElementById('booking-container')?.scrollIntoView({ 
-          behavior: 'smooth' 
+        document.getElementById('booking-container')?.scrollIntoView({
+          behavior: 'smooth'
         });
       }, 100);
     }
   }, [location.hash]);
 
   const openBooking = () => {
-    if (currentPage === 'birthdays-occasions' && ENABLE_SOCIAL_ENQUIRY) {
+    if (currentPage === 'birthdays-occasions' && ENABLE_SOCIAL_ENQUIRY && enableSocialEnquiry) {
       setShowSocialEnquiry(true);
       return;
     }
     setShowBooking(true);
     setTimeout(() => {
-      document.getElementById('booking-container')?.scrollIntoView({ 
-        behavior: 'smooth' 
+      document.getElementById('booking-container')?.scrollIntoView({
+        behavior: 'smooth'
       });
     }, 100);
   };
 
-  return (
-    <div className="min-h-screen leopard-bg text-white">
-      <Header />
-      
-      <div className="pt-12">
-      <HeroSection 
-        heroImage={heroImage}
-        heroTitle={heroTitle}
-        onBookingClick={openBooking}
-        currentPage={currentPage}
-        galleryImages={galleryImages}
-      />
+  // Determine background class based on variant
+  const backgroundClass = useLeopardBackground
+    ? 'leopard-bg text-white'
+    : 'bg-manor-brown text-white';
 
-        <DescriptionSection description={description} />
+  return (
+    <div className={`min-h-screen ${backgroundClass}`}>
+      <Header />
+
+      <div className="pt-12">
+        <HeroSection
+          heroImage={heroImage}
+          heroTitle={heroTitle}
+          onBookingClick={openBooking}
+          currentPage={currentPage ?? venueArea}
+          galleryImages={galleryImages}
+        />
+
+        <DescriptionSection
+          description={description}
+          venueArea={venueArea}
+          badges={customBadges}
+          capacity={customCapacity}
+        />
 
         <OverviewSection accordionItems={accordionItems} />
 
         {showSectionsAfterOverview && (
           <>
             {greatForCards.length > 0 && <GreatForSection greatForCards={greatForCards} />}
-
             {showNewsletterSection && <NewsletterSection />}
           </>
         )}
@@ -105,15 +126,17 @@ const ServicePageTemplate: React.FC<ServicePageProps> = ({
         isOpen={showBooking}
         onClose={() => setShowBooking(false)}
         defaultVenue="manor"
-        defaultVenueArea="downstairs"
+        defaultVenueArea={venueArea}
       />
 
-      <SocialEnquiryModal
-        isOpen={showSocialEnquiry}
-        onClose={() => setShowSocialEnquiry(false)}
-        instagramHandle={INSTAGRAM_HANDLE}
-        facebookPageUrl={FACEBOOK_PAGE_URL}
-      />
+      {enableSocialEnquiry && (
+        <SocialEnquiryModal
+          isOpen={showSocialEnquiry}
+          onClose={() => setShowSocialEnquiry(false)}
+          instagramHandle={INSTAGRAM_HANDLE}
+          facebookPageUrl={FACEBOOK_PAGE_URL}
+        />
+      )}
     </div>
   );
 };

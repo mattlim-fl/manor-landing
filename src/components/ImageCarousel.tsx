@@ -40,19 +40,17 @@ const ImageCarousel = ({ images, alt = "Venue image", className = "" }: ImageCar
         <>
           <button
             onClick={goToPrevious}
-            className="absolute left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
-            style={{ backgroundColor: '#D04E2B' }}
+            className="absolute left-2 md:-left-12 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 bg-manor-coral"
             aria-label="Previous image"
           >
-            <ChevronLeft size={20} style={{ color: '#271308' }} />
+            <ChevronLeft size={20} className="text-manor-brown" />
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-2 md:-right-12 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
-            style={{ backgroundColor: '#D04E2B' }}
+            className="absolute right-2 md:-right-12 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 bg-manor-coral"
             aria-label="Next image"
           >
-            <ChevronRight size={20} style={{ color: '#271308' }} />
+            <ChevronRight size={20} className="text-manor-brown" />
           </button>
         </>
       )}
@@ -64,13 +62,11 @@ const ImageCarousel = ({ images, alt = "Venue image", className = "" }: ImageCar
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                index === currentIndex ? 'w-4' : ''
+              className={`h-2 rounded-full transition-all ${
+                index === currentIndex
+                  ? 'w-4 bg-manor-coral'
+                  : 'w-2 bg-manor-gold opacity-50'
               }`}
-              style={{ 
-                backgroundColor: index === currentIndex ? '#D04E2B' : '#E59D50',
-                opacity: index === currentIndex ? 1 : 0.5
-              }}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
@@ -81,10 +77,3 @@ const ImageCarousel = ({ images, alt = "Venue image", className = "" }: ImageCar
 };
 
 export default ImageCarousel;
-
-
-
-
-
-
-

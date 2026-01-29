@@ -36,18 +36,15 @@ const AccordionSection = ({ items, className = "" }: AccordionSectionProps) => {
   return (
     <div className={`w-full ${className}`}>
       {items.map((item, index) => (
-        <div key={index} className="border-b" style={{ borderColor: '#D04E2B' }}>
+        <div key={index} className="border-b border-manor-coral">
           <button
             onClick={() => toggleItem(index)}
             className="w-full flex items-center justify-between py-4 text-left transition-colors hover:opacity-80"
           >
-            <span 
-              className="font-blur font-medium text-lg uppercase tracking-wider"
-              style={{ color: '#D04E2B' }}
-            >
+            <span className="font-blur font-medium text-lg uppercase tracking-wider text-manor-coral">
               {item.title}
             </span>
-            <span style={{ color: '#E59D50' }}>
+            <span className="text-manor-gold">
               {openItems.has(index) ? (
                 <Minus size={20} />
               ) : (
@@ -55,16 +52,13 @@ const AccordionSection = ({ items, className = "" }: AccordionSectionProps) => {
               )}
             </span>
           </button>
-          
+
           <div
             className={`overflow-hidden transition-all duration-300 ${
               openItems.has(index) ? 'max-h-96 pb-4' : 'max-h-0'
             }`}
           >
-            <div
-              className="text-base leading-relaxed font-acumin"
-              style={{ color: '#E59D50' }}
-            >
+            <div className="text-base leading-relaxed font-acumin text-manor-gold">
               {item.content}
             </div>
           </div>
@@ -75,13 +69,3 @@ const AccordionSection = ({ items, className = "" }: AccordionSectionProps) => {
 };
 
 export default AccordionSection;
-
-
-
-
-
-
-
-
-
-

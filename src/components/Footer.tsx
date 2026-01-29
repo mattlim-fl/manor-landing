@@ -6,28 +6,22 @@ const Footer = () => {
       <div className="max-w-md mx-auto flex flex-col items-center text-center">
         {/* Leopard Mascot - Using designer asset */}
         <div className="mb-6">
-          <img 
-            src="/leopard-silhouette.svg" 
-            alt="Manor Leopard" 
+          <img
+            src="/leopard-silhouette.svg"
+            alt="Manor Leopard"
             className="w-16 h-28 md:w-20 md:h-36 object-contain"
           />
         </div>
 
         {/* Contact Information */}
         <div className="space-y-1 mb-6">
-          <p 
-            className="text-xs font-acumin tracking-wide"
-            style={{ color: '#E59D50' }}
-          >
+          <p className="text-xs font-acumin tracking-wide text-manor-gold">
             663 Newcastle St, Leederville WA 6060
           </p>
-          <p 
-            className="text-xs font-acumin tracking-wide"
-            style={{ color: '#E59D50' }}
-          >
+          <p className="text-xs font-acumin tracking-wide text-manor-gold">
             E{' '}
-            <a 
-              href="mailto:hello@manorleederville.com" 
+            <a
+              href="mailto:hello@manorleederville.com"
               className="hover:underline"
             >
               hello@manorleederville.com
@@ -37,23 +31,23 @@ const Footer = () => {
 
         {/* Social Icons */}
         <div className="flex items-center gap-2">
-          <a 
-            href="https://instagram.com/manorleederville" 
-            target="_blank" 
+          <a
+            href="https://instagram.com/manorleederville"
+            target="_blank"
             rel="noopener noreferrer"
             className="p-2 transition-transform hover:scale-110"
             aria-label="Follow us on Instagram"
           >
-            <Instagram size={24} style={{ color: '#E59D50' }} />
+            <Instagram size={24} className="text-manor-gold" />
           </a>
-          <a 
-            href="https://facebook.com/manorleederville" 
-            target="_blank" 
+          <a
+            href="https://facebook.com/manorleederville"
+            target="_blank"
             rel="noopener noreferrer"
             className="p-2 transition-transform hover:scale-110"
             aria-label="Follow us on Facebook"
           >
-            <Facebook size={24} style={{ color: '#E59D50' }} />
+            <Facebook size={24} className="text-manor-gold" />
           </a>
         </div>
       </div>

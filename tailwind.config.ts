@@ -69,6 +69,9 @@ export default {
 					gray: '#CCCCCC',
 					gold: '#E59D50',
 					coral: '#D04E2B',
+					'coral-dark': '#CD3E28',
+					'coral-darker': '#C63D1E',
+					'coral-bright': '#FF3B1F',
 					brown: '#271308'
 				}
 			},
