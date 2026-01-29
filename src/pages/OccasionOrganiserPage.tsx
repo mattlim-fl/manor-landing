@@ -231,17 +231,17 @@ export default function OccasionOrganiserPage() {
   }
 
   const saveGuestList = async () => {
-    if (!occasion) return
-    
+    if (!occasion || !token) return
+
     setSaving(true)
     setSaveSuccess(false)
-    
+
     try {
       const supabase = getSupabase()
-      
+
       // Group ONLY EDITABLE guests by booking ID
       const guestsByBooking: { [bookingId: string]: string[] } = {}
-      
+
       allGuests
         .filter(guest => guest.isEditable)
         .forEach((guest) => {
@@ -252,26 +252,23 @@ export default function OccasionOrganiserPage() {
           const name = editingGuests[key] || ''
           guestsByBooking[guest.bookingId].push(name)
         })
-      
-      // Update each booking's guests
+
+      // Update each booking's guests using RPC function with token validation
       for (const [bookingId, names] of Object.entries(guestsByBooking)) {
-        await supabase
-          .from('booking_guests')
-          .delete()
-          .eq('booking_id', bookingId)
-        
-        if (names.length > 0) {
-          const toInsert = names.map((name) => ({
-            booking_id: bookingId,
-            guest_name: name.trim(),
-          }))
-          
-          await supabase
-            .from('booking_guests')
-            .insert(toInsert)
+        const guests = names.map(name => ({ guest_name: name.trim() }))
+
+        const { error } = await supabase.rpc('upsert_organiser_guests', {
+          p_booking_id: bookingId,
+          p_organiser_token: token,
+          p_guests: guests
+        })
+
+        if (error) {
+          console.error('Error updating guests for booking:', bookingId, error)
+          throw error
         }
       }
-      
+
       setSaveSuccess(true)
       setTimeout(() => setSaveSuccess(false), 3000)
     } catch (err) {
