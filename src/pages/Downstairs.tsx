@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ImageCarousel from '../components/ImageCarousel';
 import AccordionSection from '../components/AccordionSection';
+import VenueToggle from '../components/VenueToggle';
 
 const galleryImages = [
   '/downstairs-1.jpg',
@@ -63,29 +62,21 @@ const Downstairs = () => {
   return (
     <div className="min-h-screen flex flex-col leopard-bg text-white">
       <Header showLogo={true} />
-      
-      {/* Back Button */}
-      <div className="absolute top-[34px] md:top-[40px] left-4 z-[110]">
-        <Link
-          to="/venue-hire"
-          className="flex items-center justify-center w-8 h-8 transition-transform hover:scale-110"
-          aria-label="Back to Venue Hire"
-        >
-          <ChevronLeft size={24} style={{ color: '#E59D50' }} />
-        </Link>
-      </div>
-      
+
       {/* Main Content */}
       <div className="flex-1 flex flex-col pt-32 pb-12 px-4">
         <div className="max-w-3xl mx-auto w-full">
-          
+
           {/* Page Title */}
-          <h1 
+          <h1
             className="font-blur font-bold text-4xl md:text-5xl lg:text-6xl text-center mb-8 uppercase tracking-wider"
             style={{ color: '#E59D50' }}
           >
-            Downstairs
+            Venue Hire
           </h1>
+
+          {/* Venue Toggle */}
+          <VenueToggle />
 
           {/* Image Carousel */}
           <div className="mb-8">

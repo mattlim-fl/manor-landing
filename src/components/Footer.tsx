@@ -1,4 +1,4 @@
-import { Instagram, Facebook } from "lucide-react";
+import { Instagram, Facebook, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -13,23 +13,14 @@ const Footer = () => {
           />
         </div>
 
-        {/* Contact Information */}
-        <div className="space-y-1 mb-6">
+        {/* Address */}
+        <div className="mb-6">
           <p className="text-xs font-acumin tracking-wide text-manor-gold">
-            663 Newcastle St, Leederville WA 6060
-          </p>
-          <p className="text-xs font-acumin tracking-wide text-manor-gold">
-            E{' '}
-            <a
-              href="mailto:hello@manorleederville.com"
-              className="hover:underline"
-            >
-              hello@manorleederville.com
-            </a>
+            663 Newcastle Street, Leederville
           </p>
         </div>
 
-        {/* Social Icons */}
+        {/* Social Icons & Email */}
         <div className="flex items-center gap-2">
           <a
             href="https://instagram.com/manorleederville"
@@ -48,6 +39,13 @@ const Footer = () => {
             aria-label="Follow us on Facebook"
           >
             <Facebook size={24} className="text-manor-gold" />
+          </a>
+          <a
+            href="mailto:hello@manorleederville.com"
+            className="p-2 transition-transform hover:scale-110"
+            aria-label="Email us"
+          >
+            <Mail size={24} className="text-manor-gold" />
           </a>
         </div>
       </div>
