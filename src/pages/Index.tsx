@@ -25,30 +25,33 @@ const Index = () => {
 
           {/* Left side images - overlapping behind center */}
           <img
-            src="/venue-disco-balls.png"
+            src="/venue-disco-balls.jpg"
             alt="Disco balls"
             className="absolute w-[58%] h-auto rounded-lg shadow-2xl object-cover"
             style={{ left: '10%', top: '80px', zIndex: 5 }}
           />
 
           <img
-            src="/venue-dancefloor.png"
+            src="/venue-dancefloor.jpg"
             alt="Dance floor"
+            loading="lazy"
             className="absolute w-[78%] h-auto rounded-lg shadow-2xl object-cover"
             style={{ left: '-10%', top: '42%', zIndex: 5 }}
           />
 
           {/* Right side images */}
           <img
-            src="/venue-bar-crowd.png"
+            src="/venue-bar-crowd.jpg"
             alt="Bar and crowd"
+            loading="lazy"
             className="absolute w-[60%] h-auto rounded-lg shadow-2xl object-cover"
             style={{ left: '50%', top: '32%', zIndex: 5 }}
           />
 
           <img
-            src="/venue-shots.png"
+            src="/venue-shots.jpg"
             alt="Shots"
+            loading="lazy"
             className="absolute w-[58%] h-auto rounded-lg shadow-2xl object-cover"
             style={{ left: '50%', transform: 'translateX(-40%)', top: '68%', zIndex: 5 }}
           />
@@ -98,7 +101,7 @@ const Index = () => {
               }}
             >
               <img
-                src="/venue-disco-balls.png"
+                src="/venue-disco-balls.jpg"
                 alt="Disco balls"
                 className="w-full h-auto rounded-lg shadow-2xl"
               />
@@ -114,8 +117,9 @@ const Index = () => {
               }}
             >
               <img
-                src="/venue-dancefloor.png"
+                src="/venue-dancefloor.jpg"
                 alt="Dance floor"
+                loading="lazy"
                 className="w-full h-auto rounded-lg shadow-2xl"
               />
             </div>
@@ -151,7 +155,7 @@ const Index = () => {
               }}
             >
               <img
-                src="/venue-bar-crowd.png"
+                src="/venue-bar-crowd.jpg"
                 alt="Bar and crowd"
                 className="w-full h-auto rounded-lg shadow-2xl"
               />
@@ -187,8 +191,9 @@ const Index = () => {
               }}
             >
               <img
-                src="/venue-shots.png"
+                src="/venue-shots.jpg"
                 alt="Shots"
+                loading="lazy"
                 className="w-full h-auto rounded-lg shadow-2xl"
               />
             </div>

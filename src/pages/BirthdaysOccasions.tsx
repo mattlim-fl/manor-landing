@@ -8,9 +8,9 @@ import GuestListEditor from '../components/GuestListEditor';
 import { ENABLE_SOCIAL_ENQUIRY, INSTAGRAM_HANDLE, FACEBOOK_PAGE_URL } from '@/lib/config';
 
 const guestListImages = [
-  '/venue-dancefloor.png',
-  '/venue-bar-crowd.png',
-  '/venue-disco-balls.png',
+  '/venue-dancefloor.jpg',
+  '/venue-bar-crowd.jpg',
+  '/venue-disco-balls.jpg',
 ];
 
 const BirthdaysOccasions = () => {

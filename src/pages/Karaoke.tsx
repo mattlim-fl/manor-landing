@@ -7,8 +7,8 @@ import KaraokeBookingModal from '../components/KaraokeBookingModal';
 const karaokeImages = [
   '/karaoke-booth-1.jpg',
   '/karaoke-booth-2.jpg',
-  '/venue-bar-crowd.png',
-  '/venue-dancefloor.png',
+  '/venue-bar-crowd.jpg',
+  '/venue-dancefloor.jpg',
 ];
 
 const Karaoke = () => {

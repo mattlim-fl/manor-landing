@@ -78,14 +78,33 @@ export default function KaraokeBookingModal({ isOpen, onClose, defaultVenue = 'm
   useEffect(() => {
     if (!isOpen) return
     if (!dateStr) return
-    setSelectedBoothId('')
-    setSelectedSlot(null)
-    setHold(null)
-    setLoadingAvail(true)
-    fetchKaraokeAvailability({ venue, date: dateStr, partySize: groupSize }).then(setAvailability).catch((e) => {
-      console.error(e)
-      setError(e.message || 'Failed to load availability')
-    }).finally(() => setLoadingAvail(false))
+
+    // Release any existing hold before refetching availability
+    const releaseAndRefetch = async () => {
+      if (hold) {
+        try {
+          await releaseKaraokeHold(hold.id)
+        } catch (err) {
+          console.debug('Failed to release hold before refetching availability', err)
+        }
+      }
+      setSelectedBoothId('')
+      setSelectedSlot(null)
+      setHold(null)
+      setLoadingAvail(true)
+      try {
+        const avail = await fetchKaraokeAvailability({ venue, date: dateStr, partySize: groupSize })
+        setAvailability(avail)
+      } catch (e) {
+        console.error(e)
+        setError(e instanceof Error ? e.message : 'Failed to load availability')
+      } finally {
+        setLoadingAvail(false)
+      }
+    }
+
+    releaseAndRefetch()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, venue, dateStr, groupSize])
 
   const createHold = async (boothId: string, start: string, end: string) => {
