@@ -1,5 +1,5 @@
-export const SQUARE_APPLICATION_ID = 'sandbox-sq0idb-hg9YwZ2R5PcziKMyEUhtgQ'
-export const SQUARE_LOCATION_ID = 'LNNPG8BZ4VVMP'
+export const SQUARE_APPLICATION_ID = 'sq0idp-DJ7zCd3ZYkvvvy43ltS4ow'
+export const SQUARE_LOCATION_ID = 'LGRBM02D8PCNM'
 
 // Use the sandbox SDK when the app ID is a sandbox one
 export const SQUARE_SCRIPT_SRC = SQUARE_APPLICATION_ID.startsWith('sandbox-')
