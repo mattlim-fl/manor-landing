@@ -4,7 +4,8 @@
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { Resend } from 'https://esm.sh/resend@2.0.0'
+import { getResendCredentials } from '../_shared/credentials.ts'
+import { config } from '../_shared/config.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -262,9 +263,7 @@ serve(async (req) => {
     const referenceCode = generateReferenceCode(venue, category)
 
     // Initialize Supabase client with service role for database access
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = createClient(config.supabaseUrl, config.supabaseServiceKey)
 
     // Store inquiry in database
     const { error: dbError } = await supabase
@@ -288,28 +287,39 @@ serve(async (req) => {
       )
     }
 
-    // Initialize Resend for email
-    const resendApiKey = Deno.env.get('RESEND_API_KEY')
+    // Get Resend credentials from database
+    const resendCreds = await getResendCredentials(supabase)
     let emailsSent = { customer: false, internal: false }
 
-    if (resendApiKey) {
-      const resend = new Resend(resendApiKey)
+    if (resendCreds?.apiKey) {
       const venueName = getVenueDisplayName(venue)
-      const fromEmail = Deno.env.get('FROM_EMAIL') || 'noreply@example.com'
+      const fromEmail = resendCreds.fromEmail || 'phil@manorleederville.com'
 
       // Get internal recipients from database
       const internalRecipients = await getEmailRecipients(supabase, venue, category)
 
       // Send customer confirmation
       try {
-        await resend.emails.send({
-          from: `${venueName} <${fromEmail}>`,
-          to: email,
-          subject: `Your inquiry has been received - ${referenceCode}`,
-          html: generateCustomerConfirmationHTML(venue, category, referenceCode, name, inquiryData || {}),
-          replyTo: internalRecipients[0] || fromEmail,
+        const customerRes = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${resendCreds.apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: `${venueName} <${fromEmail}>`,
+            to: email,
+            subject: `Your inquiry has been received - ${referenceCode}`,
+            html: generateCustomerConfirmationHTML(venue, category, referenceCode, name, inquiryData || {}),
+            reply_to: internalRecipients[0] || fromEmail,
+          }),
         })
-        emailsSent.customer = true
+        if (customerRes.ok) {
+          emailsSent.customer = true
+        } else {
+          const errData = await customerRes.json()
+          console.error('Failed to send customer confirmation:', errData)
+        }
       } catch (emailError) {
         console.error('Failed to send customer confirmation:', emailError)
       }
@@ -321,18 +331,32 @@ serve(async (req) => {
 
       if (shouldNotifyInternal) {
         try {
-          await resend.emails.send({
-            from: `${venueName} Contact Form <${fromEmail}>`,
-            to: internalRecipients,
-            subject: `[${referenceCode}] New ${getCategoryDisplayName(category)} from ${name}`,
-            html: generateInternalNotificationHTML(venue, category, referenceCode, name, email, phone, inquiryData || {}),
-            replyTo: email,
+          const internalRes = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${resendCreds.apiKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              from: `${venueName} Contact Form <${fromEmail}>`,
+              to: internalRecipients,
+              subject: `[${referenceCode}] New ${getCategoryDisplayName(category)} from ${name}`,
+              html: generateInternalNotificationHTML(venue, category, referenceCode, name, email, phone, inquiryData || {}),
+              reply_to: email,
+            }),
           })
-          emailsSent.internal = true
+          if (internalRes.ok) {
+            emailsSent.internal = true
+          } else {
+            const errData = await internalRes.json()
+            console.error('Failed to send internal notification:', errData)
+          }
         } catch (emailError) {
           console.error('Failed to send internal notification:', emailError)
         }
       }
+    } else {
+      console.error('No Resend credentials found - emails will not be sent')
     }
 
     return new Response(
