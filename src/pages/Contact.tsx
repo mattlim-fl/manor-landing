@@ -27,40 +27,6 @@ const Contact = () => {
               <ContactForm venue="manor" />
             </div>
           </div>
-
-          {/* Contact Info */}
-          <div className="grid md:grid-cols-2 gap-8 mt-12 text-center animate-fade-in">
-            <div>
-              <h3
-                className="font-blur font-bold text-xl mb-3 uppercase tracking-wider"
-                style={{ color: '#D04E2B' }}
-              >
-                Address
-              </h3>
-              <p
-                className="text-lg font-acumin"
-                style={{ color: '#E59D50' }}
-              >
-                663 Newcastle St<br />
-                Leederville WA 6007
-              </p>
-            </div>
-
-            <div>
-              <h3
-                className="font-blur font-bold text-xl mb-3 uppercase tracking-wider"
-                style={{ color: '#D04E2B' }}
-              >
-                Email
-              </h3>
-              <p
-                className="text-lg font-acumin"
-                style={{ color: '#E59D50' }}
-              >
-                afterdark@manorleederville.com.au
-              </p>
-            </div>
-          </div>
         </div>
       </div>
 

@@ -10,6 +10,7 @@ export function NavigationButtons() {
     { to: '/venue-hire', label: 'Venue Hire' },
     { to: '/priority-entry', label: '25+ Priority' },
     { to: '/guest-list', label: 'Guest List' },
+    { to: '/contact', label: 'Contact' },
   ]
 
   return (
