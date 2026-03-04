@@ -1,5 +1,6 @@
 // Contact Inquiry Edge Function
 // Handles multi-venue contact form submissions with category-based email routing
+// Email recipients are configured in notification_settings table (managed via GM Dashboard)
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
@@ -19,20 +20,9 @@ interface ContactInquiryRequest {
   inquiryData: Record<string, unknown>
 }
 
-interface EmailConfig {
-  lostProperty: string[]
-  skantech: string[]
-  general: string[]
-}
-
-// Venue-specific email configuration (from environment variables)
-function getEmailConfig(venue: string): EmailConfig {
-  const prefix = venue.toUpperCase()
-  return {
-    lostProperty: (Deno.env.get(`${prefix}_LOST_PROPERTY_EMAILS`) || Deno.env.get('LOST_PROPERTY_EMAILS') || '').split(',').filter(Boolean),
-    skantech: (Deno.env.get(`${prefix}_SKANTECH_EMAILS`) || Deno.env.get('SKANTECH_EMAILS') || '').split(',').filter(Boolean),
-    general: (Deno.env.get(`${prefix}_GENERAL_EMAILS`) || Deno.env.get('GENERAL_EMAILS') || '').split(',').filter(Boolean),
-  }
+interface NotificationSettings {
+  recipient_emails: string[]
+  enabled: boolean
 }
 
 // Generate unique reference code
@@ -66,12 +56,50 @@ function getVenueDisplayName(venue: string): string {
 function getCategoryDisplayName(category: string): string {
   const names: Record<string, string> = {
     lost_property: 'Lost Property',
-    skantech: 'Skantech Inquiry',
+    skantech: 'Scantech Inquiry',
     function_inquiry: 'Function Inquiry',
     business_hours: 'Business Hours',
     something_else: 'General Inquiry',
   }
   return names[category] || category
+}
+
+// Map category to notification type suffix
+function getCategoryNotificationType(category: string): string {
+  const mapping: Record<string, string> = {
+    lost_property: 'contact_lost_property',
+    skantech: 'contact_scantech',
+    business_hours: 'contact_general',
+    something_else: 'contact_general',
+  }
+  return mapping[category] || 'contact_general'
+}
+
+// Get email recipients from database
+async function getEmailRecipients(
+  supabase: ReturnType<typeof createClient>,
+  venue: string,
+  category: string
+): Promise<string[]> {
+  const notificationType = `${venue}_${getCategoryNotificationType(category)}`
+
+  const { data, error } = await supabase
+    .from('notification_settings')
+    .select('recipient_emails, enabled')
+    .eq('notification_type', notificationType)
+    .single()
+
+  if (error || !data) {
+    console.warn(`No notification settings found for ${notificationType}:`, error?.message)
+    return []
+  }
+
+  if (!data.enabled) {
+    console.log(`Notifications disabled for ${notificationType}`)
+    return []
+  }
+
+  return data.recipient_emails || []
 }
 
 // Generate customer confirmation email HTML
@@ -266,9 +294,11 @@ serve(async (req) => {
 
     if (resendApiKey) {
       const resend = new Resend(resendApiKey)
-      const emailConfig = getEmailConfig(venue)
       const venueName = getVenueDisplayName(venue)
       const fromEmail = Deno.env.get('FROM_EMAIL') || 'noreply@example.com'
+
+      // Get internal recipients from database
+      const internalRecipients = await getEmailRecipients(supabase, venue, category)
 
       // Send customer confirmation
       try {
@@ -277,27 +307,19 @@ serve(async (req) => {
           to: email,
           subject: `Your inquiry has been received - ${referenceCode}`,
           html: generateCustomerConfirmationHTML(venue, category, referenceCode, name, inquiryData || {}),
-          replyTo: emailConfig.general[0] || fromEmail,
+          replyTo: internalRecipients[0] || fromEmail,
         })
         emailsSent.customer = true
       } catch (emailError) {
         console.error('Failed to send customer confirmation:', emailError)
       }
 
-      // Determine internal recipients based on category
-      let internalRecipients: string[] = []
-      if (category === 'lost_property') {
-        internalRecipients = emailConfig.lostProperty
-      } else if (category === 'skantech') {
-        internalRecipients = emailConfig.skantech
-      } else if (category === 'business_hours' && inquiryData?.needsFollowUp) {
-        internalRecipients = emailConfig.general
-      } else if (category === 'something_else') {
-        internalRecipients = emailConfig.general
-      }
+      // Send internal notification (only if we have recipients and it's not just showing info)
+      const shouldNotifyInternal =
+        internalRecipients.length > 0 &&
+        (category !== 'business_hours' || inquiryData?.needsFollowUp)
 
-      // Send internal notification
-      if (internalRecipients.length > 0) {
+      if (shouldNotifyInternal) {
         try {
           await resend.emails.send({
             from: `${venueName} Contact Form <${fromEmail}>`,
